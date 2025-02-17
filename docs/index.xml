@@ -1,0 +1,2631 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss  xmlns:atom="http://www.w3.org/2005/Atom" 
+      xmlns:media="http://search.yahoo.com/mrss/" 
+      xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+      xmlns:dc="http://purl.org/dc/elements/1.1/" 
+      version="2.0">
+<channel>
+<title>Story Melange</title>
+<link>https://storymelange.com/</link>
+<atom:link href="https://storymelange.com/index.xml" rel="self" type="application/rss+xml"/>
+<description>Diving into complexity</description>
+<generator>quarto-1.6.40</generator>
+<lastBuildDate>Sat, 15 Feb 2025 00:00:00 GMT</lastBuildDate>
+<item>
+  <title>Milestone vs Activity Planning: Finding the Right Approach for Your Project Management</title>
+  <dc:creator>Dominik Lindner</dc:creator>
+  <link>https://storymelange.com/posts/management/milestone-vs-activity-planning-finding-the-right-approach-for-your-project-management.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://storymelange.com/posts/management/micromanager.png" class="img-fluid figure-img"></p>
+<figcaption>Is micromanaging the dominating paradigm?</figcaption>
+</figure>
+</div>
+<section id="failure-is-not-an-option" class="level2">
+<h2 class="anchored" data-anchor-id="failure-is-not-an-option">Failure is not an option</h2>
+<p>The project was more than just another task on my list; it was a make-or-break opportunity for our construction company. We had been tasked with completing a state-of-the-art residential complex within a tight deadline, which would significantly impact our reputation in the industry. The project was a complex blend of innovative architectural design, sustainable materials, and cutting-edge technology. The pressure was immense, and the tight deadline only amplified the stakes. Failure was not an option.</p>
+<p>As the project progressed, I noticed my team was struggling to stay motivated. We were so focused on the end goal that it became overwhelming. Coordinating subcontractors, navigating supply chain disruptions, and ensuring compliance with stringent building codes and regulations took a toll on my team’s morale. The sheer magnitude of the project was causing anxiety, and we were losing sight of the smaller steps that would lead us to success. I knew I had to act quickly and find a solution to turn things around.</p>
+<p>In my search for an effective approach, I stumbled upon the idea of breaking down our seemingly insurmountable goal into smaller, more manageable tasks. Desperate to see a change, I implemented this strategy, but the initial results were disappointing. My team remained overwhelmed, and progress was still slow. In my desperation to get things back on track, I found myself micromanaging the team, scrutinizing their every move, and unintentionally creating a toxic work environment.</p>
+<p>Realizing that my micromanagement was only making matters worse, I knew I needed to find a more structured and efficient way to organize and prioritize tasks without suffocating my team. That’s when I discovered a systematic approach to managing activities, which promised to streamline our workflow and keep us focused on the most critical tasks while fostering a healthy team dynamic.</p>
+<p>I decided to give it a shot, and the transformation in my team was nothing short of miraculous. By adopting this method, we were able to concentrate on one task at a time, celebrating each small win along the way. The sense of accomplishment and progress brought the team closer together, and we began to work more efficiently. As we tackled each activity, from obtaining permits and coordinating with subcontractors to managing onsite safety and quality control, the once-distant goal suddenly felt within reach.</p>
+<p>The project’s success not only saved our company but also solidified our reputation as a construction firm that could rise to any challenge. The experience taught me the power of a structured approach to managing activities, the importance of adaptability in the face of adversity, and the value of trusting and empowering my team. It was a turning point in my career, and it’s a lesson I’ll never forget.</p>
+</section>
+<section id="how-to-choose-between-milestones-and-activities" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-choose-between-milestones-and-activities">How to choose between milestones and activities</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 41%">
+<col style="width: 44%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Approach</strong></th>
+<th><strong>Advantages</strong></th>
+<th><strong>Disadvantages</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Tracking Milestones</strong></td>
+<td>- Provides a sense of progress towards a larger goal</td>
+<td>- Can lead to discouragement if progress is slow</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>- Helps identify potential issues or delays</td>
+<td>- May overlook other important achievements</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>- Builds a sense of community and accountability</td>
+<td>- Can become too fixated on meeting specific milestones</td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><strong>Tracking Activities</strong></td>
+<td>- Provides structure and focus</td>
+<td>- Can become too focused on the details and lose sight of the bigger picture</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>- Breaks a larger goal down into smaller, more manageable tasks</td>
+<td>- May overlook other opportunities or ideas</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>- Provides a sense of satisfaction and progress</td>
+<td>- Can become too fixated on completing individual tasks</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>- Helps identify areas where additional support or resources are needed</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="key-factors-to-consider-when-choosing" class="level2">
+<h2 class="anchored" data-anchor-id="key-factors-to-consider-when-choosing">Key Factors to Consider When Choosing</h2>
+<section id="project-scope" class="level3">
+<h3 class="anchored" data-anchor-id="project-scope">1. Project Scope</h3>
+<p>Is the project relatively simple with a clear end goal or is it complex with multiple phases or sub-projects?</p>
+</section>
+<section id="timeline" class="level3">
+<h3 class="anchored" data-anchor-id="timeline">2. Timeline</h3>
+<p>Is the project expected to take a long time or is it a shorter-term effort?</p>
+</section>
+<section id="team-size" class="level3">
+<h3 class="anchored" data-anchor-id="team-size">3. Team Size</h3>
+<p>Will you be working alone or with a team? If working with a team, will everyone be involved in all aspects of the project, or will tasks be delegated?</p>
+</section>
+<section id="available-resources" class="level3">
+<h3 class="anchored" data-anchor-id="available-resources">4. Available Resources</h3>
+<p>Do you have all the resources you need to complete the project or will you need to acquire additional resources along the way?</p>
+</section>
+<section id="dependencies" class="level3">
+<h3 class="anchored" data-anchor-id="dependencies">5. Dependencies</h3>
+<p>Are there any tasks that are dependent on others being completed first?</p>
+</section>
+<section id="flexibility" class="level3">
+<h3 class="anchored" data-anchor-id="flexibility">6. Flexibility</h3>
+<p>How flexible can you be with your timeline or task list if unexpected challenges arise?</p>
+</section>
+<section id="stakeholder-expectations" class="level3">
+<h3 class="anchored" data-anchor-id="stakeholder-expectations">7. Stakeholder Expectations</h3>
+<p>Are there any specific expectations or milestones that have been set by stakeholders or clients that need to be met?</p>
+</section>
+<section id="motivation-style" class="level3">
+<h3 class="anchored" data-anchor-id="motivation-style">8. Motivation Style</h3>
+<p>What type of motivation style works best for you and your team? Do you prefer to work towards smaller, achievable goals, or larger, long-term goals?</p>
+</section>
+<section id="measure-of-success" class="level3">
+<h3 class="anchored" data-anchor-id="measure-of-success">9. Measure of Success</h3>
+<p>How will you measure success for this project? Will it be based on the achievement of specific milestones, the completion of individual tasks, or other factors?</p>
+</section>
+<section id="communication" class="level3">
+<h3 class="anchored" data-anchor-id="communication">10. Communication</h3>
+<p>How will you communicate progress with stakeholders and team members? Will tracking milestones, activities, or both help you communicate progress more effectively?</p>
+</section>
+</section>
+<section id="finding-the-right-balance" class="level2">
+<h2 class="anchored" data-anchor-id="finding-the-right-balance">Finding the Right Balance</h2>
+<p>In conclusion, both milestone and activity planning have their unique advantages and disadvantages. The right approach for your project will depend on various factors, such as project scope, timeline, team size, available resources, and stakeholder expectations. By carefully considering these factors, you can choose the most effective approach for your project and ensure its success.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Call to Action
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Are you currently using milestone or activity planning for your projects? Share your experiences with me by mail! Comments and newsletter section will be coming soon.</p>
+</div>
+</div>
+<!--
+
+
+
+
+
+
+
+
+Here's a brief summary of the advantages and disadvantages of tracking milestones and activities for motivation:
+
+Tracking Milestones:
+
+* Advantages: Provides a sense of progress towards a larger goal, helps identify potential issues or delays, can build a sense of community and accountability.
+* Disadvantages: Can lead to discouragement if progress is slow, can overlook other important achievements, can become too fixated on meeting specific milestones.
+
+Tracking Activities:
+
+* Advantages: Provides structure and focus, breaks a larger goal down into smaller, more manageable tasks, provides a sense of satisfaction and progress, helps identify areas where additional support or resources are needed.
+* Disadvantages: Can become too focused on the details and lose sight of the bigger picture, may overlook other opportunities or ideas, can become too fixated on completing individual tasks.
+
+Overall, both approaches have their strengths and weaknesses, and the best approach depends on the specific needs of the project and personal preferences of the individual.
+
+1.  Project scope: Is the project relatively simple with a clear end goal or is it complex with multiple phases or sub-projects?
+    
+2.  Timeline: Is the project expected to take a long time or is it a shorter-term effort?
+    
+3.  Team size: Will you be working alone or with a team? If working with a team, will everyone be involved in all aspects of the project, or will tasks be delegated?
+    
+4.  Available resources: Do you have all the resources you need to complete the project or will you need to acquire additional resources along the way?
+    
+5.  Dependencies: Are there any tasks that are dependent on others being completed first?
+    
+6.  Flexibility: How flexible can you be with your timeline or task list if unexpected challenges arise?
+    
+7.  Stakeholder expectations: Are there any specific expectations or milestones that have been set by stakeholders or clients that need to be met?
+    
+8.  Motivation style: What type of motivation style works best for you and your team? Do you prefer to work towards smaller, achievable goals, or larger, long-term goals?
+    
+9.  Measure of success: How will you measure success for this project? Will it be based on the achievement of specific milestones, the completion of individual tasks, or other factors?
+    
+10. Communication: How will you communicate progress with stakeholders and team members? Will tracking milestones, activities, or both help you communicate progress more effectively?
+
+1.  Project scope: Is the project relatively simple with a clear end goal or is it complex with multiple phases or sub-projects?
+
+* Milestones: If the project has multiple phases or sub-projects, you may want to set milestones for each phase or sub-project to track progress towards the overall goal.
+* Activities: If the project has a clear end goal, you may want to focus on specific activities that will help you achieve that goal.
+
+2.  Timeline: Is the project expected to take a long time or is it a shorter-term effort?
+
+* Milestones: If the project is expected to take a long time, you may want to set milestones to help you stay motivated and track progress over time.
+* Activities: If the project is shorter-term, you may want to focus on specific activities that need to be completed within a certain timeframe.
+
+3.  Team size: Will you be working alone or with a team? If working with a team, will everyone be involved in all aspects of the project, or will tasks be delegated?
+
+* Milestones: If you're working with a team and everyone will be involved in all aspects of the project, setting milestones can help ensure that everyone is on the same page and working towards the same goals.
+* Activities: If tasks will be delegated, focusing on specific activities can help ensure that everyone knows what they're responsible for and what needs to be done.
+
+4.  Available resources: Do you have all the resources you need to complete the project or will you need to acquire additional resources along the way?
+
+* Milestones: If you need to acquire additional resources along the way, setting milestones can help you track progress towards acquiring those resources and ensure that you have everything you need to complete the project.
+* Activities: If you have all the resources you need, focusing on specific activities can help ensure that you're using those resources effectively to achieve your goals.
+
+5.  Dependencies: Are there any tasks that are dependent on others being completed first?
+
+* Milestones: If there are tasks that are dependent on others being completed first, setting milestones can help you track progress towards completing those tasks and ensure that you're making progress towards your overall goal.
+* Activities: If there are dependencies between tasks, focusing on specific activities can help ensure that you're completing tasks in the correct order and making progress towards your overall goal.
+
+6.  Flexibility: How flexible can you be with your timeline or task list if unexpected challenges arise?
+
+* Milestones: If you need to be flexible with your timeline or task list, setting milestones can help you track progress towards your overall goal and make adjustments as needed.
+* Activities: If you need to be flexible with your task list, focusing on specific activities can help ensure that you're able to adapt to unexpected challenges and still make progress towards your goal.
+
+7.  Stakeholder expectations: Are there any specific expectations or milestones that have been set by stakeholders or clients that need to be met?
+
+* Milestones: If there are specific expectations or milestones that need to be met, setting milestones can help ensure that you're meeting those expectations and staying on track towards your overall goal.
+* Activities: If there are specific expectations or milestones, focusing on specific activities can help ensure that you're taking the necessary steps to meet those expectations and achieve your goals.
+
+8.  Motivation style: What type of motivation style works best for you and your team? Do you prefer to work towards smaller, achievable goals, or larger, long-term goals?
+
+* Milestones: If you and your team prefer to work towards larger, long-term goals, setting milestones can help break down those goals into smaller, achievable steps.
+* Activities: If you and your team prefer to work towards smaller, achievable goals
+-->
+
+
+</section>
+
+ ]]></description>
+  <category>management</category>
+  <category>leadership</category>
+  <category>teams</category>
+  <guid>https://storymelange.com/posts/management/milestone-vs-activity-planning-finding-the-right-approach-for-your-project-management.html</guid>
+  <pubDate>Sat, 15 Feb 2025 00:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Decision paralysis at a McDonalds</title>
+  <dc:creator>Dominik Lindner</dc:creator>
+  <link>https://storymelange.com/posts/made-to-stick/decision-paralysis-at-a-mcdonalds.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://storymelange.com/posts/made-to-stick/cheeseburger.png" class="img-fluid figure-img"></p>
+<figcaption>Yummy.</figcaption>
+</figure>
+</div>
+<section id="i-always-go-for-the-cheeseburger" class="level2">
+<h2 class="anchored" data-anchor-id="i-always-go-for-the-cheeseburger">I always go for the cheeseburger</h2>
+<p>Ever walked into McDonald’s, stared at the vast menu, and ended up ordering your default choice? That’s me. I always go for the double cheeseburger. Despite the tempting offers, I rarely stray from my go-to. Why? Decision paralysis combined with pressure. And it’s not just about fast food; it sneaks into our work lives, too. Let me show you how.</p>
+</section>
+<section id="decision-paralysis-leads-to-irrational-choices" class="level2">
+<h2 class="anchored" data-anchor-id="decision-paralysis-leads-to-irrational-choices">Decision Paralysis Leads to Irrational Choices</h2>
+<p>On a recent project, my team faced a critical decision: choosing the material for modular dishwasher rack joints. We had several solid options. Each supplier provided a material according to our specification. However, the contract specifics were different. We devoted weeks to analyze sales forecasts and market trends to make the “perfect” choice.</p>
+<p>Then, an unexpected email arrived. A previously unavailable supplier offered the best material by far. We jumped at it, feeling an odd sense of relief, even though the price was quite high and the contract had a long duration. But was this the right decision? Not really, it was irrational.</p>
+<p>Here’s why: the material was great, but all the other materials were sufficient for our use case. Our exhaustive analysis led to a mental gridlock, and when a simple answer appeared, we grabbed it. This is a textbook case of decision paralysis leading to irrational actions.</p>
+</section>
+<section id="how-to-beat-decision-paralysis" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-beat-decision-paralysis">How to Beat Decision Paralysis</h2>
+<section id="set-clear-goals" class="level3">
+<h3 class="anchored" data-anchor-id="set-clear-goals">1. Set Clear Goals</h3>
+<p>Establish time boundaries for decision-making. If we had set a timeline to review supplier data and complete our choice, the late offer wouldn’t have derailed us. Goals provide focus and reduce the overwhelm of endless options.</p>
+</section>
+<section id="adopt-simple-policies" class="level3">
+<h3 class="anchored" data-anchor-id="adopt-simple-policies">2. Adopt Simple Policies</h3>
+<p>Policies streamline choices. For example, at McDonald’s, a personal policy like “always pick the promotion” adds variety and saves mental energy. At work, policies guide teams to prioritize action over analysis paralysis.</p>
+</section>
+<section id="setting-policies-for-others" class="level3">
+<h3 class="anchored" data-anchor-id="setting-policies-for-others">3. Setting policies for others</h3>
+<p>If you’re crafting policies for others, make them memorable. A simple proverb can work wonders. Think: _ “Under the Golden Arches’ care, find a tasty deal and a moment to share.” _ The message stresses the deal, the promotion offer, and fosters adherence without overthinking.</p>
+
+
+</section>
+</section>
+
+ ]]></description>
+  <category>storytelling</category>
+  <category>mental models</category>
+  <guid>https://storymelange.com/posts/made-to-stick/decision-paralysis-at-a-mcdonalds.html</guid>
+  <pubDate>Wed, 12 Feb 2025 00:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Precision/Recall vs FN/TN/FP/TP</title>
+  <dc:creator>Dominik Lindner</dc:creator>
+  <link>https://storymelange.com/posts/technical/precisionrecall-vs-fntnfptp.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="measuring-classification-results" class="level2">
+<h2 class="anchored" data-anchor-id="measuring-classification-results">1 Measuring classification results</h2>
+<div class="callout callout-style-simple callout-none no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>While writing this post, i noticed that there is far better article on <a href="https://www.geeksforgeeks.org/confusion-matrix-machine-learning/">GeeksforGeeks</a></p>
+</div>
+</div>
+</div>
+<p>Precision and recall are evaluation metrics used in machine learning to measure the performance of a binary classification model. The concepts of false negatives (FN), true negatives (TN), false positives (FP), and true positives (TP) are closely related to these metrics.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 4%">
+<col style="width: 77%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Classification</th>
+<th>Abr.</th>
+<th>Occur When a</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>True positives</td>
+<td>TP</td>
+<td><strong>positive</strong> instance is correctly classified as <strong>positive</strong>.</td>
+</tr>
+<tr class="even">
+<td>True negatives</td>
+<td>TN</td>
+<td><strong>negative</strong> instance is correctly classified as <strong>negative</strong></td>
+</tr>
+<tr class="odd">
+<td>False negatives</td>
+<td>FN</td>
+<td><strong>positive</strong> instance is incorrectly classified as <strong>negative</strong></td>
+</tr>
+<tr class="even">
+<td>False positives</td>
+<td>FP</td>
+<td><strong>negative</strong> instance is incorrectly classified as <strong>positive</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="precision-and-recall" class="level2">
+<h2 class="anchored" data-anchor-id="precision-and-recall">2 Precision and recall</h2>
+<p>These numbers are expressed in absolute terms. Sometimes it is more helpfull to focus on relative numbers. If we are interested in how many of the positive values should have been positive, we are interested in the <code>precision</code>. <code>Precision</code> is the ratio of true positives to the total number of instances that are classified as positive by the model. It is given by:</p>
+<p><strong>Precision = TP / (TP + FP)</strong></p>
+<p>If we are interested in model ability to identify all positive instances, we look for <code>recall</code>. <code>Recall</code> is the ratio of true positives to the total number of actual positive instances in the data.</p>
+<p><strong>Recall = TP / (TP + FN)</strong></p>
+<p>These metrics are important because in many cases, precision and recall have an inverse relationship. That is, improving one metric may come at the cost of the other. For example, a model that is overly conservative in making positive predictions may have high precision but low recall, as it is less likely to make false positive errors but may also miss many true positive instances. On the other hand, a model that is more aggressive in making positive predictions may have high recall but low precision, as it may capture more true positives but also generate more false positives.</p>
+<p>By considering the confusion matrix with FN/TN/FP/TP, precision and recall can be calculated to evaluate the performance of a classification model. The confusion matrix shows the number of true and false predictions for each class, and it can be used to calculate metrics such as accuracy, precision, and recall.</p>
+</section>
+<section id="confusion-matrix" class="level2">
+<h2 class="anchored" data-anchor-id="confusion-matrix">3 Confusion matrix</h2>
+<p>A confusion matrix is a table that is often used to describe the performance of a classification model on a set of data for which the correct classifcations are known. Here is an example of a confusion matrix:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th></th>
+<th>Predicted A</th>
+<th>Predicted B</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Actual A</td>
+<td>4</td>
+<td>34</td>
+</tr>
+<tr class="even">
+<td>Actual B</td>
+<td>23</td>
+<td>35</td>
+</tr>
+</tbody>
+</table>
+<p>The columns represent the predicted class labels and the rows represent the actual class labels. This can be generalized to <code>n</code> labels.</p>
+<p>In the binary classification the confusion matrix simplifies itself to</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th></th>
+<th>Predicted Negative</th>
+<th>Predicted Positive</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Actual Negative</td>
+<td>TN (true negative)</td>
+<td>FP (false positive)</td>
+</tr>
+<tr class="even">
+<td>Actual Positive</td>
+<td>FN (false negative)</td>
+<td>TP (true positive)</td>
+</tr>
+</tbody>
+</table>
+<p>As can be seen the, the confusion matrix shows the number of true positive (TP), true negative (TN), false positive (FP), and false negative (FN) predictions made by a classification model.</p>
+</section>
+<section id="what-is-better" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-better">4 What is better?</h2>
+<p>Precision measures accuracy of positive predictions while recall measures the ability to identify all positive instances. The confusion matrix provides a detailed breakdown of predictions including true positive, true negative, false positive, and false negative counts. The choice of metric depends on the context and purpose of the analysis. Precision/recall are useful when the cost of false positives and false negatives is different, while confusion matrix is useful when costs are similar and to identify specific areas of model performance, especially on imbalanced datasets.</p>
+
+
+</section>
+
+ ]]></description>
+  <category>machine learning</category>
+  <category>technical</category>
+  <guid>https://storymelange.com/posts/technical/precisionrecall-vs-fntnfptp.html</guid>
+  <pubDate>Mon, 10 Feb 2025 00:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>What is wrong about the pattern tell them what you are going to tell, tell and then tell what you told</title>
+  <dc:creator>Dominik Lindner</dc:creator>
+  <link>https://storymelange.com/posts/made-to-stick/what-is-wrong-about-the-pattern-tell-them-what-you-are-going-to-tell-tell-and-then-tell-what-you-told.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://storymelange.com/posts/made-to-stick/flight-anouncement.png" class="img-fluid figure-img"></p>
+<figcaption>flight-anouncement.png</figcaption>
+</figure>
+</div>
+<section id="the-problem-with-repetition" class="level2">
+<h2 class="anchored" data-anchor-id="the-problem-with-repetition">1 The Problem with Repetition</h2>
+<p>If you have visited a communication seminar, you may have come across the old communication formula: “tell them what you’re going to tell, tell them, and then tell them what you told”. This formulaic approach to communication relies on repetition, which often flattens engagement.</p>
+<p>Beginners will find this perfectly suitable, as it clarifies points. However, it lacks emotional impact and quickly becomes predictable.</p>
+<p>Today’s audiences, that are subjected to constant information overload, need more than just facts: they want stories, surprises, and insights that cut through the noise.</p>
+<p>Flight safety announcements illustrate this principle perfectly. Traditional ones, filled with the same old safety reminders, cause passengers to tune out. But when airlines add humor, dramatize scenarios, or weave in storytelling, they break the pattern and seize attention.</p>
+</section>
+<section id="the-power-of-surprise-and-interest" class="level2">
+<h2 class="anchored" data-anchor-id="the-power-of-surprise-and-interest">2 The Power of Surprise and Interest</h2>
+<p>Humans adapt to new consistent patterns rapidly. To constantly surprise, you must break expectations and thus trigger genuine focus.Take a car add that ends with a tragic accident, and is in fact an add for road safety.</p>
+<p>Surprise instantly disrupts the brain’s “guessing machine” and forces people to think actively (raising eyebrows, dropping jaws).</p>
+<p>Interest keeps us engaged once we’ve been surprised. Conspiracy theories and gossip thrive because they create knowledge gaps that we feel compelled to fill.</p>
+<p>The challenge for every communicator with an important message: strategic “planned unexpectedness” should strengthen a core message rather than just generate cheap thrills.</p>
+</section>
+<section id="breaking-and-rebuilding-the-guessing-machine" class="level2">
+<h2 class="anchored" data-anchor-id="breaking-and-rebuilding-the-guessing-machine">3 Breaking and Rebuilding the Guessing Machine</h2>
+<p>Surprise alone is not enough. To make ideas stick, you must first break people’s assumptions and then help them rebuild their mental models.</p>
+<p>Begin by clarifying the one thing you want them to remember, then expose an unexpected truth that challenges their beliefs. Present it in a way that forces them to pause and reconsider. Finally, guide them toward a realization that feels obvious in hindsight.</p>
+<p>Psychologists call this obvious hindsight “postdictability.” In contrast, common sense, the enemy of sticky messages, lulls people into complacency. By deliberately violating it, you engage the audience’s deeper reasoning processes (their “System 2”) and lead them to an “I could have guessed that” moment once the surprise is explained. Here again, the challenge is to do it without descending into gimmicks. Suprise alone is not enough</p>
+</section>
+<section id="the-gap-theory-of-curiosity" class="level2">
+<h2 class="anchored" data-anchor-id="the-gap-theory-of-curiosity">4 The Gap Theory of Curiosity</h2>
+<p>Once you have your audience’s attention, the challenge becomes to keep it. You need to kindle their curiosity. Whenever we perceive a gap between what we know and what we want to know, we experience a mental itch we’re driven to scratch.</p>
+<p>To harness this, open with a puzzle or a provocative claim: “There’s an invisible chemical in your home—and it might kill you right now.”</p>
+<p>You can suggest that someone else holds crucial information, hint at unresolved mysteries, or you can challenge the audience to predict an outcome.</p>
+<p>This approach works in everything from sports events to fundraising campaigns, even daily politics.</p>
+<p>There are two extreme cases: people who think they know everything and those who know nothing. For the first, make them publically commit to a prediction. This makes them more curious as they have had an active say. The second group is best told some points that act as a reference system on their blank canvas.</p>
+<p>Instead of spoon-feeding the facts in chronological order, start with a haunting question or puzzling hypothesis. Actively hide information to reveal it later. Use mystery in your presentation. Only after you’ve sparked curiosity do you reveal the facts. Ensure your audience stays hooked until the gap is closed and your message sticks.</p>
+
+
+</section>
+
+ ]]></description>
+  <category>storytelling</category>
+  <category>presentation</category>
+  <guid>https://storymelange.com/posts/made-to-stick/what-is-wrong-about-the-pattern-tell-them-what-you-are-going-to-tell-tell-and-then-tell-what-you-told.html</guid>
+  <pubDate>Thu, 06 Feb 2025 00:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>The Stickiness Improvement Plan</title>
+  <dc:creator>Dominik Lindner</dc:creator>
+  <link>https://storymelange.com/posts/made-to-stick/the-stickiness-improvement-plan.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://storymelange.com/posts/made-to-stick/plan_checking.png" class="img-fluid figure-img"></p>
+<figcaption>There is no better feeling than to tick off boxes.</figcaption>
+</figure>
+</div>
+<section id="what-makes-ideas-stick" class="level2">
+<h2 class="anchored" data-anchor-id="what-makes-ideas-stick">What makes ideas stick</h2>
+<p>Made to stick needs no introduction. If you have not read the book, then buy a copy! There are many good ideas to read the book several times. But how to keep track of what to do? The authors themselves present the most basic advice: think about <strong>SUCCES</strong>.</p>
+<p>The first S stands for Simple. Simple is about the Answer stage of your question.</p>
+<p>The <strong>UCCES</strong>-part focuses on the delivery of your message.</p>
+<p>For an idea to stick, to be lasting and useful, it’s got to make the audience</p>
+<ol start="2" type="1">
+<li>Pay attention (Unexpected)</li>
+<li>Understand and remember it (Concrete)</li>
+<li>Agree/Believe (Credible)</li>
+<li>Care (Emotional)</li>
+<li>Be able to act on it (Story)</li>
+</ol>
+<p>Sometimes it’s difficult to know where to start. I already wrote about this <a href="../../posts/made-to-stick/get-huge-benefits-for-minimal-costs-after-reading.html">previously</a>. Here is a checklist that you can use to place your own stepping stones. If a question strikes a tune, I provide the related keyword. Refer to the book or the internet to learn more about the topic. Look and see how many boxes you can tick.</p>
+</section>
+<section id="the-sticky-improvement-plan" class="level2">
+<h2 class="anchored" data-anchor-id="the-sticky-improvement-plan">The sticky improvement plan</h2>
+<ol type="1">
+<li>Simplicity: “be masters of exclusion”. Relentlessly prioritize. Be simple and profound. <strong>“A one-sentence statement so profound that an individual could spend a lifetime learning to follow it”</strong>
+<ul class="task-list">
+<li><label><input type="checkbox">Have you organized your message by presenting the most important information first, and all the other stuff in order of descending importance? - Inverted Pyramid.</label></li>
+<li><label><input type="checkbox">Have you identified the most crucial aspects of your message? - Forced Prioritization.</label></li>
+<li><label><input type="checkbox">Have you taken steps to streamline your decision-making process and prevent getting overwhelmed by too many options? - Overcome Decision Paralysis.</label></li>
+<li><label><input type="checkbox">Have you incorporated specific names and examples in your message to make it more relatable and memorable? - Names-Names-Names.</label></li>
+<li><label><input type="checkbox">Have you used relevant analogies and metaphors to simplify complex concepts and make your message more engaging? - Analogies &amp; Metaphors.</label></li>
+</ul></li>
+<li>Unexpectedness: violate the expectation. Generate interest and curiosity.
+<ul class="task-list">
+<li><label><input type="checkbox">Have you incorporated unexpected elements in your message to activate System 2 thinking and provoke deeper engagement? - Break Schemes.</label></li>
+<li><label><input type="checkbox">Have you challenged common assumptions in your message, offering fresh perspectives and added value to engage your audience? - Challenge common sense , fix the guessing machine.</label></li>
+<li><label><input type="checkbox">Have you created curiosity by highlighting gaps in knowledge or understanding, encouraging your audience to seek more information? - Gap Theory of Curiosity.</label></li>
+</ul></li>
+<li>Concreteness: be human
+<ul class="task-list">
+<li><label><input type="checkbox">Have you used concrete examples and sensory details to make your message more relatable and easier to remember? - Sensory Information.</label></li>
+<li><label><input type="checkbox">Have you built up on previously existing knowledege? - Velcro Theory of Mind.</label></li>
+</ul></li>
+<li>Credibility: Make people accept ideas without skepticism. Avoid hard numbers
+<ul class="task-list">
+<li><label><input type="checkbox">Have you provided enough credible evidence and logical reasoning to address potential objections? - not possible to convince a critic.</label></li>
+<li><label><input type="checkbox">Have you utilized authoritative figures or counterexamples to support your message? - Authority and Anti-Authority.</label></li>
+<li><label><input type="checkbox">Have you allowed your topic to demonstrate its credibility by providing testable evidence? - Testable Credentials</label></li>
+<li><label><input type="checkbox">Have you made your message relatable by presenting it on a human scale? - Human Scale.</label></li>
+<li><label><input type="checkbox">Have you used statistics to inform and support your message without overwhelming your audience? - Statistics as an Input.</label></li>
+</ul></li>
+<li>Emotions: built on the right emotions. Focus on the specific and individual
+<ul class="task-list">
+<li><label><input type="checkbox">Have you focused on individuals or specific cases instead of generalizing to avoid group neglect? - Mother Teresa Principle</label></li>
+<li><label><input type="checkbox">Have you used statistics or examples to evoke emotions and create a context for your message? - Statistics act as a Priming Event.</label></li>
+<li><label><input type="checkbox">Have you not overused known concepts and analogies to transport your message? - Avoid Semantic stretch.</label></li>
+<li><label><input type="checkbox">Have you ensured that your message does not solely focus on basic needs or negative emotions? - Avoid Maslow’s Basement.</label></li>
+</ul></li>
+<li>Stories: stories allow easier storage and retrieval of information
+<ul class="task-list">
+<li><label><input type="checkbox">Have you organized your message as a coherent story to make it easier for the audience to follow and remember? - Story Map in Head.</label></li>
+<li><label><input type="checkbox">Have you crafted your story in a way that allows the audience to empathize and experience the events themselves? - Mirror Neurons in Story Experience.</label></li>
+<li><label><input type="checkbox">Have you considered using one of the three basic plots (the challenge plot, the connection plot, and the creativity plot) to structure your story? - Three Basic Plots.</label></li>
+</ul></li>
+</ol>
+
+
+</section>
+
+ ]]></description>
+  <category>storytelling</category>
+  <category>management</category>
+  <guid>https://storymelange.com/posts/made-to-stick/the-stickiness-improvement-plan.html</guid>
+  <pubDate>Mon, 03 Feb 2025 00:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Get huge benefits for minimal costs after reading</title>
+  <dc:creator>Dominik Lindner</dc:creator>
+  <link>https://storymelange.com/posts/made-to-stick/get-huge-benefits-for-minimal-costs-after-reading.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="start-with-self-interest" class="level2">
+<h2 class="anchored" data-anchor-id="start-with-self-interest">1 Start with Self-Interest</h2>
+<p>As advertising legend Claude Hopkins advised: <em>“First and foremost, try to get self-interest into every headline you write.”</em> Your messaging should promise <strong>huge benefits for minimal costs</strong>.</p>
+<p>Speak directly to your audience’s needs, and make the <strong>WIIFY (What’s In It for You)</strong> central to every sentence.</p>
+<p>For example:</p>
+<ul>
+<li>Sticky: <em>“You’ll enjoy a sense of security when you use Goodyear Tires.”</em></li>
+<li>Forgettable: <em>“People will enjoy a sense of security when they use Goodyear Tires.”</em></li>
+</ul>
+</section>
+<section id="empathy-through-the-particular" class="level2">
+<h2 class="anchored" data-anchor-id="empathy-through-the-particular">2 Empathy Through the Particular</h2>
+<p>Abandon abstract generalizations and focus on specifics. Enforce the <strong>particular over the pattern</strong> and create empathy and emotional resonance. People connect to <strong>individual stories</strong>, not statistics. If you work in a data-driven field the art is to connect data to stories.</p>
+</section>
+<section id="what-doesnt-stick" class="level2">
+<h2 class="anchored" data-anchor-id="what-doesnt-stick">3 What Doesn’t Stick</h2>
+<p>Negative framing, like listing what your idea isn’t, dilutes impact. Instead, focus on what it is and why it matters.</p>
+</section>
+<section id="stickiness-checklist" class="level2">
+<h2 class="anchored" data-anchor-id="stickiness-checklist">4 Stickiness Checklist</h2>
+<p>To create a sticky idea that resonates, incorporate these proven principles:</p>
+<ol type="1">
+<li><p><strong>Use Schemas</strong><br>
+Relate your message to familiar frameworks. People grasp new ideas faster when they can connect them to what they already know. The mind is like Velcro.</p></li>
+<li><p><strong>Generative Analogies and Metaphors</strong><br>
+Simplify complex ideas with vivid comparisons. Make the unfamiliar relatable.</p></li>
+<li><p><strong>Break the Guessing Machine, Then Fix It</strong><br>
+Disrupt expectations to grab attention, then resolve the disruption.</p></li>
+<li><p><strong>Gap Theory of Curiosity</strong><br>
+Highlight what your audience doesn’t know to spark curiosity and engagement.</p></li>
+<li><p><strong>Introduce Mysteries</strong><br>
+A compelling mystery hooks attention and invites exploration.</p></li>
+<li><p><strong>Velcro Theory of Memory</strong><br>
+The more sensory hooks your idea has, the more it sticks. Use vivid, specific details to boost credibility.</p></li>
+<li><p><strong>Human-Scale Principle</strong><br>
+Scale your ideas down to relatable, human-sized narratives.</p></li>
+<li><p><strong>Avoid Semantic Stretch</strong><br>
+Be precise with your language. Overused or vague terms lose their punch.</p></li>
+<li><p><strong>No Maslow’s Basement</strong><br>
+Appeal to higher-level needs like purpose, belonging, or self-expression. Avoid staying in the realm of basic survival.</p></li>
+<li><p><strong>Enforce the Particular</strong><br>
+Highlight individuals, not groups. Personal stories inspire action.</p></li>
+<li><p><strong>Springboard Stories and Story Schemas</strong><br>
+Use narratives that allow your audience to envision their own transformation.</p></li>
+</ol>
+<p>more details will follow in <a href="../../posts/made-to-stick/the-stickiness-improvement-plan.html">Stickiness improvement plan</a>.</p>
+<hr>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Remember one thing:</p>
+<p><strong>WIIFY (What’s In It for You)</strong> is central to your communication</p>
+</div>
+</div>
+
+
+</section>
+
+ ]]></description>
+  <category>storytelling</category>
+  <guid>https://storymelange.com/posts/made-to-stick/get-huge-benefits-for-minimal-costs-after-reading.html</guid>
+  <pubDate>Tue, 28 Jan 2025 00:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>The one thing missing in your perfect presentation</title>
+  <dc:creator>Dominik Lindner</dc:creator>
+  <link>https://storymelange.com/posts/made-to-stick/the-one-thing-missing-in-your-perfect-presentation.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://storymelange.com/posts/made-to-stick/polluted_beach.png" class="img-fluid figure-img"></p>
+<figcaption>What do you care about?</figcaption>
+</figure>
+</div>
+<section id="how-to-make-your-ideas-stick-in-a-world-of-endless-noise" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-make-your-ideas-stick-in-a-world-of-endless-noise">1 How to Make Your Ideas Stick in a World of Endless Noise</h2>
+<p>In today’s world of constant information overload, standing out is a necessity. Whether you’re sharing an idea, selling a product, or rallying support for a cause, making your message stick is the secret to success. But what makes an idea stick? It must be <strong>understandable</strong>, <strong>memorable</strong>, and, most importantly, capable of inspiring action.</p>
+<p>The hard truth? Most ideas don’t hit the mark. Even if they’re truthful, relevant, or even fascinating, they can still cannot connect. Why? Because they lack one critical ingredient: emotional resonance.</p>
+</section>
+<section id="why-people-dont-care" class="level2">
+<h2 class="anchored" data-anchor-id="why-people-dont-care">2 Why People Don’t Care</h2>
+<p>Even you have a great delivery. The delivery alone won’t save a message if the audience doesn’t care. Facts and logic may inform, but they rarely inspire action.</p>
+<p><strong>To truly engage people, you need to tap into their emotions and make your message personal.</strong></p>
+<p>Consider how successful charities operate. They don’t just ask for donations to help millions of unnamed people; they focus on <strong>one face, one story</strong>—a child, an animal, a life you can change. This strategy transforms a broad, abstract cause into a relatable connection.</p>
+</section>
+<section id="the-bridge-between-understanding-and-caring" class="level2">
+<h2 class="anchored" data-anchor-id="the-bridge-between-understanding-and-caring">3 The Bridge Between Understanding and Caring</h2>
+<p>Sticky ideas bridge the gap between <strong>knowing</strong> and <strong>caring</strong>. It’s not enough for your audience to understand your message—they need to feel it. That’s where the <strong>SUCCESS framework</strong>, from the book <em>Made to Stick</em>, comes into play:</p>
+<ul>
+<li><p><strong>Simple</strong>: Strip your message down to its core. Complexity confuses; simplicity sticks.</p></li>
+<li><p><strong>Unexpected</strong>: Surprise your audience. Breaking expectations grabs attention.</p></li>
+<li><p><strong>Concrete</strong>: Use vivid examples and details to make your ideas real and relatable.</p></li>
+<li><p><strong>Credible</strong>: Back up your claims with proof—whether it’s data, expert endorsements, or relatable stories.</p></li>
+<li><p><strong>Emotional</strong>: Make people feel something. Tap into their values, fears, and desires.</p></li>
+<li><p><strong>Stories</strong>: Wrap your idea in a compelling narrative. Stories stick better than standalone facts.</p></li>
+</ul>
+<p>When you combine these principles, you don’t just share an idea — you create an experience that lingers in the mind and moves the heart.</p>
+</section>
+<section id="moving-beyond-awareness-to-action" class="level2">
+<h2 class="anchored" data-anchor-id="moving-beyond-awareness-to-action">4 Moving Beyond Awareness to Action</h2>
+<p>The goal of a sticky idea is action. It’s not just about being remembered; it’s about inspiring change. When your audience cares enough to act, you’ve truly made your message stick.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>So, as you craft your next pitch, post, or presentation, ask yourself:</p>
+<p><strong>Does this make people feel something? Will it inspire them to do something?</strong></p>
+</div>
+</div>
+
+
+</section>
+
+ ]]></description>
+  <category>storytelling</category>
+  <category>management</category>
+  <category>mental models</category>
+  <guid>https://storymelange.com/posts/made-to-stick/the-one-thing-missing-in-your-perfect-presentation.html</guid>
+  <pubDate>Mon, 27 Jan 2025 00:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Three basic plots - my take</title>
+  <dc:creator>Dominik Lindner</dc:creator>
+  <link>https://storymelange.com/posts/made-to-stick/three-basic-plots-my-take.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://storymelange.com/posts/made-to-stick/Heroesjourney.svg" class="img-fluid figure-img"></p>
+<figcaption>The hero’s journey is central to many stories.</figcaption>
+</figure>
+</div>
+<section id="storytelling-templates" class="level2">
+<h2 class="anchored" data-anchor-id="storytelling-templates">1 Storytelling templates</h2>
+<p>In storytelling, most of us think of classics like <em>Overcoming the Monster</em>, <em>Rags to Riches</em>, or <em>The Quest.</em>. We can relate many of these templates to the <a href="https://en.wikipedia.org/wiki/Hero%27s_journey">hero’s journey</a>. The authors of <em>Made to Stick</em> argue for three different plots that create sticky, impactful stories: the <strong>Challenge Plot</strong>, the <strong>Connection Plot</strong>, and the <strong>Creativity Plot.</strong></p>
+<p>Here’s how these plots work and why they might just be the key to your next breakthrough moment.</p>
+</section>
+<section id="the-challenge-plot-david-vs.-goliath" class="level2">
+<h2 class="anchored" data-anchor-id="the-challenge-plot-david-vs.-goliath">2 The Challenge Plot: David vs.&nbsp;Goliath</h2>
+<p>The Challenge Plot is about defying the odds. Think of underdog stories. Think of Rosa Parks taking a stand or the rebels in <em>Star Wars</em> fighting against the Empire. The key? The obstacles must appear enormous.</p>
+<p>Challenge plots are powerful because they inspire us to dig deep, persevere, and take bold action. They make us believe that we, too, can overcome adversity—whether it’s launching a startup or finishing a marathon. It helps to turn your message into a proverb.</p>
+<p><strong>Use this plot</strong> when you want to inspire courage and grit. Examples are a high-stakes team kickoff or when motivating people to embrace ambitious goals. Use it, if you face a group of yes sayers.</p>
+</section>
+<section id="the-connection-plot-building-bridges" class="level2">
+<h2 class="anchored" data-anchor-id="the-connection-plot-building-bridges">3 The Connection Plot: Building Bridges</h2>
+<p>Connection Plots are about relationships. They bridge gaps—racial, social, religious, or even generational. Think of the parable of the Good Samaritan or stories of unlikely friendships overcoming prejudice.</p>
+<p>These plots appeal to our humanity, encouraging compassion and collaboration. It does not matter if it’s a heartwarming tale of neighbors helping each other after a disaster or a story about a team uniting for a cause. Connection Plots make us want to be better people.</p>
+<p><strong>Use this plot</strong> when your goal is to foster teamwork, empathy, or unity—perfect for a company celebration or a social campaign.</p>
+</section>
+<section id="the-creativity-plot-aha-moments" class="level2">
+<h2 class="anchored" data-anchor-id="the-creativity-plot-aha-moments">4 The Creativity Plot: Aha! Moments</h2>
+<p>The Creativity Plot is about ingenuity and problem-solving. Think Newton’s apple moment or a health worker in Zambia who solved a complex logistics issue by thinking outside the box. These are stories of innovation, where cleverness triumphs over constraints.</p>
+<p>Springboard stories fall under this category. They help people see possibilities, combat skepticism, and foster buy-in. No dry statistics needed—just a compelling narrative that sparks a “What if?”</p>
+<p><strong>Use this plot</strong> when introducing new ideas, launching projects, or overcoming resistance to change.</p>
+</section>
+<section id="making-it-stick" class="level2">
+<h2 class="anchored" data-anchor-id="making-it-stick">5 Making It Stick</h2>
+<p>Want to inspire action? Tailor your plot to your audience and goal:</p>
+<ul>
+<li><strong>Challenge Plots</strong>: Inspire perseverance.</li>
+<li><strong>Connection Plots</strong>: Build relationships.</li>
+<li><strong>Creativity Plots</strong>: Foster innovation.</li>
+</ul>
+<p>Forget generic plots like <em>Rags to Riches.</em> The Challenge, Connection, and Creativity Plots from <em>Made to Stick</em> are your secret weapon to create stories that resonate—and inspire change.</p>
+<p>So, which plot will you use next?</p>
+
+
+</section>
+
+ ]]></description>
+  <category>storytelling</category>
+  <category>management</category>
+  <guid>https://storymelange.com/posts/made-to-stick/three-basic-plots-my-take.html</guid>
+  <pubDate>Sat, 25 Jan 2025 00:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Blogging with quarto</title>
+  <dc:creator>Dominik Lindner</dc:creator>
+  <link>https://storymelange.com/posts/blogging-with-quarto.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://storymelange.com/quarto.png" class="img-fluid figure-img"></p>
+<figcaption>Using quarto for blogging</figcaption>
+</figure>
+</div>
+<section id="blogging-platform-update." class="level2">
+<h2 class="anchored" data-anchor-id="blogging-platform-update.">1 Blogging platform update.</h2>
+<p>WordPress blogging works well. There’s one caveat to my personal portfolio website. My production pipeline is slow and cumbersome. I use Obsidians vault system with one zettelkasten for all my writing. This has the benefit of having all data in text form and does not suffer from non-accessible formats in the distant future. From Obsidian I copy the text to WordPress, where I need to format it properly and finally copy it back. This duplication means I need to keep track of two databases.</p>
+<p>In addition, the WordPress site requires maintennace. Albeit low effort, it is a mental effort; one other thing to keep in mind.</p>
+<p>As a software engineer, I found this redundant source of truth unsatisfactory.</p>
+</section>
+<section id="enter-quarto" class="level2">
+<h2 class="anchored" data-anchor-id="enter-quarto">2 Enter Quarto</h2>
+<p>Then I discovered quarto. Quite relevant in the data science field, it has gained a following in recent years. Jekyll is quite similar, but somehow the whole quarto experience seems more feature-rich. It effortlessly transforms repositories into websites or books.</p>
+<p>Another cool feature is live content. Add the raw code to the text, which will lead to creating figures. I did this during my PhD with <code>tikz</code> for my figures. With quarto, it is not just figures with new formatting, it can run whole scripts to generate the entire data.</p>
+<p>This becomes really handy when running Jupyter notebooks or small python programs habits, which have a small runtime, but a high development effort.</p>
+<section id="the-ideal-blogging-pipeline" class="level3">
+<h3 class="anchored" data-anchor-id="the-ideal-blogging-pipeline">2.1 The ideal blogging pipeline</h3>
+<ol type="1">
+<li>Do some work</li>
+<li>Write about it</li>
+<li>Create pleasant images</li>
+<li>Format it properly</li>
+<li>Publish</li>
+</ol>
+<p>Quarto can combine steps 2 to 4 in one. It can even integrate the publishing process.</p>
+<p>The main issue is not with quarto, but integrating quarto in an existing working process.</p>
+<p>If you have done something for a while, you have developed habits. In a professional setting, people usually formalize those habits as processes. Introducing something new is usually challenging. It is hard to change your habits, and it is also hard to change long running processes.</p>
+<p>For me, the conflict arose from using Obsidian, a zettelkasten note taking system. In addition, I was used to a WordPress based workflow.</p>
+<p>But let’s dive into the details.</p>
+</section>
+</section>
+<section id="setting-up-quarto" class="level2">
+<h2 class="anchored" data-anchor-id="setting-up-quarto">3 Setting up Quarto</h2>
+<p>There are some cool <a href="https://albert-rapp.de/posts/13_quarto_blog_writing_guide/13_quarto_blog_writing_guide">tutorials</a>. As a software engineer, I found the Quarto documentation very well structured. <a href="https://quarto.org/docs/gallery/">Quarto gallery</a> has a few inspirations on how to format the blog.</p>
+<p>Importantly, these sources address the following more complex topics:</p>
+<ul>
+<li>newsletter</li>
+<li>comments</li>
+<li>legal notice</li>
+<li>google analytics</li>
+</ul>
+<p>So far, I have nothing to add to those fabulous resources.</p>
+</section>
+<section id="switching-to-quarto" class="level2">
+<h2 class="anchored" data-anchor-id="switching-to-quarto">4 Switching to Quarto</h2>
+<section id="content-structure" class="level3">
+<h3 class="anchored" data-anchor-id="content-structure">4.1 Content Structure</h3>
+<p>I put the old content in the new blog as a new platform is usually best judged with some content in it.</p>
+<p>There are two things needed: a better directory structure and yaml front matters.</p>
+<p>I have been using Obsidian so far with a flat file structure. However, Obsidian has no issue with all nested structure, as long as the blog remains in the Obsidian vault.</p>
+<p>As the blog content should still be accessible from one Obsidian vault, I put the Blog in the Zettelkasten.</p>
+<pre><code>Zettelkasten/
+├── blog/
+│   ├── posts/
+│   │   ├── book reviews/
+│   │   └── projects/
+│   └── normal blog posts
+└── normal zettelkasten files
+</code></pre>
+<p>Doing so enables me to link from Zettel outside of the blog to the blog. The otherway round is not intended as Readers would experience dead links.</p>
+<p>Quarto advises to use directories to structure the content. And for a good reason. In Quarto, it is easy to generate an auto-created overview, so-called listings, for a directory. I use listings on my <code>book reviews</code> and <code>projects</code> overview pages.</p>
+<p>Adding the front matters was easy. Filing them with consistent content was more difficult.</p>
+<p>The yaml front matter is necessary as it contains all the metadata. This data was previously in WordPress. I prefer this design as I now can change everything from within Obsidian. This mainly comprised creating yaml front matters for all my files.</p>
+<p>For new Files, I have a script that adds a template.</p>
+</section>
+<section id="using-drafts" class="level3">
+<h3 class="anchored" data-anchor-id="using-drafts">4.2 Using drafts</h3>
+<p>Draft versions of blog post can be quite stable. Sometimes there is no time to finish an article, then again you want some time for the thoughts to age. The article remains in <code>draft</code> state.</p>
+<p>In my WordPress workflow, I had two release gates. The first check occurs when copying from Obsidian to WordPress. I perform the second check before clicking “publish” on the WordPress interface.</p>
+<p>Quarto supports this draft state via the yaml front matter <code>draft: true</code>. You can render or hide drafts. The Quarto YAML defines this via.</p>
+<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb2-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">draft_mode</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> visible</span></span></code></pre></div>
+<p>For the production version of my blog, I wanted no drafts. However, I found no way to change the behaviour quickly. Therefore, I decided on a custom deployment process via python script.</p>
+<p>Usually quarto only informs you that a post is a draft. There is no option to see all your drafts in a rendered version. I added a category draft, which gets set once the draft tag is true.</p>
+<p>Again everything is done via python script.</p>
+</section>
+<section id="output-name" class="level3">
+<h3 class="anchored" data-anchor-id="output-name">4.3 Output name</h3>
+<p>Word press automatically shortens the title to something easily readable in the browser address page.</p>
+<p>My zettelkasten files usually have the form: <code>202304170008 Decision paralysis at a McDonalds</code>. The date shows when I created the note, not when I published the post.</p>
+<p>The publishing date and the title is in the yaml front matter. I only need a easily readable webpage without spaces.</p>
+<p>I wrote a converter which makes this to <code>decision-paralysis-at-a-mcdonalds</code> for the output file.</p>
+</section>
+<section id="dynamic-content" class="level3">
+<h3 class="anchored" data-anchor-id="dynamic-content">4.4 Dynamic Content</h3>
+<p>As stated before, I mainly use Obsidian. There are many discussions to get Quarto and Obsidian to work with each other, <img src="https://forum.obsidian.md/t/obsidian-quarto-setup-current-status-and-questions/75003.png" class="img-fluid" alt="for example this one">. However, none of the presented ways worked for me.</p>
+<p>One enormous challenge is one of the USP of Quarto is the executing of code from the text files. To make this work, files needed to be <code>qmd</code> files.</p>
+<p>There is an Obsidian extension: <code>qmd as md</code>. This plugin can currently just show the content of the file and allows editing via Obsidian. Obsidian search or graph do not work.</p>
+<p>I resolved the issue by naming my <code>qmd</code> files <code>qmd.md</code>. My integration pipeline then changes this to <code>qmd</code> for the rendering to work, as Quarto can only execute code in <code>qmd</code> not <code>md</code> files.</p>
+</section>
+<section id="wiki-links" class="level3">
+<h3 class="anchored" data-anchor-id="wiki-links">4.5 Wiki links</h3>
+<p>One of the biggest issues is the linking. Obsidian uses wikilinks, Quarto uses Markdown links.</p>
+<p>I tried a lot of things: prerender script, lua filter. These approach failed because it violated the designs of Quarto: a to be rendered file can not be changed and the list of to be rendered files can not be modified by the prerender script.</p>
+<p>I settled on the wikilink to markdown Obsidian extension. It only lets you change one link. Changing Back does not correctly work. However, the backlinks and graph view show the markdown links correctly. The only tiring aspect is that the markdown link has <code>%20</code> for spaces.</p>
+<p>There is also the plugin: better markdown links. It offers more features, but did not work with my version.</p>
+<p>The community seems onto this one. So I expect better results next year.</p>
+</section>
+</section>
+<section id="publishing-with-quarto" class="level2">
+<h2 class="anchored" data-anchor-id="publishing-with-quarto">5 Publishing with Quarto</h2>
+<section id="draft-publish-directories" class="level3">
+<h3 class="anchored" data-anchor-id="draft-publish-directories">5.1 Draft &amp; Publish Directories</h3>
+<p>So far I have been using Hostinger with a WordPress installation. Getting my work to the blog always required manual copies.</p>
+<p>The main reason to switch to Quarto was that it streamlines this quite dump part of the entire writing process. In contrast, Quarto offers support for direct publishing from the repository to a GitHub Pages enabled repository.</p>
+<p>What sounds great at first sight, proofed to be rather difficult to get to work.</p>
+<p>First, I had the issues with the draft tag and the qmd files. I resolved this issue by introduction extra directories for draft and publishing. A script then runs through all the files and checks and syncs the files. To avoid any privacy leaks, theses directories are outside of my Zettelkasten. Drawback, rendering on render preview is not instant, but requires a manual copy. Future feature: a watchdog process could resolve this.</p>
+<p>I then review the publish directory and push it to git, where I have setup github actions.</p>
+<p>The complete pipeline is:</p>
+<ol type="1">
+<li>Write in Obsidian</li>
+<li>Use a command to copy to draft or publish directory</li>
+<li>In draft, do a render preview. Any subsequent copy just updates the file.</li>
+<li>Do it with the publishing repo</li>
+<li>Examine new content in git</li>
+<li>Commit and push</li>
+<li>Github renders the repo</li>
+<li>Github updates the blog</li>
+</ol>
+</section>
+<section id="large-blogs" class="level3">
+<h3 class="anchored" data-anchor-id="large-blogs">5.2 Large Blogs</h3>
+<p>I noticed that quarto takes some time to render large blogs. Sometimes, there are errors and I needed to delete the render. Which could mean rendering takes a lot of time. Luckily, quarto offers GitHub actions to render your blog on the GitHub server. This has two advantages:</p>
+<ol type="1">
+<li>Not blocking your system with the final render</li>
+<li>Easier diff, as only md source needs review</li>
+</ol>
+</section>
+<section id="privacy-concerns-data-leaks" class="level3">
+<h3 class="anchored" data-anchor-id="privacy-concerns-data-leaks">5.3 Privacy Concerns &amp; Data Leaks</h3>
+<p>GitHub only allows GitHub pages for public repositories. If you do not feel comfortable to push the raw data of the blog to a public repository, there is a solution.</p>
+<p>You need two repositories. One to store the blog source files and the second to store the rendered files with static js.</p>
+<p><a href="https://mskyda.medium.com/host-a-website-on-github-pages-from-a-private-repo-step-by-step-guide-7fd82b6ae65f">Here are the instructions to do this in a general case.</a></p>
+<p>To sum up the benefits:</p>
+<ul>
+<li>Separation of Concerns: Keep source files private while hosting the static site publicly.</li>
+<li>Security: Sensitive files in the source repo remain private.</li>
+<li>Version Control: Build files are pushed only to the public repo without cluttering the source repo’s history.</li>
+</ul>
+<p>For quarto a different GitHub actions file is required:</p>
+<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb3-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">name</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> Quarto Publish</span></span>
+<span id="cb3-2"></span>
+<span id="cb3-3"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">on</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span></span>
+<span id="cb3-4"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">  </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">push</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span></span>
+<span id="cb3-5"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">branches</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span></span>
+<span id="cb3-6"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">-</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> master</span></span>
+<span id="cb3-7"></span>
+<span id="cb3-8"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">jobs</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span></span>
+<span id="cb3-9"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">  </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">build-deploy</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span></span>
+<span id="cb3-10"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">runs-on</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> ubuntu-latest</span></span>
+<span id="cb3-11"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">steps</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span></span>
+<span id="cb3-12"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">-</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">name</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> Checkout source repository</span></span>
+<span id="cb3-13"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">        </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">uses</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> actions/checkout@v3</span></span>
+<span id="cb3-14"></span>
+<span id="cb3-15"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">-</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">name</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> Setup Quarto</span></span>
+<span id="cb3-16"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">        </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">uses</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> quarto-dev/quarto-actions/setup@v2</span></span>
+<span id="cb3-17"></span>
+<span id="cb3-18"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">-</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">name</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> Configure SSH for deploy</span></span>
+<span id="cb3-19"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">        run</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">: </span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">|</span></span>
+<span id="cb3-20">          # the deploykey is the private key. The public key is in the github pages repo</span>
+<span id="cb3-21">          mkdir -p ~/.ssh</span>
+<span id="cb3-22">          echo "${{ secrets.DEPLOY_KEY }}" &gt; ~/.ssh/id_ed25519</span>
+<span id="cb3-23">          chmod 600 ~/.ssh/id_ed25519</span>
+<span id="cb3-24">          ssh-keyscan github.com &gt;&gt; ~/.ssh/known_hosts</span>
+<span id="cb3-25"></span>
+<span id="cb3-26"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">-</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">name</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> Render</span></span>
+<span id="cb3-27"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">        run</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">: </span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">|</span></span>
+<span id="cb3-28">          quarto render</span>
+<span id="cb3-29"></span>
+<span id="cb3-30"></span>
+<span id="cb3-31"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">    # Git task</span></span>
+<span id="cb3-32"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">-</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">name</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> publish</span></span>
+<span id="cb3-33"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">        run</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">: </span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">|</span></span>
+<span id="cb3-34">          # remove git history and settings - to avoid inheritance</span>
+<span id="cb3-35">          rm -rf .git</span>
+<span id="cb3-36">          # re-initialise git</span>
+<span id="cb3-37">          git init</span>
+<span id="cb3-38">          git config user.name "name"</span>
+<span id="cb3-39">          git config user.email "mail@mail.com"</span>
+<span id="cb3-40">          git branch -m main</span>
+<span id="cb3-41">          git remote add origin git@github.com:$USERNAME/$USERNAME.github.io.git</span>
+<span id="cb3-42">          # add and commit /docs/ folder</span>
+<span id="cb3-43">          git add docs</span>
+<span id="cb3-44">          git commit -m "deploy the bundle"</span>
+<span id="cb3-45">          # push the commit to the public repository</span>
+<span id="cb3-46">          git push -u origin main --force</span></code></pre></div>
+</section>
+</section>
+<section id="code" class="level2">
+<h2 class="anchored" data-anchor-id="code">6 Code</h2>
+<p>All code can be found in <a href="https://github.com/dolind/obsidian2quarto">https://github.com/dolind/obsidian2quarto</a>.</p>
+
+
+</section>
+
+ ]]></description>
+  <category>blogging</category>
+  <guid>https://storymelange.com/posts/blogging-with-quarto.html</guid>
+  <pubDate>Fri, 17 Jan 2025 00:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Science2Art, a lesson in artful prompt engineering</title>
+  <dc:creator>Dominik Lindner</dc:creator>
+  <link>https://storymelange.com/posts/projects/science2art/scienceart-a-lesson-in-artful-prompt-engineering.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="newtons-second-law-of-motion" class="level2">
+<h2 class="anchored" data-anchor-id="newtons-second-law-of-motion">1 Newton’s second law of motion</h2>
+<p><img src="https://latex.codecogs.com/png.latex?%20%20%20F%20=%20ma%20"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://storymelange.com/posts/projects/science2art/shopping_cart.png" class="img-fluid figure-img"></p>
+<figcaption>Pushing a shopping cart with groceries, the amount of force you need to apply to get the cart moving is directly proportional to its mass and acceleration. Visible Brush Strokes Style.</figcaption>
+</figure>
+</div>
+</section>
+<section id="work-energy-theorem" class="level2">
+<h2 class="anchored" data-anchor-id="work-energy-theorem">2 Work-Energy theorem</h2>
+<p><img src="https://latex.codecogs.com/png.latex?%20%20%20W%20=%20%5CDelta%20K"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://storymelange.com/posts/projects/science2art/person_box.png" class="img-fluid figure-img"></p>
+<figcaption>A person is lifting a box and placing it on a shelf. Communist art.</figcaption>
+</figure>
+</div>
+</section>
+<section id="gravitational-force" class="level2">
+<h2 class="anchored" data-anchor-id="gravitational-force">3 Gravitational force</h2>
+<p><img src="https://latex.codecogs.com/png.latex?%20%20%20%20F%20=%20G%20*%20%5Cfrac%7Bm_1%20*%20m_2%7D%7Br%5E2%7D"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://storymelange.com/posts/projects/science2art/newtons_apple.png" class="img-fluid figure-img"></p>
+<figcaption>Newtons apple, the apple falling from the tree to your hand.</figcaption>
+</figure>
+</div>
+</section>
+<section id="simple-harmonic-motion" class="level2">
+<h2 class="anchored" data-anchor-id="simple-harmonic-motion">4 Simple harmonic motion</h2>
+<p><img src="https://latex.codecogs.com/png.latex?%20x%20=%20Acos(%5Comega%20t%20+%20%5CPhi)"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://storymelange.com/posts/projects/science2art/child_swing.png" class="img-fluid figure-img"></p>
+<figcaption>Swinging on a swing, the back and forth motion of the swing can be described by simple harmonic motion. Impressionism Style.</figcaption>
+</figure>
+</div>
+</section>
+<section id="kinetic-energy" class="level2">
+<h2 class="anchored" data-anchor-id="kinetic-energy">5 Kinetic energy</h2>
+<p><img src="https://latex.codecogs.com/png.latex?%20K%20=%20%5Cfrac%7B1%7D%7B2%7D%20m%20%20v%5E2"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://storymelange.com/posts/projects/science2art/soccer_ball.png" class="img-fluid figure-img"></p>
+<figcaption>A foot has hit a soccer ball. Cubism art style.</figcaption>
+</figure>
+</div>
+</section>
+<section id="potential-energy" class="level2">
+<h2 class="anchored" data-anchor-id="potential-energy">6 Potential energy</h2>
+<p><img src="https://latex.codecogs.com/png.latex?U%20=%20mgh"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://storymelange.com/posts/projects/science2art/climbing_staircase.png" class="img-fluid figure-img"></p>
+<figcaption>Climbing a staircase, the higher you go, the more potential energy you have stored due to the force of gravity acting on your body. Style of Pieter Bruegel the Elder’s The Tower of Babel.</figcaption>
+</figure>
+</div>
+</section>
+<section id="elastic-force" class="level2">
+<h2 class="anchored" data-anchor-id="elastic-force">7 Elastic force</h2>
+<p><img src="https://latex.codecogs.com/png.latex?%20F%20=%20-kx"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://storymelange.com/posts/projects/science2art/bouncing_basketball.png" class="img-fluid figure-img"></p>
+<figcaption>Bouncing a basketball, the ball compresses and stores potential energy, which is then released and converted into kinetic energy as the ball bounces back. Surrealism style.</figcaption>
+</figure>
+</div>
+</section>
+<section id="centripetal-force" class="level2">
+<h2 class="anchored" data-anchor-id="centripetal-force">8 Centripetal force</h2>
+<p><img src="https://latex.codecogs.com/png.latex?F%20=%20m%20%20%5Cfrac%7Bv%5E2%7D%7Br%7D"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://storymelange.com/posts/projects/science2art/rollercoaster.png" class="img-fluid figure-img"></p>
+<figcaption>Riding a roller coaster, the centripetal force is what keeps you in your seat as the coaster goes around sharp turns. Neoclassicism style.</figcaption>
+</figure>
+</div>
+</section>
+<section id="moment-of-inertia" class="level2">
+<h2 class="anchored" data-anchor-id="moment-of-inertia">9 Moment of inertia</h2>
+<p><img src="https://latex.codecogs.com/png.latex?%20I%20=%20m%20%20r%5E2"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://storymelange.com/posts/projects/science2art/ballet_dancer.png" class="img-fluid figure-img"></p>
+<figcaption>A ballet dancer uses the moment of inertia to speed up in turns by pulling the arms to the center. Style like Edgar Degas.</figcaption>
+</figure>
+</div>
+</section>
+<section id="momentum" class="level2">
+<h2 class="anchored" data-anchor-id="momentum">10 Momentum</h2>
+<p><img src="https://latex.codecogs.com/png.latex?p%20=%20m%20v"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://storymelange.com/posts/projects/science2art/car_crash.png" class="img-fluid figure-img"></p>
+<figcaption>A car collision, the momentum of the cars before and after the collision can be calculated to determine the amount of force transferred between the cars. Pop Art Style.</figcaption>
+</figure>
+</div>
+</section>
+<section id="power" class="level2">
+<h2 class="anchored" data-anchor-id="power">11 Power</h2>
+<p><img src="https://latex.codecogs.com/png.latex?P%20=%20%5Cfrac%7BW%7D%7Bt%7D"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://storymelange.com/posts/projects/science2art/powerdrill.png" class="img-fluid figure-img"></p>
+<figcaption>Using a power drill to screw in a nail, the power of the drill determines how quickly the nail is driven into the wood. Renaissance painting style.</figcaption>
+</figure>
+</div>
+</section>
+<section id="friction" class="level2">
+<h2 class="anchored" data-anchor-id="friction">12 Friction</h2>
+<p><img src="https://latex.codecogs.com/png.latex?%20F_f%20=%20%5Cmu%20%20N"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://storymelange.com/posts/projects/science2art/child_sliding.webp" class="img-fluid figure-img"></p>
+<figcaption>A child slides down a slide and is keep in place by the friction.</figcaption>
+</figure>
+</div>
+</section>
+<section id="bernoullis-equation" class="level2">
+<h2 class="anchored" data-anchor-id="bernoullis-equation">13 Bernoulli’s equation</h2>
+<p><img src="https://latex.codecogs.com/png.latex?p%20+%20%5Cfrac%7B1%7D%7B2%7D%20%20%5Crho%20%20v%5E2%20+%20%5Crho%20g%20%20h%20=%20constant"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://storymelange.com/posts/projects/science2art/car_air_compression.png" class="img-fluid figure-img"></p>
+<figcaption>Feeling a decrease in air pressure as a moving car passes by, this is due to the Bernoulli’s equation as the speed of the air increases. Fauvism Style.</figcaption>
+</figure>
+</div>
+</section>
+<section id="projectile-motion" class="level2">
+<h2 class="anchored" data-anchor-id="projectile-motion">14 Projectile motion</h2>
+<p><img src="https://latex.codecogs.com/png.latex?%20y%20=%20v_0%20%20t%20-%20%5Cfrac%7B1%7D%7B2%7D%20%20g%20%20t%5E2"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://storymelange.com/posts/projects/science2art/ball_flying.webp" class="img-fluid figure-img"></p>
+<figcaption>Throwing a ball into the air, the path it takes can be described by the equations of projectile motion. Painterly Style.</figcaption>
+</figure>
+</div>
+</section>
+<section id="torque" class="level2">
+<h2 class="anchored" data-anchor-id="torque">15 Torque</h2>
+<p><img src="https://latex.codecogs.com/png.latex?%20%5Ctau%20=%20r%20%20F"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://storymelange.com/posts/projects/science2art/doorknob.webp" class="img-fluid figure-img"></p>
+<figcaption>turning a doorknob, the force applied at a certain distance from the pivot point creates a torque. Style like Paul Cezanne.</figcaption>
+</figure>
+</div>
+</section>
+<section id="law-of-conservation-of-energy" class="level2">
+<h2 class="anchored" data-anchor-id="law-of-conservation-of-energy">16 Law of conservation of energy</h2>
+<p><img src="https://latex.codecogs.com/png.latex?%5CDelta%20E%20=%20%5CDelta%20K%20+%20%5CDelta%20U"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://storymelange.com/posts/projects/science2art/rollercoaster_turn.webp" class="img-fluid figure-img"></p>
+<figcaption>A rollercoaster ride demonstrates the conservation of energy, as the potential energy of the car at the top of a hill is converted into kinetic energy as it moves downwards and vice versa.Style like Allan Rohan Crite.</figcaption>
+</figure>
+</div>
+</section>
+<section id="law-of-conservation-of-momentum" class="level2">
+<h2 class="anchored" data-anchor-id="law-of-conservation-of-momentum">17 Law of conservation of momentum</h2>
+<p><img src="https://latex.codecogs.com/png.latex?%5Cfrac%7B%5Cdelta%20p%7D%7B%5Cdelta%20t%7D%20=%200"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://storymelange.com/posts/projects/science2art/pool_ball.webp" class="img-fluid figure-img"></p>
+<figcaption>In a game of pool, when a cue ball strikes another ball, the cue ball loses some of its momentum, but the momentum of the two balls before and after the collision must remain the same.</figcaption>
+</figure>
+</div>
+</section>
+<section id="hookes-law" class="level2">
+<h2 class="anchored" data-anchor-id="hookes-law">18 Hooke’s law</h2>
+<p><img src="https://latex.codecogs.com/png.latex?%20F%20=%20-kx"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://storymelange.com/posts/projects/science2art/trampoline.webp" class="img-fluid figure-img"></p>
+<figcaption>A trampoline follows Hooke’s law as it stretches and compresses when a person jumps on it. The greater the force, the greater the stretch or compression and vice versa. Church window style.</figcaption>
+</figure>
+</div>
+</section>
+<section id="center-of-mass" class="level2">
+<h2 class="anchored" data-anchor-id="center-of-mass">19 Center of mass</h2>
+<p><img src="https://latex.codecogs.com/png.latex?%20x_c%20=%20%5Cfrac%7B%5CSigma%20m_ix_i%7D%7B%20%20%5CSigma%20m_i%7D"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://storymelange.com/posts/projects/science2art/scale.webp" class="img-fluid figure-img"></p>
+<figcaption>A scale can be used to find the center of mass of an object. If an object is placed on a scale unevenly, the scale will tip to one side until the center of mass is directly over the center of the scale. Japanese Painting.</figcaption>
+</figure>
+</div>
+</section>
+<section id="law-of-universal-gravitation" class="level2">
+<h2 class="anchored" data-anchor-id="law-of-universal-gravitation">20 Law of universal gravitation</h2>
+<p><img src="https://latex.codecogs.com/png.latex?%20F%20=%20G%20%5Cfrac%7B%20m_1%20%20m_2%7D%7Br%5E2%7D"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://storymelange.com/posts/projects/science2art/moon.webp" class="img-fluid figure-img"></p>
+<figcaption>The force of attraction between the Earth and the Moon, causing the Moon to orbit the Earth, is determined by the law of universal gravitation. Neoclassicism style.</figcaption>
+</figure>
+</div>
+</section>
+<section id="from-idea-to-result" class="level2">
+<h2 class="anchored" data-anchor-id="from-idea-to-result">21 From idea to result</h2>
+<section id="origins" class="level3">
+<h3 class="anchored" data-anchor-id="origins">21.1 Origins</h3>
+<p>Physical phenoma are complex and often beautiful. Think about the vortex created through a bridge pillar. We can observe many physical equations in daily life. This led to the original question: <em>How can a painting express a physical equation?</em>.</p>
+<p>In the beginning, I only had a few ideas, and capturing all the ideas in photos or in paintings seemed quite effortful. The entire idea landed on the pile of fancy ideas with a low effort/reward ratio.</p>
+</section>
+<section id="chatgpt-dalle" class="level3">
+<h3 class="anchored" data-anchor-id="chatgpt-dalle">21.2 ChatGPT &amp; Dalle</h3>
+<p>Then in 2023 I discovered ChatGPT &amp; Dalle. Most of the above images reflect the ChatGPT results from early 2023 and 2024.</p>
+<p>Over the cause of time, the results of Dalle got better regarding image content. The shift from DALL-E 2 to DALL-E 3 accounts for this. See this comparison. <img src="https://goldpenguin.org/blog/dalle3-vs-dalle2-prompts-compared/.png" class="img-fluid" alt="Dalle2 vs dalle3">. To me, the Dalle3 images seem sometimes less artistic. However, they are more accurate with regard to the prompt.</p>
+</section>
+<section id="the-outdated-art-of-prompt-engineering" class="level3">
+<h3 class="anchored" data-anchor-id="the-outdated-art-of-prompt-engineering">21.3 The outdated art of prompt engineering</h3>
+<p>In 2023, the issue back then was to get the content correctly created regarding image content. I used prompt engineering to get ChatGPT to write correct prompts for Dalle.</p>
+<p>I first used ChatGPT to generate equations found in daily life, along with examples. Then I used it to create prompts for Dalle. I added an art style which I found fitting for the context.</p>
+<p>Some images required tweaking to be usable.</p>
+<p>Nowadays, in 2025, the entire process works a lot more straightforward, but as already mentioned, all images look quite similar.</p>
+<p>This leads to a <img src="https://chrisvoncsefalvay.com/posts/prompt-engineering/.png" class="img-fluid" alt="blog post">. Is prompt engineering actually something someone should learn? Or is it quickly becoming outdated by the use of AI agents?</p>
+<p>I think it all starts with the creative process of noting your thoughts and expressing what is in your mind. If you do it on a computer or to another person, this could become very similar. For the people without the skills to craft the images themselves, it provides a better interface to the world.</p>
+</section>
+<section id="comparison-2023-vs-2024-output" class="level3">
+<h3 class="anchored" data-anchor-id="comparison-2023-vs-2024-output">21.4 Comparison 2023 vs 2024 output</h3>
+<p>I redid some images in 2024. As mentioned before, the images are smoother but have a very identical look for an identical post to the 2023 version.</p>
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://storymelange.com/posts/projects/science2art/bouncing_basketball.png" class="img-fluid figure-img"></p>
+<figcaption>2024 Version of a bouncing basketball.</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://storymelange.com/posts/projects/science2art/bouncing_basketball_2023.png" class="img-fluid figure-img"></p>
+<figcaption>2023 Version of a bouncing basketball.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://storymelange.com/posts/projects/science2art/child_swing.png" class="img-fluid figure-img"></p>
+<figcaption>2024 Version of a child on a swing.</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://storymelange.com/posts/projects/science2art/child_swing_2023.png" class="img-fluid figure-img"></p>
+<figcaption>2023 Version of a child on a swing.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://storymelange.com/posts/projects/science2art/powerdrill.png" class="img-fluid figure-img"></p>
+<figcaption>2024 Version of a man with a powerdrill.</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://storymelange.com/posts/projects/science2art/powerdrill_2023.png" class="img-fluid figure-img"></p>
+<figcaption>2023 Version of a man with a powerdrill.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://storymelange.com/posts/projects/science2art/rollercoaster.png" class="img-fluid figure-img"></p>
+<figcaption>2024 Version of a rollercoaster.</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://storymelange.com/posts/projects/science2art/rollercoaster_2023.png" class="img-fluid figure-img"></p>
+<figcaption>2023 Version of a rollercoaster.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<!--# 
+## old content
+
+Straight line : bowling
+circular path : glücksrad
+circular motion : Karrussel
+projectile : Baseball
+torque : schraube
+work & energy : spring-mass
+rotational inertia : 
+center of mass : balanc akt
+
+linear momentum : billiard
+
+
+thermodynamics : sand am meer
+
+
+## Article
+1.  Newton's second law of motion: F = ma: billiard
+2.  Work-Energy theorem: W = ΔK: hammer hitting amboss
+3.  
+4.  Simple harmonic motion: x = Acos(wt + Φ): music string
+5.  Kinetic energy: K = 1/2 * m * v^2
+6.  Potential energy: U = mgh
+7.  Elastic force (Hooke's law): F = -kx: terra band
+8.  Centripetal force: F = m * v^2 / r: two people circling around each other
+9.  Moment of inertia: I = m * r^2: Stab boot
+10.  
+11.  Power: P = W / t
+12.  Kinetic friction: f_k = μ_k * N
+13.  Gravitational potential energy: U = -G * m1 * m2 / r: moon and water
+14.  
+15.  Projectile motion: y = v0 * t - 1/2 * g * t^2
+16.  Torque: τ = r * F: schraube
+17.  Force of friction: F_f = μ * N: friction : wasserrutsche
+18.  Center of Mass (xcm=Σmx/Σm)
+19.  Kinetic energy of rotation: K = 1/2 * I * ω^2
+20.  Bernoulli's equation: P + 1/2 * ρ * v^2 + ρ * g * h = constant.
+20.  Bernoulli's Equation (P+1/2ρv^2+ρgy=constant)
+
+22.  Newton's First Law of Motion (F=ma)
+23.  Newton's Second Law of Motion (dΔp/dt=F)
+24.  Newton's Third Law of Motion (action-reaction)
+25.  Law of Universal Gravitation (F=G(m1m2/r^2))
+26.  Hooke's Law (kx=F)
+27.  Kinetic Energy (T=1/2mv^2)
+28.  Work-Energy Theorem (W=ΔK)
+29.  Potential Energy (U=mgh)
+30.  Law of Conservation of Energy (ΔU+ΔK=0)
+31.  Law of Conservation of Momentum (Δp=0)
+32.  Center of Mass (xcm=Σmx/Σm)
+33.  Moment of Inertia (I=Σmr^2)
+34.  Torque (τ=rf)
+35.  Law of Gravitation (g=Gm/r^2)
+36.  Kepler's Laws of Planetary Motion
+37.  Velocity (v=d/t)
+38.  Acceleration (a=dv/dt)
+39.  Projectile Motion (vf=vi+at, x=vit+1/2at^2)
+40.  Simple Harmonic Motion (x=Acos(ωt+φ))
+41.  Bernoulli's Equation (P+1/2ρv^2+ρgy=constant)
+
+1.  Newton's second law of motion: F = ma
+2.  Hooke's law: F = -kx
+3.  Work-energy theorem: W = ΔK
+4.  Kinetic energy: K = (1/2)mv^2
+5.  Gravitational force: F = Gm1m2/r^2
+6.  Law of universal gravitation: F = Gm1m2/r^2
+7.  Potential energy: U = mgh
+8.  Momentum: p = mv
+9.  Law of conservation of energy: ΔE = ΔK + ΔU
+10.  Center of mass: r_cm = (m1r1 + m2r2 + ...)/(m1 + m2 + ...)
+11.  Torque: τ = r x F
+12.  Law of conservation of angular momentum: ΔL = Δτ
+13.  Ideal gas law: PV = nRT
+14.  First law of thermodynamics: ΔU = Q - W
+15.  Second law of thermodynamics: ΔS ≥ Q/T
+16.  Entropy: S = klnΩ
+17.  Heat capacity: C = ΔQ/ΔT
+18.  Adiabatic process: Q = 0
+19.  Carnot cycle efficiency: η = 1 - Tc/Th
+20.  Ideal gas law of thermodynamics: PV = nRT
+
+
+### condensed list
+1.  Newton's second law of motion: F = ma
+2.  Hooke's law: F = -kx
+3.  Work-energy theorem: W = ΔK
+4.  Kinetic energy: K = (1/2)mv^2
+5.  Gravitational force: F = Gm1m2/r^2
+6.  Law of universal gravitation: F = Gm1m2/r^2
+7.  Potential energy: U = mgh
+8.  Momentum: p = mv
+9.  Law of conservation of energy: ΔE = ΔK + ΔU
+10.  Center of mass: r_cm = (m1r1 + m2r2 + ...)/(m1 + m2 + ...)
+11.  Torque: τ = r x F
+12.  Law of conservation of angular momentum: ΔL = Δτ
+13.  Ideal gas law: PV = nRT
+14.  First law of thermodynamics: ΔU = Q - W
+15.  Second law of thermodynamics: ΔS ≥ Q/T
+16.  Entropy: S = klnΩ
+17.  Heat capacity: C = ΔQ/ΔT
+18.  Adiabatic process: Q = 0
+19.  Carnot cycle efficiency: η = 1 - Tc/Th
+20.  Ideal gas law of thermodynamics: PV = nRT
+21. 1.  Newton's First Law of Motion (F=ma)
+2.  Newton's Second Law of Motion (dΔp/dt=F)
+3.  Newton's Third Law of Motion (action-reaction)
+4.  Law of Universal Gravitation (F=G(m1m2/r^2))
+5.  Hooke's Law (kx=F)
+6.  Kinetic Energy (T=1/2mv^2)
+7.  Work-Energy Theorem (W=ΔK)
+8.  Potential Energy (U=mgh)
+9.  Law of Conservation of Energy (ΔU+ΔK=0)
+10.  Law of Conservation of Momentum (Δp=0)
+11.  Center of Mass (xcm=Σmx/Σm)
+12.  Moment of Inertia (I=Σmr^2)
+13.  Torque (τ=rf)
+14.  Law of Gravitation (g=Gm/r^2)
+15.  Kepler's Laws of Planetary Motion
+16.  Velocity (v=d/t)
+17.  Acceleration (a=dv/dt)
+18.  Projectile Motion (vf=vi+at, x=vit+1/2at^2)
+19.  Simple Harmonic Motion (x=Acos(ωt+φ))
+20.  Bernoulli's Equation (P+1/2ρv^2+ρgy=constant)
+21. 1.  Newton's second law of motion: F = ma
+2.  Work-Energy theorem: W = ΔK
+3.  Gravitational force: F = G * m1 * m2 / r^2
+4.  Simple harmonic motion: x = Acos(wt + Φ)
+5.  Kinetic energy: K = 1/2 * m * v^2
+6.  Potential energy: U = mgh
+7.  Elastic force: F = -kx
+8.  Centripetal force: F = m * v^2 / r
+9.  Moment of inertia: I = m * r^2
+10.  Momentum: p = m * v
+11.  Power: P = W / t
+12.  Kinetic friction: f_k = μ_k * N
+13.  Gravitational potential energy: U = -G * m1 * m2 / r
+14.  Hooke's law: F = -kx
+15.  Projectile motion: y = v0 * t - 1/2 * g * t^2
+16.  Torque: τ = r * F
+17.  Force of friction: F_f = μ * N
+18.  Mechanical advantage: MA = F_out / F_in
+19.  Kinetic energy of rotation: K = 1/2 * I * ω^2
+20.  Bernoulli's equation: P + 1/2 * ρ * v^2 + ρ * g * h = constant.
+
+
+
+Gleichung durch Bilder ausdrücken .
+Entweder gemalt oder fotografiert
+
+Straight line : bowling
+circular path : glücksrad
+circular motion : Karrussel
+projectile : Baseball
+torque : schraube
+work & energy : spring-mass
+rotational inertia : Stab boot
+center of mass : balanc akt
+friction : wasserrutsche
+linear momentum : billiard
+f= ma  : billiard
+gravity : moon and water
+thermodynamics : sand am meer
+
+-->
+
+
+</section>
+</section>
+
+ ]]></description>
+  <category>generative AI</category>
+  <category>prompt engineering</category>
+  <guid>https://storymelange.com/posts/projects/science2art/scienceart-a-lesson-in-artful-prompt-engineering.html</guid>
+  <pubDate>Wed, 15 Jan 2025 00:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Clean coders use lambda expressions</title>
+  <dc:creator>Dominik Lindner</dc:creator>
+  <link>https://storymelange.com/posts/clean-architecture/clean-coders-use-lambda-expressions.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="what-are-lambda-expressions" class="level2">
+<h2 class="anchored" data-anchor-id="what-are-lambda-expressions">What Are Lambda Expressions?</h2>
+<p>Lambda expressions are small, anonymous functions designed for short-lived tasks with limited scope. Unlike named functions, they do not require a definition at module level. Instead they exist within a function. This makes them ideal for any operation where defining a full-fledged function would be overkill.</p>
+</section>
+<section id="immutability-as-goal" class="level2">
+<h2 class="anchored" data-anchor-id="immutability-as-goal">Immutability as goal</h2>
+<p>Lambda expressions originated from <strong>lambda calculus</strong>, a mathematical framework for describing functions. Functional programming languages like Lisp first adopted the concept, and it eventually trickled down to more general-purpose languages.</p>
+<p>But why were lambdas introduced into Python and C++? The goal was to enable <strong>functional programming paradigms</strong>, like mapping, filtering, and reducing data.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The benefit of functional programming is that it renders a function immutable.</p>
+</div>
+</div>
+<p>This has enormous benefits for complex logic and especially for multithreaded applications. By making a function immutable, race conditions and deadlocks can not origin from this function. By limiting the mutuabitliy of code to certain blocks, multithreading errors are easier to find.</p>
+</section>
+<section id="syntax-and-usage" class="level2">
+<h2 class="anchored" data-anchor-id="syntax-and-usage">Syntax and Usage</h2>
+<section id="how-do-lambda-expressions-work" class="level3">
+<h3 class="anchored" data-anchor-id="how-do-lambda-expressions-work">How Do Lambda Expressions Work?</h3>
+<p>The syntax differs between Python and C++:</p>
+<ul>
+<li><p><strong>Python</strong>: <code>lambda arguments: expression</code><br>
+Example: <code>lambda x: x * 2</code> creates a function that doubles the input.</p></li>
+<li><p><strong>C++</strong>: <code>[capture](arguments) { body }</code><br>
+Example: <code>[&amp;](int x) { return x * 2; }</code> defines a lambda that doubles <code>x</code> while capturing variables by reference.</p></li>
+</ul>
+</section>
+<section id="when-should-you-use-them" class="level3">
+<h3 class="anchored" data-anchor-id="when-should-you-use-them">When Should You Use Them?</h3>
+<ul>
+<li><p><strong>Python</strong>:</p>
+<ul>
+<li>Sorting: <code>sorted(data, key=lambda x: x.value)</code></li>
+<li>Filtering: <code>filter(lambda x: x &gt; 10, numbers)</code></li>
+<li>Functional constructs: <code>map</code>, <code>reduce</code></li>
+<li>One-liners: Embedding logic where defining a named function is unnecessary.</li>
+<li></li>
+</ul></li>
+<li><p><strong>C++</strong>:</p>
+<ul>
+<li>STL algorithms: <code>std::sort</code>, <code>std::for_each</code>, <code>std::transform</code></li>
+<li>Replacing verbose function objects</li>
+<li>When relying heavily on functional programming.</li>
+</ul></li>
+</ul>
+
+
+</section>
+</section>
+
+ ]]></description>
+  <category>python</category>
+  <category>c++</category>
+  <category>clean code</category>
+  <guid>https://storymelange.com/posts/clean-architecture/clean-coders-use-lambda-expressions.html</guid>
+  <pubDate>Fri, 10 Jan 2025 00:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>How to fight computer eye strain</title>
+  <dc:creator>Dominik Lindner</dc:creator>
+  <link>https://storymelange.com/posts/projects/eyetrainer/how-to-fight-computer-eye-strain.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="computer-work-is-heavy-weightlifting" class="level2">
+<h2 class="anchored" data-anchor-id="computer-work-is-heavy-weightlifting">Computer work is heavy weightlifting</h2>
+<p>Computer work strains your eyes and body.</p>
+<p>A lot of computer programmers have eye issues. The problems range from glasses to alignment problems in binocular vision.</p>
+<p><img src="https://storymelange.com/posts/projects/eyetrainer/strange_eyes.png" class="img-fluid"></p>
+<p>There are many exercises one can do. For example, look out of the window and back at a pencil.</p>
+<p><code>Magic Eye</code> books up to full fledge 3D glasses with medical apps.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://storymelange.com/posts/projects/eyetrainer/magic_eye.png" class="img-fluid figure-img"></p>
+<figcaption>https://en.wikipedia.org/wiki/Magic_Eye</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://storymelange.com/posts/projects/eyetrainer/smart_eyes.png" class="img-fluid figure-img"></p>
+<figcaption>https://avalonweb.com.au/demo/</figcaption>
+</figure>
+</div>
+<p>During my studies, I spent so many hours glued to a screen that I developed a light form of misalignment. When I was tired, my eyes ached and focusing on distant objects became difficult. A friend of mine reports issues much worse. He said he would always see two cars and would decide to drive through one when overtaking a car. He got it fixed with surgery.</p>
+<p>Those with mild symptoms may help from looking out the window.</p>
+<p>Or change the focus between your fingertip and a distant object.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://storymelange.com/posts/projects/eyetrainer/thumb_eye.png" class="img-fluid figure-img"></p>
+<figcaption>Eye exercises can help: https://asmy.org.au/yoga/eye-exercises/</figcaption>
+</figure>
+</div>
+<p>I used to have a paper to train the convergence of the eyes. I could carry this with me for a quick relaxing of the eyes.</p>
+<p><img src="https://storymelange.com/posts/projects/eyetrainer/flutter2.png" class="img-fluid" alt="Basic Version of digitalized paper">.</p>
+<p>This small paper works like the magic eye book. When eyes are relaxed, a third circle appears. With time, the picture got old and torn. As I could not find an offer for these papers, my first version was a handcrafted python script.</p>
+<p>I found more examples for those <a href="https://orthoptie.net/ceres/varia/varia02/muller1.html">figures</a>.</p>
+</section>
+<section id="turning-the-circles-into-an-app." class="level2">
+<h2 class="anchored" data-anchor-id="turning-the-circles-into-an-app.">Turning the circles into an app.</h2>
+<p>Based on the python prototype, I thought about packaging the work as an app. To me, the most convenient way is a dynamic form where one can play around to motivate oneself to take out the “paper”.</p>
+<p>I first tried to realize this with kivy. I had a desktop kivy app running in no time on my pc. In contrast, compiling and packaging for Android turned out to be a nightmare. Kivy requires <code>buildozer</code> which comes with a million other settings and you end up in framework hell.</p>
+</section>
+<section id="chatgpt-and-flutter-to-the-rescue" class="level2">
+<h2 class="anchored" data-anchor-id="chatgpt-and-flutter-to-the-rescue">ChatGPT and Flutter to the rescue</h2>
+<p>After a while, I abandoned the project. Then came ChatGPT. For me, ChatGPT flattens the learning curve in many technologies. If ChatGPT has access to the app’s entire context, it works like a charm. For Android apps, a Flutter app comprises fewer files than a Java based app. As of writing, ChatGPT handles several files well. In 2023 and 2024, the quickest way for best results is the copy&amp;paste approach.</p>
+<p>My Flutter app saw the light of the day and works both on desktop and mobile.</p>
+<p>See the following screenshots.</p>
+<p><img src="https://storymelange.com/posts/projects/eyetrainer/flutter2 (1).png" class="img-fluid"></p>
+<p><img src="https://storymelange.com/posts/projects/eyetrainer/flutter3.png" class="img-fluid"></p>
+<p>All code can be found in <a href="https://github.com/dolind/eyetrainer" class="uri">https://github.com/dolind/eyetrainer</a>.</p>
+<section id="what-to-different-next-time" class="level3">
+<h3 class="anchored" data-anchor-id="what-to-different-next-time">What to different next time</h3>
+<p>Nowadays, I would write a web app and package it inside an app.</p>
+
+
+</section>
+</section>
+
+ ]]></description>
+  <category>health</category>
+  <category>android</category>
+  <category>python</category>
+  <guid>https://storymelange.com/posts/projects/eyetrainer/how-to-fight-computer-eye-strain.html</guid>
+  <pubDate>Tue, 03 Dec 2024 00:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Premature optimization and the importance of algorithms</title>
+  <dc:creator>Dominik Lindner</dc:creator>
+  <link>https://storymelange.com/posts/clean-architecture/premature-optimization-and-the-importance-of-algorithms.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://storymelange.com/posts/clean-architecture/premature-optimization.png" class="img-fluid figure-img"></p>
+<figcaption>Premature Optimization</figcaption>
+</figure>
+</div>
+<section id="static-polymorphism-is-fast-but-complex" class="level2">
+<h2 class="anchored" data-anchor-id="static-polymorphism-is-fast-but-complex">Static polymorphism is fast, but complex</h2>
+<p>I once had a colleague who was a C++ genius. For him, every function had to be templated. However, in my experience, the excessive template boilerplate made the code harder to read.</p>
+<p>While templates offer a great way to make code modular and enable static polymorphism for potential performance gains, they also add complexity and reduce readability. Striking a balance is key.</p>
+</section>
+<section id="the-importance-of-algorithms" class="level2">
+<h2 class="anchored" data-anchor-id="the-importance-of-algorithms">The importance of Algorithms</h2>
+<p>At the lower level, less experienced developers often implemented slow algorithms. This felt more like premature optimization, with senior developers focusing on obscure details instead of improving the overall system.</p>
+<p>Proponents of this approach often argue, “We need flexibility and performance.” Unfortunately, if your senior devs insist on this direction, there’s little that can be done without triggering lengthy debates and widespread frustration.</p>
+<p>A quick search revealed the following:</p>
+<p>In performance-critical applications, optimizing <strong>data structures</strong> and <strong>algorithms</strong> yields far greater benefits than micro-optimizations like avoiding virtual function calls.</p>
+<ul>
+<li>Right Data Structures: Use hash tables, binary trees, heaps depending to minimize access time and memory overhead.</li>
+<li>Algorithm Efficiency: Reducing O(n^2) to O(nlogn) saves millions of operations, far outweighing nanoseconds gained from avoiding virtual calls.</li>
+<li>Profile First: Use profiling tools to identify real bottlenecks; focus on hotspots that impact runtime significantly.</li>
+<li>When to Optimize Virtual Calls: Only for tight loops, where every cycle matters.</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+What is a Tight Loop?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A “tight loop” refers to:</p>
+<ol type="1">
+<li>A loop that runs a large number of iterations (e.g., millions to billions).</li>
+<li>Contains minimal work per iteration (e.g., function calls, basic arithmetic).</li>
+<li>Becomes a performance bottleneck due to repetitive operations.</li>
+</ol>
+</div>
+</div>
+
+
+</section>
+
+ ]]></description>
+  <category>clean code</category>
+  <category>data structures &amp; algorithms</category>
+  <guid>https://storymelange.com/posts/clean-architecture/premature-optimization-and-the-importance-of-algorithms.html</guid>
+  <pubDate>Sat, 10 Aug 2024 00:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Here is what I learned from thinking fast and slow.</title>
+  <dc:creator>Dominik Lindner</dc:creator>
+  <link>https://storymelange.com/posts/think-fast-and-slow/here-is-what-i-learned-from-thinking-fast-and-slow.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>Almost everyone agrees that you should read good books. Few people do. And even less are able to recall important lessons of the book after some time.</p>
+<p>How to remember the content from good books? The usual approach is to summarize a book and extract its key lessons. Blinkist and many other summary websites splendidly do this.</p>
+<p>In my opinion, this approach hinders us from learning from a book. Learning from books is mainly enabled by the exercise of written ideas. We can directly transfer the prescribed methods to our reality, like recipes from a cookbook.</p>
+<p>This approach is limited when applied to more abstract topics such as management or thinking. Insights about thinking are difficult to understand and even more cumbersome to use.</p>
+<p>In my opinion, the book is only a teacher. It can show you the general rules. But to digest the book, you must apply the rules to your own life. And the quickest way to do that is to write about such occasions. Writing is much more condensed than waiting for the next experience when you can apply the rules. By writing, you tell your own stories and create your own simulator.</p>
+<p>The topics that interest me are software development, storytelling, self-improvement, and money.</p>
+<p>So let’s talk about Thinking, Fast and Slow. I read the book in 2021, and spend most of the year of 2022 to come up with article ideas. I think it is a fantastic book, which anybody ought to have read, as it deepens your understanding of the human mind. Kahneman, who died this year, got the Nobel prize for his work and this book contains much of his knowledge.</p>
+<section id="software-development" class="level2">
+<h2 class="anchored" data-anchor-id="software-development">1 Software development</h2>
+<section id="programming" class="level3">
+<h3 class="anchored" data-anchor-id="programming">1.1 Programming</h3>
+<p>As a programmer, it is easy to be dragged into your code. You spent hours in front of it, only to resurface and see that you were solving the wrong issue. Why that is so can be learned in: <a href="../../posts/think-fast-and-slow/experienced-engineers-stay-away-from-the-flow-zone.html">Experienced engineers stay away from the flow zone</a></p>
+<p>At some point in your career, you have to decide. Do you want to be an expert or remain a generalist? As a decision help, <a href="../../posts/think-fast-and-slow/look-at-your-industrys-state-and-then-decide-if-you-want-to-become-an-expert.html">Look at your industrys state and then decide if you want to become an expert</a>.</p>
+<p>Most engineers dislike PowerPoint and the management presentations that go along with it. There is a reason for it. As engineers, we are fond of small details. Later we wonder why our reporting is not well received. What you should do instead can be learned in <a href="../../posts/think-fast-and-slow/why-engineers-do-not-understand-stories.html">Why engineers do not understand stories</a>.</p>
+</section>
+<section id="planning" class="level3">
+<h3 class="anchored" data-anchor-id="planning">1.2 Planning</h3>
+<p>Planning is everybody’s favorite activity in software development. Plannings are always off.<br>
+Want to try something new? <a href="../../posts/think-fast-and-slow/try-to-establish-your-next-planning-predictions-on-welldefined-reference-points.html">Try to establish your next planning predictions on well-defined reference points</a>.</p>
+<p>Still, uncertainty is inherent to all software development. If too much complexity exists, tasks can not be well planned. <a href="../../posts/think-fast-and-slow/use-risk-policies-and-avoid-common-planning-fallacies-in-software-development.html">Use risk policies and avoid common planning fallacies in software development</a></p>
+<p>At one point in the planning cycle, we always refer to the experts to provide estimates. The issue is not whether you have good experts at hand, but if you should trust your real experts, <a href="../../posts/think-fast-and-slow/trust-me-i-am-an-expert.html">Trust me; I am an expert</a>.</p>
+<p>Once a plan is done, we vote on it. High uniform confidence reveals a lack of trust. <a href="../../posts/think-fast-and-slow/the-safe-confidence-vote-reveals-the-state-of-emotional-security-in-your-project.html">The SAFe confidence vote reveals the state of emotional security in your project</a>.</p>
+<p>Failures settle the history of software engineers like skeletons on the trail through a desert.<br>
+Thorough planning should come before the pitching. It is never done so but would avoid failures. <a href="../../posts/think-fast-and-slow/the-perfect-way-that-projects-will-never-be-planned.html">The perfect way that projects will never be planned</a>.</p>
+<p>One important aspect of planning is to control the success of the plan. Control with regard to efficiency of operation: are you doing all plan tasks. As well as control of effectivity: are the plan tasks doing the right thing. The last aspect is certainly the most challenging in planning and management. Many business books are successfully selling recipes how to deal with both challenges. Most of the time such recipes are biased by survivorship biased and overconfidence. <a href="../../posts/think-fast-and-slow/taylorism-in-complex-environments.html">Taylorism in complex environments</a>deals with the second aspect. Personal confidence does not replace a statistical analysis. Yet we often use KPIs to give our opinions a statistical backing.</p>
+</section>
+<section id="management" class="level3">
+<h3 class="anchored" data-anchor-id="management">1.3 Management</h3>
+<p>Many articles are trying to create a fissure between software developers and management. Some aspects might be accurate, but what also remains true? No software industry without leadership.<br>
+I have three articles, one for the managers:</p>
+<p><a href="../../posts/think-fast-and-slow/good-managers-are-immune-to-survivorship-bias.html">Good managers are immune to survivorship bias</a>. I wrote these articles in the post covid phase in 2022. At this time the back to office debate started.</p>
+<p><a href="../../posts/think-fast-and-slow/you-should-go-back-to-the-office-to-help-your-boss-understand-you.html">You should go back to the office, to help your boss understand you</a></p>
+<p>My last article is details why we will not all return to the office. <a href="../../posts/think-fast-and-slow/the-story-of-covid-and-platos-cave-allegory.html">The story of Covid and Platos cave allegory</a></p>
+</section>
+</section>
+<section id="storytelling" class="level2">
+<h2 class="anchored" data-anchor-id="storytelling">2 Storytelling</h2>
+<p>I started my journey to learn about storytelling and how understanding the mind helps us be better storytellers.<br>
+First, start your story from the listener’s memory <a href="../../posts/think-fast-and-slow/the-good-storyteller-is-a-travel-guide-through-the-listeners-memories.html">202208041700 The good storyteller is a travel guide through the listeners memories.</a></p>
+<p>If you need to give an engineering or science presentation and have bad news, learn <a href="../../posts/think-fast-and-slow/providing-fake-reliability-with-statistics.html">Providing fake reliability with statistics</a>.<br>
+In addition, do not focus on the 100 % correct picture: <a href="../../posts/think-fast-and-slow/why-engineers-do-not-understand-stories.html">Why engineers do not understand stories</a> This is certainly I, as an engineer struggle the most with.</p>
+<p>Last but not least, try to keep a happy face, because <a href="../../posts/think-fast-and-slow/any-fool-can-criticize-condemn-and-complain-and-most-fools-do.html">Any fool can criticize, condemn and complain - and most fools do</a>.</p>
+</section>
+<section id="self-improvement" class="level2">
+<h2 class="anchored" data-anchor-id="self-improvement">3 Self Improvement</h2>
+<p>The topic of rhetoric and storytelling is a reoccurring theme in the big cluster of self-improvement.<br>
+I read my fair share of articles.</p>
+<p>To keep yourself energized<a href="../../posts/think-fast-and-slow/avoid-spending-mental-energy-as-if-would-be-limitless.html">Avoid spending mental energy as if would be limitless</a>. If you find yourself in a tricky situation, try to <a href="../../posts/think-fast-and-slow/use-mental-anchors-to-determine-the-start-position-of-highstakes-discussions.html">Use mental anchors to determine the start position of high-stakes discussions</a>.</p>
+<p>Do you sometimes wonder why we remember certain things and others do not? That is because <a href="../../posts/think-fast-and-slow/regression-to-the-mean-reshapes-our-memories.html">Regression to the mean reshapes our memories</a>.</p>
+<p>And why is your holiday always more memorable than your breakfast. If there are no extremes, bad/good, we can not make lasting memories: <a href="../../posts/think-fast-and-slow/sticking-in-a-shitty-job-deprives-you-of-rich-experiences.html">Sticking in a shitty job, deprives you of rich experiences</a>.</p>
+</section>
+<section id="money" class="level2">
+<h2 class="anchored" data-anchor-id="money">4 Money</h2>
+<p>Money is undoubtedly the hottest topic out there in the blogosphere, web. 2.0, and web 3.0. We all want to be millionaires, but <a href="../../posts/think-fast-and-slow/investors-are-living-from-the-greatest-of-all-treasures-which-is-hope.html">Investors are living from the greatest of all treasures, which is Hope</a>. Inspired by an opening of Terry Pratchetts books.</p>
+<p>If you are not raffling millions on the stock market, you might try to get into your own business and learn, <a href="../../posts/think-fast-and-slow/there-are-no-losses-just-costs-for-profits.html">There are no losses; just costs for profits</a>.</p>
+<p>On the other hand, it is always good to be frugal. And one aspect of being frugal is not buying everything special deal, including insurance.<br>
+Not all insurance costs are transparent; if you are too careful, you forgo good opportunities, <a href="../../posts/think-fast-and-slow/you-are-most-likely-overinsured.html">You are most likely overinsured</a>.</p>
+<p>Inflation was the topic of 2022, therefore last but not least, you maybe wonder why, ;<a href="../../posts/think-fast-and-slow/everybody-wants-more-money-and-thinks-inflation-is-unfair.html">Everybody wants more money and thinks inflation is unfair</a>.</p>
+
+
+</section>
+
+ ]]></description>
+  <category>storytelling</category>
+  <category>book summary</category>
+  <guid>https://storymelange.com/posts/think-fast-and-slow/here-is-what-i-learned-from-thinking-fast-and-slow.html</guid>
+  <pubDate>Wed, 24 Apr 2024 00:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Taylorism in complex environments</title>
+  <dc:creator>Dominik Lindner</dc:creator>
+  <link>https://storymelange.com/posts/think-fast-and-slow/taylorism-in-complex-environments.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://storymelange.com/posts/think-fast-and-slow/complex-spaghetti.png" class="img-fluid figure-img"></p>
+<figcaption>Complicated vs Complex</figcaption>
+</figure>
+</div>
+<section id="the-tale-of-two-factories" class="level2">
+<h2 class="anchored" data-anchor-id="the-tale-of-two-factories">1 The tale of two factories</h2>
+<p>Imagine a traditional toy factory. It is only producing your favorite teddy bear. Nestled among rolling hills next to blubbering torrent, the factory’s quaint brick facade belies the flurry of activity within. Inside, every craftsman is intensely focused on his specialized work. They are surrounded by mountains of soft fabric and baskets brimming with buttons and thread, each according to the needs of their station. The rhythmic hum of sewing machines fills the air, harmonizing with the occasional steam whistle that punctuates the factory’s industrious atmosphere.</p>
+<p>One morning the factory management realized that the output has dropped in the last week. The cause is immediately identified: the assembly station isn’t performing up to standard, as indicated by a decline in the relevant Key Performance Indicator (KPI). The bright manager of the factory quickly hires additional sewers to stitch the various parts of stuffed animals together. quickly restoring output to normal. The output quickly rebounds to its previous levels</p>
+<p>Now, picture a similar factory in a more modern setting. This factory produces a wide variety of toys to satisfy customers’ increasingly diverse desires.The manufacturing of toys takes place in semi-automated craftshop. Every craftsman makes the complete toy on its own. Each toy is sold with a unique label from the craftsman who made it.</p>
+<p>Unexpectedly, production slows down. Despite intensive investigation, no clear reason emerges.<br>
+Eventually, someone suggests that he is feeling cold and the cold winter weather might be to blame.<br>
+The management of the factory, equal bright than the previous one, feels ashamed. Poor workers can’t operate as efficiently with cold hands.<br>
+With much fanfare heaters are installed. And then the toy manufacturing goes on smoothly.</p>
+<p>However, one summer day, output declines once again.<br>
+Once again after thorough research, it’s discovered that there had been an unusually large volume of orders a few months prior in both occasions. Many of the craftsmen felt overworked and exhausted. However, the holidays were still months to go. The workers began working at a slower pace and took time for necessary tasks like tool maintenance. This reduced eagerness decreased their toy production time back to the previous level.</p>
+</section>
+<section id="the-crux-of-management-best-practice" class="level2">
+<h2 class="anchored" data-anchor-id="the-crux-of-management-best-practice">2 The crux of management best practice</h2>
+<p>What lessons can we glean from this story? The first time, the toy factory just got lucky. Often a new management initiative is celebrated inside a company. For some time this can lead to an increased motivation, until novelty wears off. After some months this forced motivation was wearing of and people start to think more towards a sustainable long term production.</p>
+<p>The story from the cold craftsman was very convincing as it appeared coherent. Had the problem not recurred within six months, we might have concluded that keeping toy factories warm in winter is essential. Seasonal effects often can lead to wrong business decisions.</p>
+<p>But the effect is even larger. Think about the other toy factories in the country. If our toy factory would have been successful, every toy factory would have adapted the process and installed much more heating power. The benefits would have been very low because toy factories are already warm in the first place.</p>
+<p>This adaption of the wrong tool is a classic example of survivorship bias. The logic often follows that because successful companies adopt certain strategies, these strategies must be the key to their success. This is the statistical phenomenon where, if a variable is extreme on its first measurement, it will tend to be closer to the average on its next measurement. Essentially, every factory experiences phases where worker morale dips below average.</p>
+</section>
+<section id="check-the-reliability-of-your-kpis" class="level2">
+<h2 class="anchored" data-anchor-id="check-the-reliability-of-your-kpis">3 Check the reliability of your KPIs</h2>
+<p>Talyorism, more commonly recognized for its more benevolent name, scientific management, revolutionized the 20th Century. It is a management method, which uses resources and transforms them into outputs.</p>
+<p>At the heart of scientific management is the meticulous control of processes through key performance indicators (KPIs) and the subsequent adjustments as needed.</p>
+<p>Such a KPI can consist of anything that can be measured.</p>
+<p>Now what is the issue with applying KPIs to anything?<br>
+Much criticism has been done in the past. Authors such as Jerry Muller in “The Tyranny of Metric” or Kaplan and Norton with “The Balanced Scorecard” have provided in-depth analysis on this subject.</p>
+<p>Taylorism’s Application has significant limitations in complex environments. Its reliance on quantifiable data and rigid systems often classes with the need for adaptability and creative problem-solving. In fact, it is in these areas that human elements and modern management theories flourish. For instance, the issue with the low motivation could have been easily identified in a all-hands inspect-and-adapt session of agile management.</p>
+<p>If you decide to go for KPIs, i want to shed some light on two hard factors: causality and statistical relevance. Firstly, a drop in a KPI should not be hastily attributed to mere coincidence. KPIs are usually designed on a whiteboard with a top down breakdown. So while a vertical hierarchy might be established, there is usually no link between lower level KPIs.</p>
+<p>Merely identifying a KPI and attempting to rectify it may prove insufficient. The causal story that can be constructed with a KPI is sometimes not enough.</p>
+<p>Secondly, the importance of statistical significance cannot be overstated. Just measuring the output results to a single data point.<br>
+While it may reflect reality, it represents a singular instance. It could be part of the normal variance.</p>
+<p>So, how many data points suffice? Rule of thumb: aim for more than 10. For a waterproof analysis: ask your statistician for a error margin analysis.</p>
+
+
+</section>
+
+ ]]></description>
+  <category>storytelling</category>
+  <category>software engineering</category>
+  <category>project management</category>
+  <guid>https://storymelange.com/posts/think-fast-and-slow/taylorism-in-complex-environments.html</guid>
+  <pubDate>Sat, 09 Mar 2024 00:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Waterfall management is a strict recipe, while agility is improvisational cooking.</title>
+  <dc:creator>Dominik Lindner</dc:creator>
+  <link>https://storymelange.com/posts/made-to-stick/waterfall-management-is-a-strict-recipe-while-agility-is-improvisational-cooking.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p><img src="https://storymelange.com/posts/made-to-stick/door_snow.png" class="img-fluid"></p>
+<section id="the-secret" class="level2">
+<h2 class="anchored" data-anchor-id="the-secret">1 The secret</h2>
+<p>Is there a door to an unknown world hiding in plain sight?</p>
+<p>Imagine your words as travelers, journeying through the vast expanse of your listeners’ minds. All too often, they find themselves lost, unable to find their destination or make a lasting impression. But what if there was a way to guide your words, like a seasoned explorer, leading them to the very heart of your listeners’ understanding? What if it was a matter of simple technique—one you can learn?</p>
+<p>In a landscape where information is often forgotten as quickly as it’s learned, there’s a powerful connector that bridges the gap between the known and the unknown. It doesn’t just make ideas clear; it reshapes how we think about them.</p>
+<p><strong>I am talking about generative metaphors.</strong></p>
+<p>By linking new ideas to familiar concepts, generative metaphors unlock the doors of memory, making your message not only accessible but also unforgettable. They’re an exercise in <strong>forced prioritization</strong>: if you had to distill your message into one sentence, what would it be? By making that sentence <strong>simple but meaningful</strong>, you open a door for your audience to see the idea in a new light. Get ready to step into the role of a master storyteller, as we uncover the secrets behind the most powerful tool in the art of effective communication.</p>
+</section>
+<section id="generative-metaphors-connect-the-known-to-the-unknown" class="level2">
+<h2 class="anchored" data-anchor-id="generative-metaphors-connect-the-known-to-the-unknown">2 Generative Metaphors connect the known to the unknown</h2>
+<p>Generative metaphors are more than quick comparisons; they serve as cognitive tools that build on what’s already in your audience’s mind—tapping into the “flags” or familiar concepts people carry. When you link a new, complex idea to something they already know, it sticks.</p>
+<p>These metaphors are called “generative” because they spark fresh perspectives and foster novel ways to solve problems. As Donald Schön suggested, they <strong>reshape perception</strong> and <strong>open the door to new insights</strong>. Steve Jobs demonstrated their impact by describing a personal computer as a “bicycle for the mind.” Not only did the phrase sound compact and catchy, it carried <strong>substance</strong>—showing how a computer could amplify human potential.</p>
+</section>
+<section id="metaphors-didnt-we-do-that-in-school" class="level2">
+<h2 class="anchored" data-anchor-id="metaphors-didnt-we-do-that-in-school">3 Metaphors, didn’t we do that in school?</h2>
+<section id="whats-the-difference-to-normal-metaphors" class="level3">
+<h3 class="anchored" data-anchor-id="whats-the-difference-to-normal-metaphors">3.1 What’s the difference to normal metaphors?</h3>
+<p>While both normal (or conventional) metaphors and generative metaphors involve drawing parallels between seemingly unrelated concepts, their purposes and effects differ significantly.</p>
+<section id="normal-metaphors" class="level4">
+<h4 class="anchored" data-anchor-id="normal-metaphors">3.1.1 Normal Metaphors</h4>
+<ol type="1">
+<li>Often used for descriptive purposes: They clarify or highlight aspects of a concept by relating it to something familiar.</li>
+<li>Widely recognized: For example, “time is money.” People grasp these immediately because they’re common.</li>
+<li>Reinforce existing thoughts: They rarely challenge us to see a concept in a new way.</li>
+</ol>
+</section>
+<section id="generative-metaphors" class="level4">
+<h4 class="anchored" data-anchor-id="generative-metaphors">3.1.2 Generative Metaphors</h4>
+<ol type="1">
+<li>Spark new thinking: They connect disparate domains and invite deeper insights.</li>
+<li>More unique or original: They require greater engagement and reflection from the audience.</li>
+<li>Transform perspectives: They’re provocative, connecting, and <strong>reshaping</strong> how we perceive a concept—like Disney calling employees “cast members,” subtly redefining roles and expectations.</li>
+</ol>
+<p><strong>Let’s sum it up:</strong></p>
+<ul>
+<li><strong>Normal Metaphors</strong>: Illustrative, common, reinforcing</li>
+<li><strong>Generative Metaphors</strong>: Provocative, connecting, transformative</li>
+</ul>
+</section>
+</section>
+</section>
+<section id="my-secret-recipe-to-find-your-doors" class="level2">
+<h2 class="anchored" data-anchor-id="my-secret-recipe-to-find-your-doors">4 My secret recipe to find your doors</h2>
+<p>Crafting generative metaphors is an exercise in <strong>saying more with less</strong>—creating a sound bite that carries real weight. Here are some steps:</p>
+<ol type="1">
+<li><p><strong>Identify the target concept</strong><br>
+Pinpoint the complex, abstract, or unfamiliar idea you want to communicate.</p></li>
+<li><p><strong>Find a source domain</strong><br>
+Choose a familiar concept or “flag” in your audience’s mind. By connecting to what they already know, you ensure your metaphor has immediate relevance.</p></li>
+<li><p><strong>Discover shared attributes</strong><br>
+Look for overlapping qualities between your target concept and the source domain. These common traits form the heart of your metaphor.</p></li>
+<li><p><strong>Develop the metaphor</strong><br>
+Distill your thoughts into a <strong>simple but meaningful</strong> sentence—forced prioritization at its best. Make it concrete; if it doesn’t carry a relevant core, it won’t resonate.</p></li>
+<li><p><strong>Test the metaphor</strong><br>
+See if it sparks fresh insights and makes the complex more accessible. If not, refine or choose a new source domain.</p></li>
+<li><p><strong>Provide context</strong><br>
+Explain the reasoning behind the metaphor, ensuring your audience grasps its core message and why it matters.</p></li>
+</ol>
+<p>Remember: <strong>simplicity and concreteness win</strong>. People forget sprawling ideas but remember concise, tangible images. Avoid empty sound bites; aim for what one might call a <strong>sound bite with substance</strong>.</p>
+<p>Let’s get some practice and look at two examples!</p>
+</section>
+<section id="lets-get-some-practice-and-look-at-two-examples" class="level2">
+<h2 class="anchored" data-anchor-id="lets-get-some-practice-and-look-at-two-examples">5 Let’s get some practice and look at two examples!</h2>
+<section id="example-1-business-agility-vs.-traditional-waterfall" class="level3">
+<h3 class="anchored" data-anchor-id="example-1-business-agility-vs.-traditional-waterfall">5.1 Example 1: Business Agility vs.&nbsp;Traditional Waterfall</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://storymelange.com/posts/made-to-stick/waterfall_business_agility.png" class="img-fluid figure-img"></p>
+<figcaption>If traditional waterfall management is like following a strict recipe, business agility is like cooking with the freedom to adjust ingredients on the fly.</figcaption>
+</figure>
+</div>
+<p>Let’s craft a generative metaphor using the target concept of business agility and the source domain of traditional waterfall project management.</p>
+<ul>
+<li><strong>Identify the target concept</strong>: Business agility</li>
+<li><strong>Find a source domain</strong>: Traditional waterfall project management</li>
+<li><strong>Discover shared attributes</strong>: Both involve planning and execution, but differ in speed and flexibility.</li>
+<li><strong>Develop the metaphor</strong>: “If traditional waterfall management is like following a strict recipe, business agility is like cooking with the freedom to adjust ingredients on the fly.”</li>
+<li><strong>Test the metaphor</strong>: Does this comparison highlight the strictness of waterfall vs.&nbsp;the adaptive nature of agility?</li>
+<li><strong>Provide context</strong>: Explain how business agility allows for ongoing adjustments, while waterfall relies on a rigid sequence of steps.</li>
+</ul>
+</section>
+<section id="example-2-high-performance-teams" class="level3">
+<h3 class="anchored" data-anchor-id="example-2-high-performance-teams">5.2 Example 2: high performance teams</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://storymelange.com/posts/made-to-stick/high_performance_team.png" class="img-fluid figure-img"></p>
+<figcaption>If a basic team is just a well-stocked toolbox, a high-performance team is a fine-tuned machine where every part works seamlessly toward excellence.</figcaption>
+</figure>
+</div>
+<p>Let’s create a generative metaphor using the target concept of high-performance teams that take ownership and responsibility, and the source domain of teams as a resource.</p>
+<ul>
+<li><strong>Identify the target concept</strong>: Teams that take ownership and responsibility</li>
+<li><strong>Find a source domain</strong>: Teams as a resource</li>
+<li><strong>Discover shared attributes</strong>: Both involve collaboration, but high-performance teams emphasize responsibility and exceptional results.</li>
+<li><strong>Develop the metaphor</strong>: “If a basic team is just a well-stocked toolbox, a high-performance team is a fine-tuned machine where every part works seamlessly toward excellence.”</li>
+<li><strong>Test the metaphor</strong>: Does it underscore the difference between viewing teams as mere resources and recognizing their potential for high-level performance?</li>
+<li><strong>Provide context</strong>: Show how high-performance teams go beyond just having the necessary tools; they actively take ownership, solve problems, and achieve impactful results.</li>
+</ul>
+<p>Like all effective metaphors, these examples anchor new insights to familiar ideas. They help people see the difference between rigid and adaptive, or between basic functionality and high-performance potential. When done right, generative metaphors open doors to new worlds of understanding—one clear, powerful sentence at a time.</p>
+
+
+</section>
+</section>
+
+ ]]></description>
+  <category>storytelling</category>
+  <category>management</category>
+  <guid>https://storymelange.com/posts/made-to-stick/waterfall-management-is-a-strict-recipe-while-agility-is-improvisational-cooking.html</guid>
+  <pubDate>Wed, 03 May 2023 00:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Unlock the Power of Metaphors at Work to Captivate Your Listeners!</title>
+  <dc:creator>Dominik Lindner</dc:creator>
+  <link>https://storymelange.com/posts/made-to-stick/unlock-the-power-of-metaphors-at-work-to-captivate-your-listeners.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p><img src="https://storymelange.com/posts/made-to-stick/door.png" class="img-fluid"></p>
+<section id="meta-what" class="level2">
+<h2 class="anchored" data-anchor-id="meta-what">1 Meta-what?</h2>
+<p>As a schoolboy, I often found myself grappling with the concept of metaphors. While trying to decipher their meanings in literary texts, the idea of crafting my own metaphors seemed like a daunting task.</p>
+<p>If you’ve ever felt overwhelmed or confused when someone talks about metaphors, fear not! I’ve been in your shoes. Like many others, I struggled to understand how to make meaningful comparisons that would bring life to my expression. So, let’s dive right in and unlock the world of metaphors together!’</p>
+</section>
+<section id="the-metaphor-crafting-table" class="level2">
+<h2 class="anchored" data-anchor-id="the-metaphor-crafting-table">2 The metaphor crafting table</h2>
+<p>The metaphor crafting table consists of six categories. Each category comes with a rule that you should follow. Follow the two examples for a general understanding.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 8%">
+<col style="width: 34%">
+<col style="width: 30%">
+<col style="width: 26%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Tip</th>
+<th>Rule</th>
+<th>Example 1</th>
+<th>Example 2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1. Look for connections</td>
+<td>Consider qualities/characteristics of the subject and find similarities in other objects, people, or concepts.</td>
+<td>She is a rubber band, always bouncing back from adversity.</td>
+<td>His life is like a speeding train, always rushing forward.</td>
+</tr>
+<tr class="even">
+<td>2. Use your senses</td>
+<td>Relate the subject to your senses (sight, sound, taste, touch, smell) for unique and vivid comparisons.</td>
+<td>Her voice was like velvet, soothing and comforting.</td>
+<td>The city was a symphony, with each neighborhood playing its own unique tune.</td>
+</tr>
+<tr class="odd">
+<td>3. Explore idioms and proverbs</td>
+<td>Look up idioms and proverbs related to the theme or subject and use them to inspire a metaphor.</td>
+<td>He found himself between a rock and a hard place, unable to choose between his career and his family.</td>
+<td>As a new employee, she was still green behind the ears, learning the ropes of the job.</td>
+</tr>
+<tr class="even">
+<td>4. Tap into emotions</td>
+<td>Think about the emotions evoked by the subject and find other things that elicit the same emotions for an emotional connection.</td>
+<td>Her absence was like an empty chair, a constant reminder of the love that was missing.</td>
+<td>Reaching his goal felt like standing on the summit, breathing in the crisp air of accomplishment.</td>
+</tr>
+<tr class="odd">
+<td>5. Get inspired by nature</td>
+<td>Relate the subject to natural phenomena found in nature, such as life cycles, seasons, and natural events.</td>
+<td>His personal growth was like a caterpillar becoming a butterfly, emerging stronger and more beautiful than before.</td>
+<td>Her beauty was like cherry blossoms, delicate and ephemeral.</td>
+</tr>
+<tr class="even">
+<td>6. Observe the world around you</td>
+<td>Pay attention to the environment, people, and situations around you for inspiration from everyday life.</td>
+<td>The office was like a busy marketplace, with people shouting and scurrying in all directions.</td>
+<td>He was like a Swiss Army knife, always having the right tool for any situation.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="the-secret-to-applying-metaphors" class="level2">
+<h2 class="anchored" data-anchor-id="the-secret-to-applying-metaphors">3 The secret to applying metaphors</h2>
+<p>Everybody knows that practice makes permanent. That’s the secret. Use them. And what better place than using them at work.</p>
+<p><strong>Here is your Mission, should you choose to accept it. Read through the tables. Pick one category per week. Try to apply metaphors when those situations arise.</strong></p>
+<section id="challenges-or-difficult-situations" class="level3">
+<h3 class="anchored" data-anchor-id="challenges-or-difficult-situations">3.1 Challenges or Difficult Situations</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 34%">
+<col style="width: 65%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Metaphor</th>
+<th>Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Navigating a minefield</td>
+<td>Facing a difficult or sensitive situation</td>
+</tr>
+<tr class="even">
+<td>Swimming with sharks</td>
+<td>Dealing with ruthless or cunning colleagues</td>
+</tr>
+<tr class="odd">
+<td>Hitting a glass ceiling</td>
+<td>Facing barriers to career progression</td>
+</tr>
+<tr class="even">
+<td>Walking on eggshells</td>
+<td>Being cautious to avoid offending others</td>
+</tr>
+<tr class="odd">
+<td>Stepping on toes</td>
+<td>Inadvertently offending or upsetting others</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="teamwork-collaboration-and-management" class="level3">
+<h3 class="anchored" data-anchor-id="teamwork-collaboration-and-management">3.2 Teamwork, Collaboration, and Management</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 66%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Metaphor</th>
+<th>Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>The office is a beehive</td>
+<td>Busy and bustling with activity</td>
+</tr>
+<tr class="even">
+<td>Climbing the corporate ladder</td>
+<td>Advancing in one’s career</td>
+</tr>
+<tr class="odd">
+<td>Running a tight ship</td>
+<td>Managing a team or project efficiently</td>
+</tr>
+<tr class="even">
+<td>Herding cats</td>
+<td>Managing a group with diverse personalities</td>
+</tr>
+<tr class="odd">
+<td>Breaking down silos</td>
+<td>Encouraging collaboration between departments</td>
+</tr>
+<tr class="even">
+<td>A well-oiled machine</td>
+<td>A team or department working smoothly and efficiently</td>
+</tr>
+<tr class="odd">
+<td>Leveling the playing field</td>
+<td>Ensuring equal opportunities or fairness for all</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="motivation-change-and-growth" class="level3">
+<h3 class="anchored" data-anchor-id="motivation-change-and-growth">3.3 Motivation, Change, and Growth</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 35%">
+<col style="width: 64%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Metaphor</th>
+<th>Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Lighting a fire under someone</td>
+<td>Motivating a coworker to take action</td>
+</tr>
+<tr class="even">
+<td>Planting the seeds of change</td>
+<td>Initiating new ideas or strategies</td>
+</tr>
+<tr class="odd">
+<td>Going the extra mile</td>
+<td>Putting in extra effort or going above and beyond</td>
+</tr>
+<tr class="even">
+<td>Turning over a new leaf</td>
+<td>Making positive changes or improvements</td>
+</tr>
+<tr class="odd">
+<td>Planting the seeds of success</td>
+<td>Laying the groundwork for future achievements</td>
+</tr>
+<tr class="even">
+<td>A breath of fresh air</td>
+<td>A new employee or idea that brings positive change</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="problem-solving-multitasking-and-prioritization" class="level3">
+<h3 class="anchored" data-anchor-id="problem-solving-multitasking-and-prioritization">3.4 Problem-solving, Multitasking, and Prioritization</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 35%">
+<col style="width: 64%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Metaphor</th>
+<th>Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Spinning plates</td>
+<td>Juggling multiple tasks or projects</td>
+</tr>
+<tr class="even">
+<td>Putting out fires</td>
+<td>Addressing urgent problems or crises</td>
+</tr>
+<tr class="odd">
+<td>Thinking outside the box</td>
+<td>Coming up with creative solutions</td>
+</tr>
+<tr class="even">
+<td>Nipping a problem in the bud</td>
+<td>Addressing an issue before it escalates</td>
+</tr>
+<tr class="odd">
+<td>Wearing multiple hats</td>
+<td>Handling various roles or responsibilities</td>
+</tr>
+<tr class="even">
+<td>Juggling priorities</td>
+<td>Balancing multiple important tasks</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="communication-relationships-and-conflicts" class="level3">
+<h3 class="anchored" data-anchor-id="communication-relationships-and-conflicts">3.5 Communication, Relationships, and Conflicts</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 36%">
+<col style="width: 63%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Metaphor</th>
+<th>Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>The rumor mill is churning</td>
+<td>Gossip circulating in the workplace</td>
+</tr>
+<tr class="even">
+<td>Throwing someone under the bus</td>
+<td>Blaming a coworker to protect oneself</td>
+</tr>
+<tr class="odd">
+<td>Weathering the storm</td>
+<td>Persevering through tough times</td>
+</tr>
+<tr class="even">
+<td>Clearing the air</td>
+<td>Resolving misunderstandings or conflicts</td>
+</tr>
+<tr class="odd">
+<td>Picking low-hanging fruit</td>
+<td>Focusing on easy tasks or quick wins</td>
+</tr>
+<tr class="even">
+<td>The calm before the storm</td>
+<td>A period of quiet before a busy or chaotic time</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="my-metaphorical-bonus-list" class="level2">
+<h2 class="anchored" data-anchor-id="my-metaphorical-bonus-list">4 My metaphorical bonus list</h2>
+<p>Here is a list of 50 Metaphors</p>
+<ol type="1">
+<li>Life is a rollercoaster.</li>
+<li>Time is a thief.</li>
+<li>Her smile was a ray of sunshine.</li>
+<li>Fear is a shadow that lurks in the dark.</li>
+<li>The world is a stage.</li>
+<li>His heart is a fortress.</li>
+<li>Ideas are seeds waiting to sprout.</li>
+<li>The city is a concrete jungle.</li>
+<li>His patience was a ticking time bomb.</li>
+<li>Laughter is the best medicine.</li>
+<li>The stars are the universe’s diamonds.</li>
+<li>Her eyes were deep pools of mystery.</li>
+<li>The mind is a garden.</li>
+<li>The classroom was a zoo.</li>
+<li>The rumor spread like wildfire.</li>
+<li>The moon is a silent witness.</li>
+<li>Change is the only constant.</li>
+<li>Love is a double-edged sword.</li>
+<li>Memories are echoes of the past.</li>
+<li>The library is a treasure trove of knowledge.</li>
+<li>Youth is a fleeting blossom.</li>
+<li>Hope is an anchor in the storm.</li>
+<li>Friendship is a warm blanket on a cold night.</li>
+<li>Sleep is a temporary escape from reality.</li>
+<li>His mind was a labyrinth of thoughts.</li>
+<li>Her voice was like honey, sweet and soothing.</li>
+<li>Their relationship was a delicate dance.</li>
+<li>Silence is a blank canvas.</li>
+<li>The future is an unwritten book.</li>
+<li>Trust is a fragile vase, easily shattered.</li>
+<li>Success is a mountain peak to be conquered.</li>
+<li>Grief is a heavy chain that binds the heart.</li>
+<li>Loneliness is a barren desert.</li>
+<li>Creativity is a colorful kaleidoscope.</li>
+<li>The internet is a global village.</li>
+<li>Dreams are keys to unlock the subconscious.</li>
+<li>Forgiveness is a gift to yourself.</li>
+<li>Courage is a shield against fear.</li>
+<li>The past is a ghost that haunts us.</li>
+<li>Regret is a bitter pill to swallow.</li>
+<li>Family is a tapestry woven with love.</li>
+<li>The night sky is an infinite canvas.</li>
+<li>Society is a mirror reflecting our values.</li>
+<li>Tradition is a bridge between generations.</li>
+<li>Wisdom is a guiding star.</li>
+<li>Solitude is a peaceful island in a sea of chaos.</li>
+<li>Emotions are the colors of the soul.</li>
+<li>Resilience is a rubber band that bounces back.</li>
+<li>Revenge is a poison that consumes the avenger.</li>
+<li>Curiosity is a compass that leads to discovery.</li>
+</ol>
+
+
+</section>
+
+ ]]></description>
+  <category>storytelling</category>
+  <category>writing</category>
+  <category>speaking</category>
+  <guid>https://storymelange.com/posts/made-to-stick/unlock-the-power-of-metaphors-at-work-to-captivate-your-listeners.html</guid>
+  <pubDate>Wed, 03 May 2023 00:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>From Challenges to Champions: Unsticking Negative Workplace Stories</title>
+  <dc:creator>Dominik Lindner</dc:creator>
+  <link>https://storymelange.com/posts/made-to-stick/from-challenges-to-champions-unsticking-negative-workplace-stories.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p><img src="https://storymelange.com/posts/made-to-stick/victor.png" class="img-fluid"> Photo from <a href="https://unsplash.com/photos/TzVN0xQhWaQ">Unsplash</a></p>
+<section id="from-challenges-to-champions-unsticking-negative-workplace-stories" class="level1">
+<h1>From Challenges to Champions: Unsticking Negative Workplace Stories</h1>
+<p>In the whirlwind of professional life, we all face moments where narratives about us—true or not—take on a life of their own. These stories can stick, defining how others perceive us and, in turn, how we see ourselves. But what if we could “unstick” these negative tales and replace them with something empowering?</p>
+<p>This is precisely what William, a software developer, accomplished. His story, inspired by the principles in <em>Made to Stick</em> by Chip and Dan Heath, is a masterclass in resilience and rewriting the narrative.</p>
+<section id="embracing-a-new-outlook" class="level2">
+<h2 class="anchored" data-anchor-id="embracing-a-new-outlook">1 Embracing a New Outlook</h2>
+<p>William excelled at coding, but social anxiety occasionally held him back. During one important client meeting, technical glitches and nervousness disrupted his presentation, and the startup lost a key account. Gossip about William’s abilities spread, just as he received a challenging health diagnosis.</p>
+<p>To make matters worse, a coworker named Carl targeted him with hurtful remarks. Despite these setbacks, William sensed an opportunity to grow and redefine himself.</p>
+</section>
+<section id="the-decision-to-rise" class="level2">
+<h2 class="anchored" data-anchor-id="the-decision-to-rise">2 The Decision to Rise</h2>
+<p>Determined not to be shaped by gossip, William resolved to create a more empowering narrative. He focused on being proactive, positive, and open to new ways of connecting with his peers.</p>
+</section>
+<section id="rewriting-the-narrative" class="level2">
+<h2 class="anchored" data-anchor-id="rewriting-the-narrative">3 Rewriting the Narrative</h2>
+<section id="building-positive-connections" class="level3">
+<h3 class="anchored" data-anchor-id="building-positive-connections">3.1 Building Positive Connections</h3>
+<p>When Sarah, a colleague, struggled with a complex coding puzzle, William stepped in. He not only helped her solve the issue but also taught her new techniques. Soon, Sarah was sharing her upbeat perspective on William, challenging the old, negative chatter.</p>
+</section>
+<section id="humor-as-a-shield" class="level3">
+<h3 class="anchored" data-anchor-id="humor-as-a-shield">3.2 Humor as a Shield</h3>
+<p>Carl’s unkind remarks about William’s health condition escalated, yet William responded with light-hearted quips that showed courage.<br>
+<strong>Carl</strong>: “How many doctors’ appointments this week, William?”<br>
+<strong>William</strong>: “Plenty! I’m hoping for a ‘frequent visitor’ discount soon!”</p>
+<p>His witty reply won the respect of colleagues, who admired his grace under pressure. Carl’s taunts began to fall flat.</p>
+</section>
+</section>
+<section id="a-brighter-reputation" class="level2">
+<h2 class="anchored" data-anchor-id="a-brighter-reputation">4 A Brighter Reputation</h2>
+<p>As William continued to rewrite his story through positive actions and clever responses, his reputation transformed. His colleagues began to see him as a skilled, dedicated, and resilient team member. Meanwhile, Carl’s behavior was increasingly seen as inappropriate, leading to his marginalization within the team.</p>
+<p>William didn’t just unstick the negative narrative; he replaced it with one that celebrated his contributions and character.</p>
+</section>
+<section id="lessons-in-transformation" class="level2">
+<h2 class="anchored" data-anchor-id="lessons-in-transformation">5 Lessons in Transformation</h2>
+<p>William’s story reveals that no matter how sticky a negative narrative may feel, we can always shift it to one of triumph. In <em>Made to Stick</em>, this process is called unsticking by transformation.</p>
+<p>The next time you face criticism or rumors, remember William’s journey. You hold the pen to your own story—and every setback can become a step forward.</p>
+
+
+</section>
+</section>
+
+ ]]></description>
+  <category>storytelling</category>
+  <guid>https://storymelange.com/posts/made-to-stick/from-challenges-to-champions-unsticking-negative-workplace-stories.html</guid>
+  <pubDate>Wed, 03 May 2023 00:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Effective Story Spotting</title>
+  <dc:creator>Dominik Lindner</dc:creator>
+  <link>https://storymelange.com/posts/made-to-stick/effective-story-spotting.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="discovering-the-spark-the-art-of-story-spotting" class="level3">
+<h3 class="anchored" data-anchor-id="discovering-the-spark-the-art-of-story-spotting">Discovering the Spark, the Art of Story Spotting</h3>
+<p>Workplace stories can be found everywhere, and spotting these stories can be a transformative experience. It’s all about actively observing your surroundings, taking note of emotions, and discovering patterns in everyday life. Connecting personal experiences to broader concepts allows us to create compelling content that resonates with others. Let me share with you a story I told at our last Christmas party that illustrates this point.</p>
+<p><img src="https://storymelange.com/posts/made-to-stick/spark.png" class="img-fluid"></p>
+<p>The spark was lid. Photo by <a href="https://unsplash.com/photos/l4HBYkURqvE">Unsplash</a></p>
+</section>
+<section id="our-journey-the-challenges-of-remote-work" class="level3">
+<h3 class="anchored" data-anchor-id="our-journey-the-challenges-of-remote-work">Our Journey: The Challenges of Remote Work</h3>
+<p>As we gathered around, enjoying the festive atmosphere, I began to recount our team’s journey at FuturTech Solutions.</p>
+<p>When our software development team at FuturTech Solutions first transitioned to remote work, we were initially organized in two locations - Austin, Texas, and Seattle, Washington. But as we continued to expand our team, we started hiring talented developers from various parts of the country. As the team leader, I had the responsibility to ensure that our growing team could communicate and collaborate effectively, despite being scattered across different time zones.</p>
+<p>Initially, our team consisted of myself, Tom, and Maria. As we hired new remote members, such as Ravi from San Francisco and Lisa from Miami, we started experiencing challenges in maintaining clear and effective communication. We attempted to organize video conferences at a fixed time, which proved to be inconvenient for some members, especially those in different time zones. As a result, crucial updates and information were not consistently shared with everyone, causing confusion and misunderstandings.</p>
+</section>
+<section id="finding-the-right-solution" class="level3">
+<h3 class="anchored" data-anchor-id="finding-the-right-solution">Finding the Right Solution</h3>
+<p>To remedy this, I proposed a rotating meeting schedule to accommodate everyone’s availability. However, this plan led to inconsistencies in communication and left some team members, like Lisa, feeling out of the loop. The team also experienced difficulties in tracking project progress and collaborating on tasks, which led to missed deadlines and increased frustration among team members like Ravi.</p>
+<p>It was clear that a solution was needed urgently, and I felt the weight of responsibility to turn things around for our team. After seeking feedback from my team and researching best practices for remote communication, I decided to introduce Microsoft Teams as our primary collaboration tool. This platform allowed us to have a centralized space for sharing updates, asking questions, and discussing project-related issues without the need for real-time communication.</p>
+</section>
+<section id="the-transformation-unlocking-the-potential-of-our-team" class="level3">
+<h3 class="anchored" data-anchor-id="the-transformation-unlocking-the-potential-of-our-team">The Transformation: Unlocking the Potential of Our Team</h3>
+<p>The transformation was dramatic. With the new asynchronous communication model and the powerful features of Microsoft Teams, our team’s collaboration reached new heights. Not only were we able to keep track of project progress more effectively, but we also found ourselves having more meaningful and focused discussions. The weekly sync-up meetings became a valuable opportunity for everyone to connect, share their insights, and learn from each other’s experiences.</p>
+<p>In the end, our team at FuturTech Solutions emerged stronger and more cohesive than ever. The experience taught us the importance of adapting to change and finding the right tools to support our work. The once-chaotic world of remote communication had been conquered, and our team was poised to tackle even greater challenges together.</p>
+</section>
+<section id="the-power-of-shared-memories" class="level3">
+<h3 class="anchored" data-anchor-id="the-power-of-shared-memories">The Power of Shared Memories</h3>
+<p>As I concluded the story, I saw the pride and camaraderie in my colleagues’ faces, reminded of their small yet vital roles in our collective success.<br>
+The Christmas party served as a testament to our resilience and adaptability, becoming a cherished memory that brought us even closer together throughout the following year.</p>
+</section>
+<section id="story-spotting-tips" class="level3">
+<h3 class="anchored" data-anchor-id="story-spotting-tips">Story Spotting Tips</h3>
+<p>Now how do you best spot stories?<br>
+Focus on,</p>
+<ol type="1">
+<li>Actively observing your surroundings and seeking relatable themes,</li>
+<li>Embracing the ordinary to find inspiration in mundane moments, and</li>
+<li>Practicing mindfulness, active listening, and fostering a creative environment.</li>
+</ol>
+<p>By staying curious and attentive, we can transform everyday experiences into engaging, relatable, and inspiring content.</p>
+<p>Happy story spotting!</p>
+
+
+</section>
+
+ ]]></description>
+  <category>storytelling</category>
+  <guid>https://storymelange.com/posts/made-to-stick/effective-story-spotting.html</guid>
+  <pubDate>Mon, 01 May 2023 00:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>How Playing Zelda Teaches Us the Importance of Audience Engagement in Interactive Storytelling</title>
+  <dc:creator>Dominik Lindner</dc:creator>
+  <link>https://storymelange.com/posts/how-playing-zelda-teaches-us-the-importance-of-audience-engagement-in-interactive-storytelling.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>It’s been countless hours since I first embarked on my journey in the magical land of Hyrule, and I can’t help but ask myself, “Why is this game so addicting?” Zelda, at first glance, may not seem to possess the qualities that make a game truly engaging. However, as I delved deeper into the enchanting world, I discovered a myriad of elements that keep players like me coming back for more.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://storymelange.com/posts/zelda.png" class="img-fluid figure-img"></p>
+<figcaption>by <a href="https://unsplash.com/photos/sSx-k72nP34">Unsplash</a></figcaption>
+</figure>
+</div>
+<section id="unraveling-the-mystery-of-zeldas-addictive-nature" class="level3">
+<h3 class="anchored" data-anchor-id="unraveling-the-mystery-of-zeldas-addictive-nature">Unraveling the Mystery of Zelda’s Addictive Nature</h3>
+<p>It’s important to acknowledge that Zelda may not have the most groundbreaking story or the most advanced gear system. The core narrative of saving a princess is a familiar trope, and the limited item sets may seem underwhelming to some. Despite these perceived shortcomings, Zelda manages to captivate players with its unique blend of surprises, varied gameplay, and artful graphics.</p>
+<p>The game’s map system is unlike any other, requiring players to explore and conquer new territories to unveil the world. The graphics may not be hyper-realistic, but they possess a charm and allure that pulls players in. Moreover, the open-world aspect encourages players to forge their own path, allowing for a sense of freedom and personal investment in the game.</p>
+</section>
+<section id="a-seamless-fusion-of-gameplay-and-storytelling" class="level3">
+<h3 class="anchored" data-anchor-id="a-seamless-fusion-of-gameplay-and-storytelling">A Seamless Fusion of Gameplay and Storytelling</h3>
+<p>Zelda’s addictive nature can also be attributed to the way it masterfully intertwines gameplay with storytelling. Initially, the game demands little from the player, gradually introducing new challenges and quests as they progress. This mirrors the structure of a compelling story, capturing the player’s attention early on and offering a steady stream of engaging details.</p>
+<p>One key element is the initial confinement of the player to a small, seemingly expansive area. This “cradle” gives players a taste of the diverse gameplay and sparks curiosity about the wider world. As players progress and level up, the game reveals its true scope and objectives, leaving much to the imagination.</p>
+<p>The player’s active participation in advancing the story is crucial to the Zelda experience. Much like real-life endeavors, players are encouraged to explore and engage with their surroundings, fostering a deeper connection to the game.</p>
+<p>In conclusion, Zelda teaches us the importance of audience engagement in interactive storytelling by blending surprise, varied gameplay, and artful graphics with a strong player-driven narrative. This delicate balance keeps players captivated and coming back for more in the enchanting world of Hyrule.</p>
+</section>
+<section id="practical-insights-from-zeldas-success" class="level2">
+<h2 class="anchored" data-anchor-id="practical-insights-from-zeldas-success">Practical Insights from Zelda’s Success</h2>
+<p>So, what can we learn from Zelda’s success in terms of interactive storytelling? The key takeaway is the crucial need to listen and adapt to our audience. Stories must not progress faster than the audience can comprehend, and the storyteller must recognize when the audience is evolving during the narrative.</p>
+<p>Failure to understand and cater to the audience’s needs can lead to disengagement and a lack of impact. Let’s consider an example: if a speaker aims to promote the principles of constellation networks, they must first understand that their listeners might be more accustomed to a heliocentric, pyramid-based mindset. To effectively convey their message, the speaker must start by addressing the factors that hold the pyramid together and gradually introduce the concept of a flexible, rotating pyramid.</p>
+<p>As creators of interactive stories, it’s our responsibility to:</p>
+<ol type="1">
+<li><strong>Understand our audience:</strong> Know their interests, background, and expectations.</li>
+<li><strong>Engage from the start:</strong> Capture their attention early and maintain it with a steady stream of compelling details.</li>
+<li><strong>Encourage active participation:</strong> The audience can explore and interact with the story, fostering a deeper connection.</li>
+<li><strong>Adapt to the audience’s transformation:</strong> Modify the narrative to cater to the audience’s evolving needs and understanding.</li>
+</ol>
+<p>Following these principles, we can create captivating interactive stories that keep our audience engaged and invested in the narrative. The enchanting world of Zelda has taught us the importance of audience engagement in interactive storytelling – now it’s time for us to put these lessons into practice. Embrace the challenge, and create unforgettable experiences that resonate with our audience!</p>
+
+
+</section>
+
+ ]]></description>
+  <category>storytelling</category>
+  <guid>https://storymelange.com/posts/how-playing-zelda-teaches-us-the-importance-of-audience-engagement-in-interactive-storytelling.html</guid>
+  <pubDate>Sun, 16 Apr 2023 00:00:00 GMT</pubDate>
+</item>
+</channel>
+</rss>
