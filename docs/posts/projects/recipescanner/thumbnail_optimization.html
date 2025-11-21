@@ -1,0 +1,1893 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Dominik Lindner">
+<meta name="dcterms.date" content="2025-09-05">
+<meta name="description" content="Automatically generating thumbnails from pictures, can lead to bad crops or small details. Saliency Maps allow us to focus on the dominant object in a picture. I use multimodal aesthetic scoring models to evaluate the crops.">
+
+<title>Beauty is in the eye of the beholder – Story Melange</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="../../../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-b524e5e10053bf5bea4dd5b3071a8bf3.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap-40a45da1a7017d7a4022ef73fce677a9.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+<script type="text/javascript" charset="UTF-8">
+document.addEventListener('DOMContentLoaded', function () {
+cookieconsent.run({
+  "notice_banner_type":"simple",
+  "consent_type":"implied",
+  "palette":"light",
+  "language":"en",
+  "page_load_consent_levels":["strictly-necessary","functionality","tracking","targeting"],
+  "notice_banner_reject_button_hide":false,
+  "preferences_center_close_button_hide":false,
+  "website_name":""
+  ,
+"language":"en"
+  });
+});
+</script> 
+  
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../../styles.css">
+<meta property="og:title" content="Beauty is in the eye of the beholder – Story Melange">
+<meta property="og:description" content="Automatically generating thumbnails from pictures, can lead to bad crops or small details. Saliency Maps allow us to focus on the dominant object in a picture. I use multimodal aesthetic scoring models to evaluate the crops.">
+<meta property="og:image" content="https://www.storymelange.com/posts/projects/recipescanner/best_thumbnail_method.jpg">
+<meta property="og:site_name" content="Story Melange">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">Story Melange</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../index.html"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../projects.html"> 
+<span class="menu-text">Projects</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../archive.html"> 
+<span class="menu-text">Archive</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../subscribe.html"> 
+<span class="menu-text">Subscribe</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/dolind"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/dominiklindner/"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="mailto:info@storymelange.com"> <i class="bi bi-envelope" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../../index.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#why-we-need-thumbnails" id="toc-why-we-need-thumbnails" class="nav-link active" data-scroll-target="#why-we-need-thumbnails"><span class="header-section-number">1</span> Why we need thumbnails</a></li>
+  <li><a href="#what-makes-a-good-thumbnail" id="toc-what-makes-a-good-thumbnail" class="nav-link" data-scroll-target="#what-makes-a-good-thumbnail"><span class="header-section-number">2</span> What makes a good thumbnail</a></li>
+  <li><a href="#straightforward-solution-center-crop-of-pictures" id="toc-straightforward-solution-center-crop-of-pictures" class="nav-link" data-scroll-target="#straightforward-solution-center-crop-of-pictures"><span class="header-section-number">3</span> Straightforward solution: center crop of pictures</a></li>
+  <li><a href="#how-to-measure-beauty" id="toc-how-to-measure-beauty" class="nav-link" data-scroll-target="#how-to-measure-beauty"><span class="header-section-number">4</span> How to measure beauty</a>
+  <ul class="collapse">
+  <li><a href="#laion" id="toc-laion" class="nav-link" data-scroll-target="#laion"><span class="header-section-number">4.1</span> LAION</a></li>
+  <li><a href="#aesthetic-predictor-v2.5" id="toc-aesthetic-predictor-v2.5" class="nav-link" data-scroll-target="#aesthetic-predictor-v2.5"><span class="header-section-number">4.2</span> Aesthetic Predictor V2.5</a></li>
+  <li><a href="#calculating-scores-with-aesthetic-predictor-2.5" id="toc-calculating-scores-with-aesthetic-predictor-2.5" class="nav-link" data-scroll-target="#calculating-scores-with-aesthetic-predictor-2.5"><span class="header-section-number">4.3</span> Calculating scores with Aesthetic Predictor 2.5</a></li>
+  <li><a href="#calculating-scores-with-laion-on-gpu" id="toc-calculating-scores-with-laion-on-gpu" class="nav-link" data-scroll-target="#calculating-scores-with-laion-on-gpu"><span class="header-section-number">4.4</span> Calculating scores with LAION on GPU</a></li>
+  <li><a href="#comparing-the-two-predictors" id="toc-comparing-the-two-predictors" class="nav-link" data-scroll-target="#comparing-the-two-predictors"><span class="header-section-number">4.5</span> Comparing the two predictors</a></li>
+  </ul></li>
+  <li><a href="#optimizing-thumbnails-with-global-methods" id="toc-optimizing-thumbnails-with-global-methods" class="nav-link" data-scroll-target="#optimizing-thumbnails-with-global-methods"><span class="header-section-number">5</span> Optimizing thumbnails with global methods</a>
+  <ul class="collapse">
+  <li><a href="#correct-orientation" id="toc-correct-orientation" class="nav-link" data-scroll-target="#correct-orientation"><span class="header-section-number">5.1</span> Correct orientation</a></li>
+  <li><a href="#color-correction-and-denoising" id="toc-color-correction-and-denoising" class="nav-link" data-scroll-target="#color-correction-and-denoising"><span class="header-section-number">5.2</span> Color correction and denoising</a></li>
+  </ul></li>
+  <li><a href="#optimizing-thumbnails-with-cropping-using-saliency-maps" id="toc-optimizing-thumbnails-with-cropping-using-saliency-maps" class="nav-link" data-scroll-target="#optimizing-thumbnails-with-cropping-using-saliency-maps"><span class="header-section-number">6</span> Optimizing Thumbnails with cropping using saliency maps</a>
+  <ul class="collapse">
+  <li><a href="#u²-net-saliency-map" id="toc-u²-net-saliency-map" class="nav-link" data-scroll-target="#u²-net-saliency-map"><span class="header-section-number">6.1</span> U²-Net saliency map</a></li>
+  <li><a href="#optimized-pipeline" id="toc-optimized-pipeline" class="nav-link" data-scroll-target="#optimized-pipeline"><span class="header-section-number">6.2</span> Optimized pipeline</a></li>
+  <li><a href="#improving-even-more" id="toc-improving-even-more" class="nav-link" data-scroll-target="#improving-even-more"><span class="header-section-number">6.3</span> Improving even more</a></li>
+  <li><a href="#the-full-pipeline" id="toc-the-full-pipeline" class="nav-link" data-scroll-target="#the-full-pipeline"><span class="header-section-number">6.4</span> The full pipeline</a></li>
+  <li><a href="#postprocessing" id="toc-postprocessing" class="nav-link" data-scroll-target="#postprocessing"><span class="header-section-number">6.5</span> Postprocessing</a></li>
+  </ul></li>
+  <li><a href="#other-methods" id="toc-other-methods" class="nav-link" data-scroll-target="#other-methods"><span class="header-section-number">7</span> Other methods</a>
+  <ul class="collapse">
+  <li><a href="#segmentation" id="toc-segmentation" class="nav-link" data-scroll-target="#segmentation"><span class="header-section-number">7.1</span> Segmentation</a></li>
+  <li><a href="#object-detection" id="toc-object-detection" class="nav-link" data-scroll-target="#object-detection"><span class="header-section-number">7.2</span> Object detection</a></li>
+  <li><a href="#direct-optimization" id="toc-direct-optimization" class="nav-link" data-scroll-target="#direct-optimization"><span class="header-section-number">7.3</span> Direct optimization</a></li>
+  </ul></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">8</span> Summary</a></li>
+  <li><a href="#bonus-section-case-2-recipes-without-images" id="toc-bonus-section-case-2-recipes-without-images" class="nav-link" data-scroll-target="#bonus-section-case-2-recipes-without-images"><span class="header-section-number">9</span> Bonus Section: case 2 recipes without images</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content column-page-left" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Beauty is in the eye of the beholder</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">Computer Vision</div>
+    <div class="quarto-category">Machine Learning</div>
+    <div class="quarto-category">Python</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Automatically generating thumbnails from pictures, can lead to bad crops or small details. Saliency Maps allow us to focus on the dominant object in a picture. I use multimodal aesthetic scoring models to evaluate the crops.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta column-page-left">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Dominik Lindner </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">September 5, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="why-we-need-thumbnails" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="why-we-need-thumbnails"><span class="header-section-number">1</span> Why we need thumbnails</h2>
+<p>The recipescanner allows scanning books and creating recipes with thumbnails. These Thumbnails should look nice and provide a good first impression of the meal.</p>
+<p>There are three categories of recipes:</p>
+<ol type="1">
+<li>The picture that belongs to the recipe is identified.</li>
+<li>The recipe does not have a picture.</li>
+<li>We have a picture and several recipes, but we don’t know which recipe the picture belongs to.</li>
+</ol>
+<p>In this notebook we will examine case 1 and case 2. Case 3 is part of the page segmentation task, which I’ll cover in another notebook.</p>
+</section>
+<section id="what-makes-a-good-thumbnail" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="what-makes-a-good-thumbnail"><span class="header-section-number">2</span> What makes a good thumbnail</h2>
+<p>We have a picture of a recipe and want to create a good thumbnail from it. Simply resizing the image often produces thumbnails that lack detail.</p>
+<p>A better, straightforward solution is to center-crop the picture to the size of the thumbnail.</p>
+<p>The rationale: plates are usually centered in recipe photos.</p>
+<p>But what if that’s not the case?</p>
+<p>Does this method produce aesthetically pleasing thumbnails, and is there a way to improve in case of non-centered subjects?</p>
+<p>The short answer: yes.</p>
+<p>See the following picture</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="best_thumbnail_method.jpg" class="img-fluid figure-img"></p>
+<figcaption>Improvements in Thumbnail generation</figcaption>
+</figure>
+</div>
+<p>Read on to discover how we do this.</p>
+</section>
+<section id="straightforward-solution-center-crop-of-pictures" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="straightforward-solution-center-crop-of-pictures"><span class="header-section-number">3</span> Straightforward solution: center crop of pictures</h2>
+<div id="7f0a2aad-8010-4aa8-9331-526e6da3253a" class="cell" data-execution_count="4">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Standard library</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tempfile</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> glob <span class="im">import</span> glob</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> os.path <span class="im">import</span> expanduser</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> urllib.request <span class="im">import</span> urlretrieve</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Third-party</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> cv2 <span class="im">as</span> cv</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> open_clip</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn.functional <span class="im">as</span> F</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torchvision</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> PIL <span class="im">import</span> Image, ImageOps</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> gradio_client <span class="im">import</span> Client, <span class="bu">file</span>, handle_file</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torchvision <span class="im">import</span> transforms</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torchvision.transforms <span class="im">import</span> InterpolationMode</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tqdm</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Local modules</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> aesthetic_predictor_v2_5 <span class="im">import</span> convert_v2_5_from_siglip</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Jupyter magic</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>matplotlib inline</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Suppress all warnings (optional)</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>)</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>DATA_DIR <span class="op">=</span> Path(<span class="st">"data/covers"</span>)</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>THUMB_SIZE <span class="op">=</span> <span class="dv">512</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>NROW <span class="op">=</span> <span class="dv">12</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>thumb_transform <span class="op">=</span> transforms.Compose([</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>    transforms.Resize(THUMB_SIZE, interpolation<span class="op">=</span>InterpolationMode.LANCZOS),</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>    transforms.CenterCrop(THUMB_SIZE),</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>    transforms.ToTensor()</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>to_pil <span class="op">=</span> transforms.ToPILImage()</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>to_tensor <span class="op">=</span> transforms.ToTensor()</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> show_image_grid(images, nrow<span class="op">=</span>NROW, figsize<span class="op">=</span>(<span class="dv">14</span>, <span class="dv">12</span>)):</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>    grid <span class="op">=</span> torchvision.utils.make_grid(images, nrow<span class="op">=</span>nrow)</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>figsize)</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>    plt.imshow(grid.permute(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">0</span>))</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>    plt.axis(<span class="st">"off"</span>)</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>    plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>Let’s first load our sample data and apply center-cropping.</p>
+<div id="74404772-88aa-4351-a01e-3f2bef591729" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>files <span class="op">=</span> <span class="bu">sorted</span>(glob(<span class="bu">str</span>(DATA_DIR <span class="op">/</span> <span class="st">"*.JPG"</span>)))</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>images <span class="op">=</span> [thumb_transform(Image.<span class="bu">open</span>(f).convert(<span class="st">"RGB"</span>)) <span class="cf">for</span> f <span class="kw">in</span> files]</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>show_image_grid(images)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="best_thumbnail_method_files/figure-html/cell-3-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>As we can see, many picture look quite good. However, in some images the dish gets cut off. We could certainly do better.</p>
+<p>For a human it’s obvious that we should center the plate in the thumbnail. For a computer that is challenging as plates are coming in different shapes, and sometimes there are no plates at all. In our specific case, the images are also upside down.</p>
+<p>We’ll see later that this is still solvable. Before we get there, though, let’s first define what makes a picture <strong>look good</strong>.</p>
+<p>For that, we need a metric.</p>
+</section>
+<section id="how-to-measure-beauty" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="how-to-measure-beauty"><span class="header-section-number">4</span> How to measure beauty</h2>
+<p>Wouldn’t it be great if we could define a metric that tells us how good a picture is? How beautiful it looks?</p>
+<p>In fact, there is a way to do this. We can use Aesthetic Predictor models. Let’s look at two such Models <code>LAION</code> and <code>Aesthetic Predictor V2.5</code>.</p>
+<section id="laion" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="laion"><span class="header-section-number">4.1</span> LAION</h3>
+<p>LAION is the older of the two models.</p>
+<p>It is “a linear estimator on top of CLIP to predict the aesthetic quality of pictures.”</p>
+<p><img src="aesthetic_predictor.jpg" width="600"></p>
+<p>But how does it work?</p>
+<p><code>Contrastive Language-Image Pretraining (CLIP)</code> is a multimodal model introduced in 2021. It’s based on</p>
+<ul>
+<li>A text encoder, usually GPT like</li>
+<li>A vision encoder, a vision transformer</li>
+</ul>
+<p>Both encoders produce embeddings, and the model produces combined embeddings with a dimensionality of 768. CLIP was trained on image-caption pairs and used cosine similarity to align text and image embeddings as close as possible.</p>
+<p>This allowed the model to identify the best caption for a given image, or vice-versa.</p>
+<p><code>LAION</code> builds on top of <code>CLIP</code>, but scales it up to billions of images compared to clips 400 million.</p>
+<p>On top of this embedding model, a linear regression model is trained using a much smaller dataset. The model is define by,</p>
+<p><span class="math display">\[score= W * \vec{emb} + b\]</span></p>
+<p>Where W and b are the weights and bias of the linear regression model.</p>
+</section>
+<section id="aesthetic-predictor-v2.5" class="level3" data-number="4.2">
+<h3 data-number="4.2" class="anchored" data-anchor-id="aesthetic-predictor-v2.5"><span class="header-section-number">4.2</span> Aesthetic Predictor V2.5</h3>
+<p>In AI, four years is a long time.</p>
+<p>In 2023 Google introduced SigLIP, Sigmoid Loss for Language–Image Pretraining.</p>
+<p>The original CLIP model from OpenAI uses a contrastive loss function. Core to this function is a softmax over all image pairs. Even though all images can not be included at once, this is approximated using a very large batch size. This large batch size requires expensive compute hardware.</p>
+<p>Another limitation of LAION was its the underperformance across diverse domains.</p>
+<p>SigLIP addresses both problems:</p>
+<ul>
+<li>First it uses a sigmoid loss function. Smaller batch sizes can be used.</li>
+<li>Second it uses more data, being more robust to diverse domains.</li>
+</ul>
+<p>So let’s check the aesthetic scores for our images.</p>
+</section>
+<section id="calculating-scores-with-aesthetic-predictor-2.5" class="level3" data-number="4.3">
+<h3 data-number="4.3" class="anchored" data-anchor-id="calculating-scores-with-aesthetic-predictor-2.5"><span class="header-section-number">4.3</span> Calculating scores with Aesthetic Predictor 2.5</h3>
+<p>We will start with the newer model. Unfortunately, my GPU is too old and is no longer supported by PyTorch version required for this model.</p>
+<p>We can use the Hugginface Api or CPU, though.</p>
+<section id="using-the-hugging-face-api-for-aesthetic-predictor-2.5" class="level4" data-number="4.3.1">
+<h4 data-number="4.3.1" class="anchored" data-anchor-id="using-the-hugging-face-api-for-aesthetic-predictor-2.5"><span class="header-section-number">4.3.1</span> Using the Hugging Face API for Aesthetic Predictor 2.5</h4>
+<div id="46651e0fa3a33240" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>time</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>client <span class="op">=</span> Client(<span class="st">"discus0434/aesthetic-predictor-v2-5"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> predict_with_ae25api(img_tensor, client):</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    img <span class="op">=</span> to_pil(img_tensor.cpu())</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> tempfile.NamedTemporaryFile(suffix<span class="op">=</span><span class="st">".png"</span>, delete<span class="op">=</span><span class="va">False</span>) <span class="im">as</span> t:</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        img.save(t.name, <span class="bu">format</span><span class="op">=</span><span class="st">"PNG"</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> client.predict(image<span class="op">=</span><span class="bu">file</span>(t.name), api_name<span class="op">=</span><span class="st">"/inference"</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>scores_api <span class="op">=</span> [predict_with_ae25api(img, client) <span class="cf">for</span> img <span class="kw">in</span> images]</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(scores_api)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Loaded as API: https://discus0434-aesthetic-predictor-v2-5.hf.space ✔
+['4.712978', '4.985875', '5.3126655', '5.0395384', '4.75456', '4.390934', '5.410819', '5.163789', '5.7570896', '5.6178026', '5.0622964', '4.242473', '4.695843', '5.7283096', '5.394037', '5.970618', '5.013522', '5.021712', '5.727453', '4.788595', '5.810698', '5.6538353', '5.338957', '5.173321', '5.7376328', '5.856394', '4.9087625', '5.0130215', '5.60766', '4.9622364', '5.304905', '4.6225524', '4.5034065', '5.2350173', '5.9285026', '5.1088295', '5.6992407', '5.356913', '5.652878', '5.0367103', '4.662853', '4.8960724', '5.1651015', '5.030403', '4.730472', '5.0686293', '5.6805077', '5.1905656', '5.3466654', '5.454918', '5.108632', '5.384975', '5.2946644', '6.0702987', '5.935483', '5.140892', '4.4770913', '4.819613', '5.5843506', '5.7856994']
+CPU times: user 14.3 s, sys: 432 ms, total: 14.7 s
+Wall time: 4min 38s</code></pre>
+</div>
+</div>
+<p>4 Minutes for the execution is quite long. Let’s try CPU.</p>
+</section>
+<section id="running-aesthetic-predictor-2.5-locally-on-cpu" class="level4" data-number="4.3.2">
+<h4 data-number="4.3.2" class="anchored" data-anchor-id="running-aesthetic-predictor-2.5-locally-on-cpu"><span class="header-section-number">4.3.2</span> Running Aesthetic Predictor 2.5 locally on CPU</h4>
+<p>We first define a function, so we can reuse it later.</p>
+<div id="d9af6c4be51cd8c8" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_aesthetic_scores_v25(images, batch_size<span class="op">=</span><span class="dv">16</span>):</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    model, preproc <span class="op">=</span> convert_v2_5_from_siglip(</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>        low_cpu_mem_usage<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>        trust_remote_code<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> model.<span class="bu">eval</span>()</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    scores <span class="op">=</span> []</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> torch.inference_mode():</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="bu">len</span>(images), batch_size):</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>            batch <span class="op">=</span> images[i:i<span class="op">+</span>batch_size]</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>            batch_tensor <span class="op">=</span> torch.stack(batch)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>            batch_tensor <span class="op">=</span> F.interpolate(batch_tensor, size<span class="op">=</span>(<span class="dv">384</span>,<span class="dv">384</span>), mode<span class="op">=</span><span class="st">"bilinear"</span>, align_corners<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>            mean <span class="op">=</span> torch.tensor(preproc.image_mean).view(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">1</span>)</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>            std  <span class="op">=</span> torch.tensor(preproc.image_std).view(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">1</span>)</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>            batch_tensor <span class="op">=</span> (batch_tensor <span class="op">-</span> mean) <span class="op">/</span> std</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>            logits <span class="op">=</span> model(batch_tensor).logits.squeeze(<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>            batch_scores <span class="op">=</span> logits.<span class="bu">float</span>().cpu().numpy()</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>            scores.extend(batch_scores)</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> scores</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="43fb61ce257bc26a" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>time</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>scores_ap25 <span class="op">=</span> get_aesthetic_scores_v25(images, batch_size<span class="op">=</span><span class="dv">16</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>CPU times: user 7min 47s, sys: 47.3 s, total: 8min 34s
+Wall time: 1min 27s</code></pre>
+</div>
+</div>
+<div id="7fcfa3ef-e640-426f-b792-ff465c285ba4" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>np.array(scores_ap25).mean()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>np.float32(5.3517203)</code></pre>
+</div>
+</div>
+<p>With 1.5 minutes, this approach is faster than calling the api.</p>
+<p>One possible use case is iterative improvement of the score through an algorithmic approach. In such a scenario, we should aim to process all 60 images within just a few seconds.</p>
+<p>LAION has lower requirements on the hardware, we’ll try it next.</p>
+</section>
+</section>
+<section id="calculating-scores-with-laion-on-gpu" class="level3" data-number="4.4">
+<h3 data-number="4.4" class="anchored" data-anchor-id="calculating-scores-with-laion-on-gpu"><span class="header-section-number">4.4</span> Calculating scores with LAION on GPU</h3>
+<p>From the <a href="https://github.com/LAION-AI/aesthetic-predictor">LAION github repository</a>, we find the following function:</p>
+<div id="cac2228460e1094c" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_aesthetic_model(clip_model<span class="op">=</span><span class="st">"vit_l_14"</span>):</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""load the aethetic model"""</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    home <span class="op">=</span> expanduser(<span class="st">"~"</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    cache_folder <span class="op">=</span> home <span class="op">+</span> <span class="st">"/.cache/emb_reader"</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    path_to_model <span class="op">=</span> cache_folder <span class="op">+</span> <span class="st">"/sa_0_4_"</span><span class="op">+</span>clip_model<span class="op">+</span><span class="st">"_linear.pth"</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> os.path.exists(path_to_model):</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>        os.makedirs(cache_folder, exist_ok<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>        url_model <span class="op">=</span> (</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>            <span class="st">"https://github.com/LAION-AI/aesthetic-predictor/blob/main/sa_0_4_"</span><span class="op">+</span>clip_model<span class="op">+</span><span class="st">"_linear.pth?raw=true"</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>        urlretrieve(url_model, path_to_model)</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> clip_model <span class="op">==</span> <span class="st">"vit_l_14"</span>:</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>        m <span class="op">=</span> nn.Linear(<span class="dv">768</span>, <span class="dv">1</span>)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> clip_model <span class="op">==</span> <span class="st">"vit_b_32"</span>:</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>        m <span class="op">=</span> nn.Linear(<span class="dv">512</span>, <span class="dv">1</span>)</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">ValueError</span>()</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    s <span class="op">=</span> torch.load(path_to_model)</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>    m.load_state_dict(s)</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>    m.<span class="bu">eval</span>()</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>    device <span class="op">=</span> <span class="st">"cuda"</span> <span class="cf">if</span> torch.cuda.is_available() <span class="cf">else</span> <span class="st">"cpu"</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> m.to(device<span class="op">=</span>device, dtype<span class="op">=</span>torch.float32)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>This is just the linear head of the whole estimator. We need to run the CLIP model for scoring as well.</p>
+<div id="a0d5366da15ce7d6" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> score_with_laion(torch_images):</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    device <span class="op">=</span> <span class="st">"cuda"</span> <span class="cf">if</span> torch.cuda.is_available() <span class="cf">else</span> <span class="st">"cpu"</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    dtype  <span class="op">=</span> torch.float32</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    clip_model_name <span class="op">=</span> <span class="st">"ViT-L-14"</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    clip_ckpt <span class="op">=</span> <span class="st">"openai"</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># CLIP encoder + preprocess (must match the LAION head variant)</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    model, _, preprocess <span class="op">=</span> open_clip.create_model_and_transforms(clip_model_name, pretrained<span class="op">=</span>clip_ckpt)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> model.to(device).<span class="bu">eval</span>()</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Linear estimator</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    head <span class="op">=</span> get_aesthetic_model()</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    images_preprocessed <span class="op">=</span> [preprocess(to_pil(img)) <span class="cf">for</span> img <span class="kw">in</span> torch_images]</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    batch <span class="op">=</span> torch.stack(images_preprocessed).to(device<span class="op">=</span>device, dtype<span class="op">=</span>dtype)</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> torch.inference_mode():</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>        clip_embeddings <span class="op">=</span> model.encode_image(batch)</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>        clip_embeddings <span class="op">=</span> clip_embeddings <span class="op">/</span> clip_embeddings.norm(dim<span class="op">=-</span><span class="dv">1</span>, keepdim<span class="op">=</span><span class="va">True</span>).clamp_min(<span class="fl">1e-12</span>)</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>        clip_embeddings <span class="op">=</span> clip_embeddings.to(dtype) </span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>        scores <span class="op">=</span> head(clip_embeddings).squeeze(<span class="op">-</span><span class="dv">1</span>).<span class="bu">float</span>().cpu().numpy()</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> scores</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Running on our images.</p>
+<div id="4c2229dd07bd3175" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>time</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>scores_laion <span class="op">=</span> score_with_laion(images)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>CPU times: user 10.4 s, sys: 559 ms, total: 11 s
+Wall time: 7.89 s</code></pre>
+</div>
+</div>
+<p>As expected, the GPU calculation is a lot faster, and 8.5 seconds is less than what we would need.</p>
+<p>Let’s examine min and max result.</p>
+<div id="164a268e8b192d02" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>scores_laion</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<pre><code>array([4.682658 , 5.5719824, 4.7548094, 5.6179185, 5.8664765, 5.2028084,
+       6.0401983, 6.153771 , 4.6438675, 5.7687664, 5.8421736, 5.352836 ,
+       5.795928 , 6.3411045, 5.2397337, 6.822626 , 5.9344873, 5.9164524,
+       5.7080965, 5.8545227, 6.7204437, 5.451813 , 6.035965 , 6.1448298,
+       6.310848 , 6.398098 , 6.13536  , 6.0679417, 5.075293 , 6.218848 ,
+       4.5623236, 5.423691 , 5.0390825, 6.200203 , 5.6596227, 4.7416925,
+       5.774774 , 6.2334433, 5.8048406, 5.828251 , 5.0799165, 4.574512 ,
+       5.1658216, 6.413603 , 5.409901 , 5.9421396, 6.02083  , 5.6725616,
+       5.6838965, 5.1442785, 4.757121 , 5.8007193, 6.006052 , 5.8004303,
+       6.1855965, 4.3213387, 5.9920015, 5.3351316, 6.3207726, 5.7225537],
+      dtype=float32)</code></pre>
+</div>
+</div>
+<div id="85fcdd65e1199670" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>min_idx <span class="op">=</span> np.argmin(scores_laion)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>min_score <span class="op">=</span> scores_laion[min_idx]</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>max_idx <span class="op">=</span> np.argmax(scores_laion)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>max_score <span class="op">=</span> scores_laion[max_idx]</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Minimum score is </span><span class="sc">{</span>min_score<span class="sc">}</span><span class="ss"> and maximum score is </span><span class="sc">{</span>max_score<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>)</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>img_min <span class="op">=</span> images[min_idx].permute(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">0</span>)</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>plt.imshow(img_min)</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="ss">f"min_score: </span><span class="sc">{</span>min_score<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>plt.axis(<span class="st">"off"</span>)</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>)</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>img_max <span class="op">=</span> images[max_idx].permute(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">0</span>)</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>plt.imshow(img_max)</span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="ss">f"max_score: </span><span class="sc">{</span>max_score<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>plt.axis(<span class="st">"off"</span>)</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Minimum score is 4.321338653564453 and maximum score is 6.822626113891602</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="best_thumbnail_method_files/figure-html/cell-12-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>While the plates are cut in both pictures, the higher rated picture somehow looks better.</p>
+</section>
+<section id="comparing-the-two-predictors" class="level3" data-number="4.5">
+<h3 data-number="4.5" class="anchored" data-anchor-id="comparing-the-two-predictors"><span class="header-section-number">4.5</span> Comparing the two predictors</h3>
+<p>Let’s see how the two scores of LAION and Aesthetic Predictor align.</p>
+<div id="c33f479909c1f622" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>scores_ap25<span class="op">=</span> np.array(scores_ap25)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"LAION Score"</span>: (scores_laion <span class="op">-</span> scores_laion.mean()) <span class="op">/</span>scores_laion.std(),</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"AE25 Score"</span>: (scores_ap25 <span class="op">-</span> scores_ap25.mean()) <span class="op">/</span>scores_ap25.std()</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Create scatter plot</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">6</span>))</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(data<span class="op">=</span>df, x<span class="op">=</span><span class="st">"LAION Score"</span>, y<span class="op">=</span><span class="st">"AE25 Score"</span>, alpha<span class="op">=</span><span class="fl">0.6</span>, edgecolor<span class="op">=</span><span class="va">None</span>)</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Improve visualization</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Aesthetic Score Comparison: LAION vs SigLIP"</span>)</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"LAION Aesthetic Score"</span>)</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"SigLIP Aesthetic Score"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="15">
+<pre><code>Text(0, 0.5, 'SigLIP Aesthetic Score')</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="best_thumbnail_method_files/figure-html/cell-13-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="436db79c5fb3010e" class="cell" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> pearsonr, spearmanr</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>pearson_corr, _ <span class="op">=</span> pearsonr(scores_laion, scores_ap25)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>spearman_corr, _ <span class="op">=</span> spearmanr(scores_laion, scores_ap25)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="90b971b7490c292f" class="cell" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Pearson correlation is </span><span class="sc">{</span>pearson_corr<span class="sc">}</span><span class="ss">, Spearman correlation is </span><span class="sc">{</span>spearman_corr<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Pearson correlation is 0.268462598323822, Spearman correlation is 0.22606279522089476</code></pre>
+</div>
+</div>
+<p>Values close to 0.2 indicate that there is little correlation between the CLIP-based and the SIGLIP-based evaluations. The picture confirms the numerical values, too.</p>
+<p>At first, this might seem surprising. Should a good image not always look good?</p>
+<p>Not necessarily. Beauty lies in the eye of the beholder. And in fact, those two models are different. The difference in the loss functions is not the only factor that changed.</p>
+<p>The two models were trained on very different datasets.</p>
+<ul>
+<li><code>LAION</code> is primarily focused on Photography</li>
+<li><code>SIGLIP</code> focuses on much broader range of web images.</li>
+</ul>
+<p>As a result, images with bright, unrealistic colours may score higher using <code>SIGLIP</code> than with <code>LAION</code>.</p>
+</section>
+</section>
+<section id="optimizing-thumbnails-with-global-methods" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="optimizing-thumbnails-with-global-methods"><span class="header-section-number">5</span> Optimizing thumbnails with global methods</h2>
+<p>Due to the significant speed advantage on my machine, I will focus on LAION. Let’s create a baseline.</p>
+<div id="2d409bd5a42ecf4d" class="cell" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>baseline_score <span class="op">=</span> scores_laion.mean()</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>baseline_score</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="18">
+<pre><code>np.float32(5.671463)</code></pre>
+</div>
+</div>
+<p>In theory, several improvements are possible.</p>
+<p>Non-crop improvements, modifying the entire image - Correct orientation - Color correction - Glare and noise reduction</p>
+<p>Crop-based improvements try to locate a plate in the image and crop. - Use saliency maps to highlight the most important object in the image - Use segmentation models to find all contours - Use bounding box object detection models like YOLO to detect the dish - Perform optimizations on (x, y, zoom) by scoring multiple crops and treating the search for the perfect crop as an optimization problem</p>
+<section id="correct-orientation" class="level3" data-number="5.1">
+<h3 data-number="5.1" class="anchored" data-anchor-id="correct-orientation"><span class="header-section-number">5.1</span> Correct orientation</h3>
+<p>This is the most obvious one.</p>
+<div id="823ad578385cff28" class="cell" data-execution_count="19">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>images_correct_orientation <span class="op">=</span> [thumb_transform(ImageOps.exif_transpose(Image.<span class="bu">open</span>(f)).convert(<span class="st">"RGB"</span>)) <span class="cf">for</span> f <span class="kw">in</span> files]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="7f333631-2f19-48ea-b9e2-254918d62ae1" class="cell" data-execution_count="20">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>show_image_grid(images_correct_orientation)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="best_thumbnail_method_files/figure-html/cell-18-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="b2b7176163b173f1" class="cell" data-execution_count="21">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>scores_laion_correct_orientation <span class="op">=</span> score_with_laion(images_correct_orientation)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="171a8c15429a48b7" class="cell" data-execution_count="22">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>scores_laion_correct_orientation.mean()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="22">
+<pre><code>np.float32(5.8733764)</code></pre>
+</div>
+</div>
+<p>As we can see correct orientation leads to a better score.</p>
+</section>
+<section id="color-correction-and-denoising" class="level3" data-number="5.2">
+<h3 data-number="5.2" class="anchored" data-anchor-id="color-correction-and-denoising"><span class="header-section-number">5.2</span> Color correction and denoising</h3>
+<p>I experiment with applying color correction and denoising on some samples. However, in most cases this actually lowers the score.</p>
+<p>One possible explanation is that the model was trained on untreated sRGB pictures. By altering the images too much, we risk creating an out-of-domain.</p>
+<p>Nevertheless, we will still apply a mild correction to to reduce glare, but only after cropping.</p>
+</section>
+</section>
+<section id="optimizing-thumbnails-with-cropping-using-saliency-maps" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="optimizing-thumbnails-with-cropping-using-saliency-maps"><span class="header-section-number">6</span> Optimizing Thumbnails with cropping using saliency maps</h2>
+<p>Saliency detection attempts to identify which parts of an image are the most visually important.</p>
+<p>We have two lightweight options for generating saliency maps:</p>
+<ul>
+<li>Opencv-based fine-grained saliency map</li>
+<li>U²-Net</li>
+</ul>
+<p>We will not use the Opencv Method.</p>
+<p>Opencv algorithm compares pixel color variations with their neighbours. However, the approach is outdated and quite slow, making it not suitable for our purpose.</p>
+<section id="u²-net-saliency-map" class="level3" data-number="6.1">
+<h3 data-number="6.1" class="anchored" data-anchor-id="u²-net-saliency-map"><span class="header-section-number">6.1</span> U²-Net saliency map</h3>
+<p>U²-Net is a deep learning model for salient object detection that uses a nested U-shaped architecture with Residual U-blocks (RSUs) for efficient multi-scale feature extraction. It delivers high-accuracy segmentation and is widely used for background removal.</p>
+<p>We aim to identify the main dish as the foreground. Instead of removing the background, we’ll simply use the saliency map to crop the dish region.</p>
+<p>Let’s start by testing it on a sample picture.</p>
+<div id="3ea1bed31b0e8df" class="cell" data-execution_count="23">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>test_image <span class="op">=</span> Image.<span class="bu">open</span>(files[<span class="dv">2</span>])</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>plt.axis(<span class="st">"off"</span>)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>plt.imshow(test_image)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="best_thumbnail_method_files/figure-html/cell-21-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Which we need to turn</p>
+<div id="1ec5968bb429603e" class="cell" data-execution_count="24">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>transposed_image <span class="op">=</span> ImageOps.exif_transpose(test_image).convert(<span class="st">"RGB"</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>transposed_image_np <span class="op">=</span> np.array(transposed_image)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>plt.axis(<span class="st">"off"</span>)</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>plt.imshow(transposed_image_np)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="best_thumbnail_method_files/figure-html/cell-22-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We need to scale down the picture to 320px, as the model was trained on this and convert to pytorch.</p>
+<div id="4d56d3bd85eccfaa" class="cell" data-execution_count="25">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>arr <span class="op">=</span> transposed_image_np.astype(np.float32) <span class="op">/</span> <span class="fl">255.0</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>H, W <span class="op">=</span> arr.shape[:<span class="dv">2</span>]</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>scale <span class="op">=</span> <span class="bu">min</span>(<span class="dv">320</span> <span class="op">/</span> <span class="bu">max</span>(H, W), <span class="fl">1.0</span>)</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> scale <span class="op">&lt;</span> <span class="fl">1.0</span>:</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    newW, newH <span class="op">=</span> <span class="bu">int</span>(<span class="bu">round</span>(W <span class="op">*</span> scale)), <span class="bu">int</span>(<span class="bu">round</span>(H <span class="op">*</span> scale))</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>    arr <span class="op">=</span> cv.resize(arr, (newW, newH), interpolation<span class="op">=</span>cv.INTER_AREA)</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>ten <span class="op">=</span> torch.from_numpy(arr).permute(<span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">1</span>).unsqueeze(<span class="dv">0</span>).to(<span class="st">"cuda"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Next, let’s load the model, and examine if it correctly loaded. If so We should see definitions of RSUs. I copied definition and weights from <a href="https://github.com/xuebinqin/U-2-Net/">https://github.com/xuebinqin/U-2-Net/</a>.</p>
+<div id="2e03df17e1df6bb2" class="cell" data-execution_count="68">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> u2net <span class="im">import</span> U2NET</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> U2NET(<span class="dv">3</span>, <span class="dv">1</span>)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>state <span class="op">=</span> torch.load(<span class="st">"data/u2net.pth"</span>, map_location<span class="op">=</span><span class="st">'cuda'</span>)</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>model.load_state_dict(state, strict<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>model.to(<span class="st">"cuda"</span>)</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>_ <span class="op">=</span> model.<span class="bu">eval</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>This seems identical to what is specified in the sources.</p>
+<p>Let’s run the the model. U²-Net produces multiple maps; one at each level of the u-net. We are only interested in the upper layer.</p>
+<div id="551c1298d0f42b11" class="cell" data-execution_count="27">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> torch.inference_mode():</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>    out <span class="op">=</span> model(ten)</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    pred <span class="op">=</span> out[<span class="dv">0</span>] <span class="cf">if</span> <span class="bu">isinstance</span>(out, (<span class="bu">list</span>, <span class="bu">tuple</span>)) <span class="cf">else</span> out</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    sal_small <span class="op">=</span> torch.sigmoid(pred)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>For futher processing we will convert back to uint8 and inspect the output.</p>
+<div id="5715b09e90bf1f8c" class="cell" data-execution_count="28">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>sal_u8 <span class="op">=</span> (sal_small.detach().clamp(<span class="dv">0</span>, <span class="dv">1</span>).cpu().numpy() <span class="op">*</span> <span class="dv">255</span>).astype(<span class="st">"uint8"</span>).squeeze()</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>plt.axis(<span class="st">"off"</span>)</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>plt.imshow(sal_u8)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="best_thumbnail_method_files/figure-html/cell-26-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The main plate is correctly identified.</p>
+</section>
+<section id="optimized-pipeline" class="level3" data-number="6.2">
+<h3 data-number="6.2" class="anchored" data-anchor-id="optimized-pipeline"><span class="header-section-number">6.2</span> Optimized pipeline</h3>
+<p>We start by defining a function to run inference on a unscaled numpy/opencv image.</p>
+<div id="4af7ba2c2bd6a600" class="cell" data-execution_count="29">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> run_u2_on_pil(model, image,resolution<span class="op">=</span><span class="dv">320</span>):</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># preprocessing</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    H, W <span class="op">=</span> image.shape[:<span class="dv">2</span>]</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>    scale <span class="op">=</span> <span class="bu">min</span>(resolution <span class="op">/</span> <span class="bu">max</span>(H, W), <span class="fl">1.0</span>)</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> scale <span class="op">&lt;</span> <span class="fl">1.0</span>:</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>        newW, newH <span class="op">=</span> <span class="bu">int</span>(<span class="bu">round</span>(W <span class="op">*</span> scale)), <span class="bu">int</span>(<span class="bu">round</span>(H <span class="op">*</span> scale))</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>        target_image <span class="op">=</span> cv.resize(image, (newW, newH), interpolation<span class="op">=</span>cv.INTER_AREA)</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>        target_image <span class="op">=</span> image</span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>    ten <span class="op">=</span> (torch.from_numpy(target_image).<span class="bu">float</span>().permute(<span class="dv">2</span>,<span class="dv">0</span>,<span class="dv">1</span>) <span class="op">/</span> <span class="fl">255.0</span>).unsqueeze(<span class="dv">0</span>).to(<span class="st">"cuda"</span>)</span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># getting saliency map</span></span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> torch.inference_mode():</span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>        out <span class="op">=</span> model(ten)</span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>        pred <span class="op">=</span> out[<span class="dv">0</span>] <span class="cf">if</span> <span class="bu">isinstance</span>(out, (<span class="bu">list</span>, <span class="bu">tuple</span>)) <span class="cf">else</span> out</span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>        sal_small <span class="op">=</span> torch.sigmoid(pred)</span>
+<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># postprocessing back to original scale and cpu</span></span>
+<span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a>    sal_full <span class="op">=</span> F.interpolate(sal_small, size<span class="op">=</span>(H, W), mode<span class="op">=</span><span class="st">"bilinear"</span>, align_corners<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb36-20"><a href="#cb36-20" aria-hidden="true" tabindex="-1"></a>    sal_full <span class="op">=</span> sal_full.squeeze(<span class="dv">0</span>).squeeze(<span class="dv">0</span>).clamp(<span class="dv">0</span>,<span class="dv">1</span>).detach().cpu().numpy().astype(np.float32)</span>
+<span id="cb36-21"><a href="#cb36-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> sal_full</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="e9a913dae612a413" class="cell" data-execution_count="30">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>sal_full <span class="op">=</span> run_u2_on_pil(model, transposed_image_np)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Let’s add an edge detector. The edge detector uses the Scharr operator on the luminance.</p>
+<div id="26a2ee25bdb76632" class="cell" data-execution_count="31">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> rim_prior_from_L(image_uint8):</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>    L <span class="op">=</span> cv.cvtColor(image_uint8, cv.COLOR_RGB2LAB)[:,:,<span class="dv">0</span>]</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    gx <span class="op">=</span> cv.Scharr(L, cv.CV_32F, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    gy <span class="op">=</span> cv.Scharr(L, cv.CV_32F, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>    mag <span class="op">=</span> cv.magnitude(gx, gy)</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>    mag <span class="op">=</span> cv.GaussianBlur(mag, (<span class="dv">9</span>,<span class="dv">9</span>), <span class="dv">0</span>)</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>    mag <span class="op">-=</span> mag.<span class="bu">min</span>()</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>    mag <span class="op">/=</span> (mag.<span class="bu">max</span>() <span class="op">+</span> <span class="fl">1e-6</span>)</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> mag.astype(np.float32)</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>R <span class="op">=</span> rim_prior_from_L(transposed_image_np)</span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>plt.axis(<span class="st">"off"</span>)</span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>plt.imshow(R)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="best_thumbnail_method_files/figure-html/cell-29-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We fuse the two detections, doing so gives us a slightly nicer visualization.</p>
+<div id="dc045c9a5583ec3" class="cell" data-execution_count="32">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fuse</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>S_fused <span class="op">=</span> <span class="fl">0.85</span><span class="op">*</span>sal_full <span class="op">+</span> <span class="fl">0.15</span><span class="op">*</span>R</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Normalize</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>S_fused <span class="op">-=</span> S_fused.<span class="bu">min</span>()</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>S_fused <span class="op">/=</span> (S_fused.<span class="bu">max</span>() <span class="op">+</span> <span class="fl">1e-6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="fc858ef3e2e89e2e" class="cell" data-execution_count="69">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">6</span>))</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">1</span>)</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>plt.imshow(transposed_image_np)</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Original"</span>)</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>plt.axis(<span class="st">"off"</span>)</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">2</span>)</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>plt.imshow(S_fused , cmap<span class="op">=</span><span class="st">"inferno"</span>)</span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Fused Saliency"</span>)</span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>plt.axis(<span class="st">"off"</span>)</span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="best_thumbnail_method_files/figure-html/cell-31-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Next, we are interested in generating a bounding box around the main dish.</p>
+<div id="a654deabd091e212" class="cell" data-execution_count="34">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>S8 <span class="op">=</span> np.clip(S_fused <span class="op">*</span> (<span class="dv">255</span> <span class="cf">if</span> S_fused.<span class="bu">max</span>() <span class="op">&lt;=</span> <span class="fl">1.0</span> <span class="cf">else</span> <span class="fl">1.0</span>), <span class="dv">0</span>, <span class="dv">255</span>).astype(np.uint8)</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>_, mask <span class="op">=</span> cv.threshold(S8, <span class="dv">0</span>, <span class="dv">255</span>, cv.THRESH_BINARY <span class="op">+</span> cv.THRESH_OTSU)</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>plt.axis(<span class="st">"off"</span>)</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>plt.imshow(mask)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="best_thumbnail_method_files/figure-html/cell-32-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We remove small islands through close open transforms. Eventually we search the largest component.</p>
+<div id="6f132fe604ea8298" class="cell" data-execution_count="35">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>mask <span class="op">=</span> cv.morphologyEx(mask, cv.MORPH_CLOSE, np.ones((<span class="dv">7</span>, <span class="dv">7</span>), np.uint8))</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>mask <span class="op">=</span> cv.morphologyEx(mask, cv.MORPH_OPEN,  np.ones((<span class="dv">5</span>, <span class="dv">5</span>),  np.uint8))</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>plt.axis(<span class="st">"off"</span>)</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>plt.imshow(mask)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="best_thumbnail_method_files/figure-html/cell-33-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="7293ea0a7bb3fabb" class="cell" data-execution_count="36">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>num, labels, stats, _ <span class="op">=</span> cv.connectedComponentsWithStats(mask, <span class="dv">8</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="10b7e252c3458890" class="cell" data-execution_count="37">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>img_area <span class="op">=</span> H <span class="op">*</span> W</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>best_i, best_area <span class="op">=</span> <span class="va">None</span>, <span class="dv">0</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, num):</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>    x, y, w, h, area <span class="op">=</span> stats[i]</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> area <span class="op">&gt;</span> best_area <span class="kw">and</span> area <span class="op">&gt;=</span> <span class="fl">0.01</span> <span class="op">*</span> img_area:</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>        best_i, best_area <span class="op">=</span> i, area</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="164dfac4cde10fb8" class="cell" data-execution_count="38">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>x, y, w, h, _ <span class="op">=</span> stats[best_i]</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>cx, cy <span class="op">=</span> x <span class="op">+</span> w <span class="op">/</span> <span class="fl">2.0</span>, y <span class="op">+</span> h <span class="op">/</span> <span class="fl">2.0</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="c2256a254783e725" class="cell" data-execution_count="39">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>out <span class="op">=</span> transposed_image_np.copy()</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>cv.rectangle(out, (x, y), (x<span class="op">+</span>w,y<span class="op">+</span>h), (<span class="dv">0</span>, <span class="dv">255</span>, <span class="dv">0</span>), <span class="dv">10</span>)</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>plt.axis(<span class="st">"off"</span>)</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>plt.imshow(out)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="best_thumbnail_method_files/figure-html/cell-37-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The green bounding box shows very nicely how we detected the plate. Let’s turn this into a function, which produces a resized square crop while respecting image boundaries.</p>
+<div id="26b00e3c83777882" class="cell" data-execution_count="40">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> crop_on_saliency_map(saliency_map, image):</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>    S8 <span class="op">=</span> np.clip(saliency_map <span class="op">*</span> (<span class="dv">255</span> <span class="cf">if</span> saliency_map.<span class="bu">max</span>() <span class="op">&lt;=</span> <span class="fl">1.0</span> <span class="cf">else</span> <span class="fl">1.0</span>), <span class="dv">0</span>, <span class="dv">255</span>).astype(np.uint8)</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>    _, mask <span class="op">=</span> cv.threshold(S8, <span class="dv">0</span>, <span class="dv">255</span>, cv.THRESH_BINARY <span class="op">+</span> cv.THRESH_OTSU)</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>    mask <span class="op">=</span> cv.morphologyEx(mask, cv.MORPH_CLOSE, np.ones((<span class="dv">7</span>, <span class="dv">7</span>), np.uint8))</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>    mask <span class="op">=</span> cv.morphologyEx(mask, cv.MORPH_OPEN,  np.ones((<span class="dv">5</span>, <span class="dv">5</span>),  np.uint8))</span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>    num, labels, stats, _ <span class="op">=</span> cv.connectedComponentsWithStats(mask, <span class="dv">8</span>)</span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>    img_area <span class="op">=</span> H <span class="op">*</span> W</span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>    best_i, best_area <span class="op">=</span> <span class="va">None</span>, <span class="dv">0</span></span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, num):</span>
+<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>        x, y, w, h, area <span class="op">=</span> stats[i]</span>
+<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> area <span class="op">&gt;</span> best_area <span class="kw">and</span> area <span class="op">&gt;=</span> <span class="fl">0.01</span> <span class="op">*</span> img_area:</span>
+<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a>            best_i, best_area <span class="op">=</span> i, area</span>
+<span id="cb47-14"><a href="#cb47-14" aria-hidden="true" tabindex="-1"></a>    x, y, w, h, _ <span class="op">=</span> stats[best_i]</span>
+<span id="cb47-15"><a href="#cb47-15" aria-hidden="true" tabindex="-1"></a>    cx, cy <span class="op">=</span> x <span class="op">+</span> w <span class="op">/</span> <span class="fl">2.0</span>, y <span class="op">+</span> h <span class="op">/</span> <span class="fl">2.0</span></span>
+<span id="cb47-16"><a href="#cb47-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-17"><a href="#cb47-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># make image square and shift if we are too close to the border</span></span>
+<span id="cb47-18"><a href="#cb47-18" aria-hidden="true" tabindex="-1"></a>    pad <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb47-19"><a href="#cb47-19" aria-hidden="true" tabindex="-1"></a>    w2, h2 <span class="op">=</span> w <span class="op">*</span> (<span class="dv">1</span> <span class="op">+</span> <span class="dv">2</span> <span class="op">*</span> pad), h <span class="op">*</span> (<span class="dv">1</span> <span class="op">+</span> <span class="dv">2</span> <span class="op">*</span> pad)</span>
+<span id="cb47-20"><a href="#cb47-20" aria-hidden="true" tabindex="-1"></a>    side <span class="op">=</span> <span class="bu">max</span>(w2, h2)</span>
+<span id="cb47-21"><a href="#cb47-21" aria-hidden="true" tabindex="-1"></a>    side_px <span class="op">=</span> <span class="bu">min</span>(<span class="bu">int</span>(<span class="bu">round</span>(side)), W, H)</span>
+<span id="cb47-22"><a href="#cb47-22" aria-hidden="true" tabindex="-1"></a>    half <span class="op">=</span> side_px <span class="op">/</span> <span class="fl">2.0</span></span>
+<span id="cb47-23"><a href="#cb47-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-24"><a href="#cb47-24" aria-hidden="true" tabindex="-1"></a>    cx <span class="op">=</span> <span class="bu">float</span>(np.clip(cx, half, W <span class="op">-</span> half))</span>
+<span id="cb47-25"><a href="#cb47-25" aria-hidden="true" tabindex="-1"></a>    cy <span class="op">=</span> <span class="bu">float</span>(np.clip(cy, half, H <span class="op">-</span> half))</span>
+<span id="cb47-26"><a href="#cb47-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-27"><a href="#cb47-27" aria-hidden="true" tabindex="-1"></a>    x0 <span class="op">=</span> <span class="bu">int</span>(<span class="bu">round</span>(cx <span class="op">-</span> half))</span>
+<span id="cb47-28"><a href="#cb47-28" aria-hidden="true" tabindex="-1"></a>    y0 <span class="op">=</span> <span class="bu">int</span>(<span class="bu">round</span>(cy <span class="op">-</span> half))</span>
+<span id="cb47-29"><a href="#cb47-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb47-30"><a href="#cb47-30" aria-hidden="true" tabindex="-1"></a>    <span class="co"># guard against rounding pushing us out of bounds</span></span>
+<span id="cb47-31"><a href="#cb47-31" aria-hidden="true" tabindex="-1"></a>    x0 <span class="op">=</span> <span class="bu">max</span>(<span class="dv">0</span>, <span class="bu">min</span>(x0, W <span class="op">-</span> side_px))</span>
+<span id="cb47-32"><a href="#cb47-32" aria-hidden="true" tabindex="-1"></a>    y0 <span class="op">=</span> <span class="bu">max</span>(<span class="dv">0</span>, <span class="bu">min</span>(y0, H <span class="op">-</span> side_px))</span>
+<span id="cb47-33"><a href="#cb47-33" aria-hidden="true" tabindex="-1"></a>    x1 <span class="op">=</span> x0 <span class="op">+</span> side_px</span>
+<span id="cb47-34"><a href="#cb47-34" aria-hidden="true" tabindex="-1"></a>    y1 <span class="op">=</span> y0 <span class="op">+</span> side_px</span>
+<span id="cb47-35"><a href="#cb47-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-36"><a href="#cb47-36" aria-hidden="true" tabindex="-1"></a>    <span class="co"># crop and resize    </span></span>
+<span id="cb47-37"><a href="#cb47-37" aria-hidden="true" tabindex="-1"></a>    crop <span class="op">=</span> image[y0:y1, x0:x1]</span>
+<span id="cb47-38"><a href="#cb47-38" aria-hidden="true" tabindex="-1"></a>    interp <span class="op">=</span> cv.INTER_AREA <span class="cf">if</span> <span class="dv">512</span> <span class="op">&lt;</span> <span class="bu">max</span>(crop.shape[:<span class="dv">2</span>]) <span class="cf">else</span> cv.INTER_LINEAR</span>
+<span id="cb47-39"><a href="#cb47-39" aria-hidden="true" tabindex="-1"></a>    crop <span class="op">=</span> cv.resize(crop, (<span class="dv">512</span>, <span class="dv">512</span>), interpolation<span class="op">=</span>interp)</span>
+<span id="cb47-40"><a href="#cb47-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> crop</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="40f6a70e3648cb62" class="cell" data-execution_count="41">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> crop_on_saliency_map(S_fused, transposed_image_np)</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>plt.axis(<span class="st">"off"</span>)</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>plt.imshow(result)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="best_thumbnail_method_files/figure-html/cell-39-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This is the correct crop of the plate in the picture. Next, we score the cropped image.</p>
+<div id="db632751bd4470a3" class="cell" data-execution_count="42">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>scores_laion_cropped <span class="op">=</span> score_with_laion([to_tensor(transposed_image)])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="3882c65a53944d60" class="cell" data-execution_count="43">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>scores_laion_cropped</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="43">
+<pre><code>array([5.954031], dtype=float32)</code></pre>
+</div>
+</div>
+<p>This score is higher than our baseline score. That means correct cropping has a effect.</p>
+</section>
+<section id="improving-even-more" class="level3" data-number="6.3">
+<h3 data-number="6.3" class="anchored" data-anchor-id="improving-even-more"><span class="header-section-number">6.3</span> Improving even more</h3>
+<p>On some images, there are too many fine details. The network will detect the whole page as salient object. We need to run the network with another input resolution. We can run several resolutions and decide which is best after scoring. A quicker approach is to examine the size of the main component in the picture, if it is too large we need to increase the resolution.</p>
+<p>Therefore, we define a function, which checks if we cover too much of the page with one component, where “too much” means 80%.</p>
+<div id="68ce828a-1bf5-4b36-92f8-59c9d829adc3" class="cell" data-execution_count="44">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _looks_like_full_page(sal, area_frac_thresh<span class="op">=</span><span class="fl">0.80</span>,require_border_touch<span class="op">=</span><span class="va">True</span>):</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Heuristic: is the biggest component huge and touching the image border?"""</span></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>    S8 <span class="op">=</span> (np.clip(sal <span class="op">*</span> <span class="dv">255</span>, <span class="dv">0</span>, <span class="dv">255</span>)).astype(np.uint8)</span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>    _, mask <span class="op">=</span> cv.threshold(S8, <span class="dv">0</span>, <span class="dv">255</span>, cv.THRESH_BINARY <span class="op">+</span> cv.THRESH_OTSU)</span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>    num, labels, stats, _ <span class="op">=</span> cv.connectedComponentsWithStats(mask, <span class="dv">8</span>)</span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> num <span class="op">&lt;=</span> <span class="dv">1</span>:</span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">False</span></span>
+<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># largest component (skip background 0)</span></span>
+<span id="cb52-10"><a href="#cb52-10" aria-hidden="true" tabindex="-1"></a>    idx <span class="op">=</span> <span class="dv">1</span> <span class="op">+</span> np.argmax(stats[<span class="dv">1</span>:, cv.CC_STAT_AREA])</span>
+<span id="cb52-11"><a href="#cb52-11" aria-hidden="true" tabindex="-1"></a>    x, y, w, h, area <span class="op">=</span> stats[idx]</span>
+<span id="cb52-12"><a href="#cb52-12" aria-hidden="true" tabindex="-1"></a>    H, W <span class="op">=</span> sal.shape[:<span class="dv">2</span>]</span>
+<span id="cb52-13"><a href="#cb52-13" aria-hidden="true" tabindex="-1"></a>    area_frac <span class="op">=</span> area <span class="op">/</span> <span class="bu">float</span>(H <span class="op">*</span> W)</span>
+<span id="cb52-14"><a href="#cb52-14" aria-hidden="true" tabindex="-1"></a>    touches <span class="op">=</span> (x <span class="op">==</span> <span class="dv">0</span>) <span class="kw">or</span> (y <span class="op">==</span> <span class="dv">0</span>) <span class="kw">or</span> (x <span class="op">+</span> w <span class="op">==</span> W) <span class="kw">or</span> (y <span class="op">+</span> h <span class="op">==</span> H)</span>
+<span id="cb52-15"><a href="#cb52-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (area_frac <span class="op">&gt;=</span> area_frac_thresh) <span class="kw">and</span> (touches <span class="cf">if</span> require_border_touch <span class="cf">else</span> <span class="va">True</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>With this function in place we can run a small optimization function. It will run over predefined scales and check if the result does not look like the full page. We start with smaller resolutions as these tend to produce the full page saliency map.</p>
+<div id="4c48a1e0-0159-40c8-9177-16bc4a3c98b3" class="cell" data-execution_count="45">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> run_u2_autoscale(model, image_np, sizes<span class="op">=</span>(<span class="dv">320</span>, <span class="dv">480</span>, <span class="dv">640</span>, <span class="dv">896</span>), device<span class="op">=</span><span class="st">"cuda"</span>):</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>    last_sal <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, s <span class="kw">in</span> <span class="bu">enumerate</span>(sizes):</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>        sal <span class="op">=</span> run_u2_on_pil(model, image_np, s)</span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>        last_sal <span class="op">=</span> sal</span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">not</span> _looks_like_full_page(sal):</span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> sal</span>
+<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># If even the largest still looks like a page, fall back to a small multi-scale fuse (max)</span></span>
+<span id="cb53-11"><a href="#cb53-11" aria-hidden="true" tabindex="-1"></a>    sal_big <span class="op">=</span> last_sal</span>
+<span id="cb53-12"><a href="#cb53-12" aria-hidden="true" tabindex="-1"></a>    sal_small <span class="op">=</span> run_u2_on_pil(model, image_np, sizes[<span class="dv">0</span>])</span>
+<span id="cb53-13"><a href="#cb53-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.maximum(sal_big, sal_small)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="the-full-pipeline" class="level3" data-number="6.4">
+<h3 data-number="6.4" class="anchored" data-anchor-id="the-full-pipeline"><span class="header-section-number">6.4</span> The full pipeline</h3>
+<p>Now with everything in place we can define a function that creates the fused saliency map, the bounding box, and finally crops.</p>
+<div id="70c03d445e599ccf" class="cell" data-execution_count="46">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> full_crop_pipeline(model, image):</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>    transposed_image <span class="op">=</span> np.array(ImageOps.exif_transpose(image).convert(<span class="st">"RGB"</span>))</span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>    sal_full <span class="op">=</span> run_u2_autoscale(model, transposed_image)</span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># run edge detector</span></span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> rim_prior_from_L(image_uint8):</span>
+<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a>        L <span class="op">=</span> cv.cvtColor(image_uint8, cv.COLOR_RGB2LAB)[:,:,<span class="dv">0</span>]</span>
+<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a>        gx <span class="op">=</span> cv.Scharr(L, cv.CV_32F, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb54-10"><a href="#cb54-10" aria-hidden="true" tabindex="-1"></a>        gy <span class="op">=</span> cv.Scharr(L, cv.CV_32F, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb54-11"><a href="#cb54-11" aria-hidden="true" tabindex="-1"></a>        mag <span class="op">=</span> cv.magnitude(gx, gy)</span>
+<span id="cb54-12"><a href="#cb54-12" aria-hidden="true" tabindex="-1"></a>        mag <span class="op">=</span> cv.GaussianBlur(mag, (<span class="dv">9</span>,<span class="dv">9</span>), <span class="dv">0</span>)</span>
+<span id="cb54-13"><a href="#cb54-13" aria-hidden="true" tabindex="-1"></a>        mag <span class="op">-=</span> mag.<span class="bu">min</span>()</span>
+<span id="cb54-14"><a href="#cb54-14" aria-hidden="true" tabindex="-1"></a>        mag <span class="op">/=</span> (mag.<span class="bu">max</span>() <span class="op">+</span> <span class="fl">1e-6</span>)</span>
+<span id="cb54-15"><a href="#cb54-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> mag.astype(np.float32)</span>
+<span id="cb54-16"><a href="#cb54-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-17"><a href="#cb54-17" aria-hidden="true" tabindex="-1"></a>    R <span class="op">=</span> rim_prior_from_L(transposed_image)</span>
+<span id="cb54-18"><a href="#cb54-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-19"><a href="#cb54-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Fuse</span></span>
+<span id="cb54-20"><a href="#cb54-20" aria-hidden="true" tabindex="-1"></a>    S_fused <span class="op">=</span> <span class="fl">0.85</span><span class="op">*</span>sal_full <span class="op">+</span> <span class="fl">0.15</span><span class="op">*</span>R</span>
+<span id="cb54-21"><a href="#cb54-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb54-22"><a href="#cb54-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Normalize</span></span>
+<span id="cb54-23"><a href="#cb54-23" aria-hidden="true" tabindex="-1"></a>    S_fused <span class="op">-=</span> S_fused.<span class="bu">min</span>()</span>
+<span id="cb54-24"><a href="#cb54-24" aria-hidden="true" tabindex="-1"></a>    S_fused <span class="op">/=</span> (S_fused.<span class="bu">max</span>() <span class="op">+</span> <span class="fl">1e-6</span>)</span>
+<span id="cb54-25"><a href="#cb54-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-26"><a href="#cb54-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Crop</span></span>
+<span id="cb54-27"><a href="#cb54-27" aria-hidden="true" tabindex="-1"></a>    cropped <span class="op">=</span> crop_on_saliency_map(S_fused, transposed_image)</span>
+<span id="cb54-28"><a href="#cb54-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> cropped</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="c2c45b7db787b297" class="cell" data-execution_count="47">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>cropped_test_image <span class="op">=</span> full_crop_pipeline(model, test_image)</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>plt.axis(<span class="st">"off"</span>)</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>plt.imshow(cropped_test_image)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="best_thumbnail_method_files/figure-html/cell-45-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>As expected we get the same picture.</p>
+<p>Let’s calculate for all images and score.</p>
+<div id="b4860e72b8585cc7" class="cell" data-execution_count="48">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>cropped_images<span class="op">=</span> []</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="bu">file</span> <span class="kw">in</span> tqdm.tqdm(files):</span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>    cropped_images.append(full_crop_pipeline(model, Image.<span class="bu">open</span>(<span class="bu">file</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="a57ee29d85530658" class="cell" data-execution_count="49">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>scores_laion_cropped <span class="op">=</span> score_with_laion([to_tensor(img) <span class="cf">for</span> img <span class="kw">in</span> cropped_images])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="3c0d5479f3d59257" class="cell" data-execution_count="50">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>scores_laion_cropped.mean()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="50">
+<pre><code>np.float32(5.951551)</code></pre>
+</div>
+</div>
+<p>This mean score is slightly better than the uncropped. let’s check the details.</p>
+<div id="5c55f0a4c95f034" class="cell" data-execution_count="51">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>improvement <span class="op">=</span> (scores_laion_cropped<span class="op">-</span>scores_laion_correct_orientation)</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>improvement.mean()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="51">
+<pre><code>np.float32(0.07817339)</code></pre>
+</div>
+</div>
+<div id="bd2e3144e7799b76" class="cell" data-execution_count="52">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>improvement.std()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="52">
+<pre><code>np.float32(0.3198055)</code></pre>
+</div>
+</div>
+<p>The high standard deviation means some images improved a lot more, some got worse. Let’s identify the worst decline in the score.</p>
+<div id="83404a2d3eda1c8e" class="cell" data-execution_count="53">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>np.argmin(scores_laion_cropped<span class="op">-</span>scores_laion_correct_orientation)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="53">
+<pre><code>np.int64(22)</code></pre>
+</div>
+</div>
+<div id="80e0409e6273d1b8" class="cell" data-execution_count="54">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>plt.axis(<span class="st">"off"</span>)</span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>plt.imshow(cropped_images[<span class="dv">22</span>])</span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(improvement[<span class="dv">22</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>-0.76167774</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="best_thumbnail_method_files/figure-html/cell-52-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The image is a perfect crop. It is not obvious why the score decreased. In terms of results it is exactly what we want. The same is true for almost all other images, as we can see below.</p>
+<div id="56df0b26460ca9cf" class="cell" data-execution_count="55">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>show_image_grid([to_tensor(img) <span class="cf">for</span> img <span class="kw">in</span> cropped_images])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="best_thumbnail_method_files/figure-html/cell-53-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="postprocessing" class="level3" data-number="6.5">
+<h3 data-number="6.5" class="anchored" data-anchor-id="postprocessing"><span class="header-section-number">6.5</span> Postprocessing</h3>
+<p>The pictures were done with a mobile phone camera. This is the quickest way to digitize a book without expensive equipment. There is some glare from glossy paper and non-perfect light condition. Let’s try to improve.</p>
+<div id="5d38565326851cc3" class="cell" data-execution_count="56">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> reduce_glare(img):</span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Ensure BGR → LAB (good for luminance adjustments)</span></span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>    lab <span class="op">=</span> cv.cvtColor(img, cv.COLOR_RGB2LAB)</span>
+<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a>    l, a, b <span class="op">=</span> cv.split(lab)</span>
+<span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-6"><a href="#cb69-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Apply CLAHE on L-channel, 2.0 and 8.8 produce moderately aggressive results</span></span>
+<span id="cb69-7"><a href="#cb69-7" aria-hidden="true" tabindex="-1"></a>    clahe <span class="op">=</span> cv.createCLAHE(clipLimit<span class="op">=</span><span class="fl">2.0</span>, tileGridSize<span class="op">=</span>(<span class="dv">8</span>,<span class="dv">8</span>))</span>
+<span id="cb69-8"><a href="#cb69-8" aria-hidden="true" tabindex="-1"></a>    cl <span class="op">=</span> clahe.<span class="bu">apply</span>(l)</span>
+<span id="cb69-9"><a href="#cb69-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-10"><a href="#cb69-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Merge and convert back</span></span>
+<span id="cb69-11"><a href="#cb69-11" aria-hidden="true" tabindex="-1"></a>    limg <span class="op">=</span> cv.merge((cl, a, b))</span>
+<span id="cb69-12"><a href="#cb69-12" aria-hidden="true" tabindex="-1"></a>    final <span class="op">=</span> cv.cvtColor(limg, cv.COLOR_LAB2RGB)</span>
+<span id="cb69-13"><a href="#cb69-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> final</span>
+<span id="cb69-14"><a href="#cb69-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-15"><a href="#cb69-15" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> detect_glare_mask(img, thresh<span class="op">=</span><span class="dv">230</span>):</span>
+<span id="cb69-16"><a href="#cb69-16" aria-hidden="true" tabindex="-1"></a>    hsv <span class="op">=</span> cv.cvtColor(img, cv.COLOR_RGB2HSV)</span>
+<span id="cb69-17"><a href="#cb69-17" aria-hidden="true" tabindex="-1"></a>    h, s, v <span class="op">=</span> cv.split(hsv)</span>
+<span id="cb69-18"><a href="#cb69-18" aria-hidden="true" tabindex="-1"></a>    mask <span class="op">=</span> (v <span class="op">&gt;=</span> thresh).astype(np.uint8) <span class="op">*</span> <span class="dv">255</span></span>
+<span id="cb69-19"><a href="#cb69-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-20"><a href="#cb69-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Optional: clean up mask</span></span>
+<span id="cb69-21"><a href="#cb69-21" aria-hidden="true" tabindex="-1"></a>    kernel <span class="op">=</span> np.ones((<span class="dv">5</span>,<span class="dv">5</span>), np.uint8)</span>
+<span id="cb69-22"><a href="#cb69-22" aria-hidden="true" tabindex="-1"></a>    mask <span class="op">=</span> cv.morphologyEx(mask, cv.MORPH_CLOSE, kernel)   <span class="co"># fill small holes</span></span>
+<span id="cb69-23"><a href="#cb69-23" aria-hidden="true" tabindex="-1"></a>    mask <span class="op">=</span> cv.morphologyEx(mask, cv.MORPH_OPEN, kernel)    <span class="co"># remove tiny specks</span></span>
+<span id="cb69-24"><a href="#cb69-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-25"><a href="#cb69-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> mask</span>
+<span id="cb69-26"><a href="#cb69-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-27"><a href="#cb69-27" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> inpaint_glare(img, thresh):</span>
+<span id="cb69-28"><a href="#cb69-28" aria-hidden="true" tabindex="-1"></a>    mask <span class="op">=</span> detect_glare_mask(img, thresh<span class="op">=</span>thresh)</span>
+<span id="cb69-29"><a href="#cb69-29" aria-hidden="true" tabindex="-1"></a>    gray <span class="op">=</span> cv.cvtColor(img, cv.COLOR_RGB2GRAY)</span>
+<span id="cb69-30"><a href="#cb69-30" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb69-31"><a href="#cb69-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Detect glare: very bright areas</span></span>
+<span id="cb69-32"><a href="#cb69-32" aria-hidden="true" tabindex="-1"></a>    img_bgr <span class="op">=</span> cv.cvtColor(img, cv.COLOR_RGB2BGR)</span>
+<span id="cb69-33"><a href="#cb69-33" aria-hidden="true" tabindex="-1"></a>    inpainted_bgr <span class="op">=</span> cv.inpaint(img_bgr, mask, inpaintRadius<span class="op">=</span><span class="dv">5</span>, flags<span class="op">=</span>cv.INPAINT_TELEA)</span>
+<span id="cb69-34"><a href="#cb69-34" aria-hidden="true" tabindex="-1"></a>    inpainted_rgb <span class="op">=</span> cv.cvtColor(inpainted_bgr, cv.COLOR_BGR2RGB)</span>
+<span id="cb69-35"><a href="#cb69-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> inpainted_rgb</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="9df43bfa1e5acf9d" class="cell" data-execution_count="57">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb70"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>crop_glare_reduced <span class="op">=</span> [reduce_glare(img) <span class="cf">for</span> img <span class="kw">in</span> cropped_images]</span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>crop_glare_reduced_and_inpainted <span class="op">=</span> [inpaint_glare(img,<span class="dv">240</span>) <span class="cf">for</span> img <span class="kw">in</span> crop_glare_reduced]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="d1b5c8fa88fa0552" class="cell" data-execution_count="58">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>show_image_grid([to_tensor(img) <span class="cf">for</span> img <span class="kw">in</span> crop_glare_reduced])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="best_thumbnail_method_files/figure-html/cell-56-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="7f1ae0ab6f232806" class="cell" data-execution_count="59">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb72"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>show_image_grid([to_tensor(img) <span class="cf">for</span> img <span class="kw">in</span> crop_glare_reduced_and_inpainted])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="best_thumbnail_method_files/figure-html/cell-57-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="26b6c473ec68dc71" class="cell" data-execution_count="60">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>scores_laion_cropped_fixed_glare <span class="op">=</span> score_with_laion([to_tensor(img) <span class="cf">for</span> img <span class="kw">in</span> crop_glare_reduced])</span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>scores_laion_cropped_fixed_glare.mean()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="60">
+<pre><code>np.float32(5.9497223)</code></pre>
+</div>
+</div>
+<div id="efd4be69453d082c" class="cell" data-execution_count="61">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb75"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>scores_laion_cropped_fixed_glare_inpaint <span class="op">=</span> score_with_laion([to_tensor(img) <span class="cf">for</span> img <span class="kw">in</span> crop_glare_reduced_and_inpainted])</span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>scores_laion_cropped_fixed_glare_inpaint.mean()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="61">
+<pre><code>np.float32(5.816769)</code></pre>
+</div>
+</div>
+<p>Subjectively the pictures look better. The average score is a little lower for histogram equalization and gets bad for mask-based glare inpainting. Let’s check a single image.</p>
+<div id="4473424a75852d34" class="cell" data-execution_count="62">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb77"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(scores_laion_cropped[<span class="dv">0</span>],scores_laion_cropped_fixed_glare[<span class="dv">0</span>],scores_laion_cropped_fixed_glare_inpaint[<span class="dv">0</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>6.1202517 6.257745 6.3136473</code></pre>
+</div>
+</div>
+<p>This tells a completely other story. Here the images got better, the more processing was applied. We will do a visual inspection.</p>
+<div id="29ce579482d3c7c1" class="cell" data-execution_count="63">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb79"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">6</span>))</span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">1</span>)</span>
+<span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a>plt.imshow(cropped_images[<span class="dv">0</span>])</span>
+<span id="cb79-5"><a href="#cb79-5" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"No Glare Fix"</span>)</span>
+<span id="cb79-6"><a href="#cb79-6" aria-hidden="true" tabindex="-1"></a>plt.axis(<span class="st">"off"</span>)</span>
+<span id="cb79-7"><a href="#cb79-7" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">2</span>)</span>
+<span id="cb79-8"><a href="#cb79-8" aria-hidden="true" tabindex="-1"></a>plt.imshow(crop_glare_reduced[<span class="dv">0</span>] , cmap<span class="op">=</span><span class="st">"inferno"</span>)</span>
+<span id="cb79-9"><a href="#cb79-9" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Histogram Equalization"</span>)</span>
+<span id="cb79-10"><a href="#cb79-10" aria-hidden="true" tabindex="-1"></a>plt.axis(<span class="st">"off"</span>)</span>
+<span id="cb79-11"><a href="#cb79-11" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">3</span>)</span>
+<span id="cb79-12"><a href="#cb79-12" aria-hidden="true" tabindex="-1"></a>plt.imshow(crop_glare_reduced_and_inpainted[<span class="dv">0</span>] , cmap<span class="op">=</span><span class="st">"inferno"</span>)</span>
+<span id="cb79-13"><a href="#cb79-13" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Inpainting"</span>)</span>
+<span id="cb79-14"><a href="#cb79-14" aria-hidden="true" tabindex="-1"></a>plt.axis(<span class="st">"off"</span>)</span>
+<span id="cb79-15"><a href="#cb79-15" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb79-16"><a href="#cb79-16" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="best_thumbnail_method_files/figure-html/cell-61-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The strong glare is succesfully removed, without introducing artifacts or too high contrast.As we can see glare reduction can deliver improvements. Let’s combine the best of all.</p>
+<div id="5379d7a75a4a81e1" class="cell" data-execution_count="64">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb80"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>scores_list <span class="op">=</span> [scores_laion_cropped, scores_laion_cropped_fixed_glare, scores_laion_cropped_fixed_glare_inpaint]</span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>images_list <span class="op">=</span> [cropped_images, crop_glare_reduced, crop_glare_reduced_and_inpainted]</span>
+<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-4"><a href="#cb80-4" aria-hidden="true" tabindex="-1"></a>scores <span class="op">=</span> np.stack(scores_list, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb80-5"><a href="#cb80-5" aria-hidden="true" tabindex="-1"></a>best_indices <span class="op">=</span> scores.argmax(axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb80-6"><a href="#cb80-6" aria-hidden="true" tabindex="-1"></a>best_scores <span class="op">=</span> scores.<span class="bu">max</span>(axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb80-7"><a href="#cb80-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-8"><a href="#cb80-8" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> scores.shape[<span class="dv">0</span>]</span>
+<span id="cb80-9"><a href="#cb80-9" aria-hidden="true" tabindex="-1"></a>best_images <span class="op">=</span> [images_list[idx][i] <span class="cf">for</span> i, idx <span class="kw">in</span> <span class="bu">enumerate</span>(best_indices)]</span>
+<span id="cb80-10"><a href="#cb80-10" aria-hidden="true" tabindex="-1"></a>best_scores.mean()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="64">
+<pre><code>np.float32(6.1018143)</code></pre>
+</div>
+</div>
+<div id="7d77ce52116634cb" class="cell" data-execution_count="65">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb82"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>show_image_grid([to_tensor(img) <span class="cf">for</span> img <span class="kw">in</span> best_images])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="best_thumbnail_method_files/figure-html/cell-63-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Now we have an average improvement. Let’s check a picture with a lot of glare</p>
+<div id="909fa75a159015d6" class="cell" data-execution_count="66">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb83"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">6</span>))</span>
+<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">1</span>)</span>
+<span id="cb83-4"><a href="#cb83-4" aria-hidden="true" tabindex="-1"></a>plt.imshow(best_images[<span class="dv">29</span>])</span>
+<span id="cb83-5"><a href="#cb83-5" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Best Image"</span>)</span>
+<span id="cb83-6"><a href="#cb83-6" aria-hidden="true" tabindex="-1"></a>plt.axis(<span class="st">"off"</span>)</span>
+<span id="cb83-7"><a href="#cb83-7" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">2</span>)</span>
+<span id="cb83-8"><a href="#cb83-8" aria-hidden="true" tabindex="-1"></a>plt.imshow(crop_glare_reduced[<span class="dv">29</span>] , cmap<span class="op">=</span><span class="st">"inferno"</span>)</span>
+<span id="cb83-9"><a href="#cb83-9" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Histogram Equalization"</span>)</span>
+<span id="cb83-10"><a href="#cb83-10" aria-hidden="true" tabindex="-1"></a>plt.axis(<span class="st">"off"</span>)</span>
+<span id="cb83-11"><a href="#cb83-11" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">3</span>)</span>
+<span id="cb83-12"><a href="#cb83-12" aria-hidden="true" tabindex="-1"></a>plt.imshow(crop_glare_reduced_and_inpainted[<span class="dv">29</span>] , cmap<span class="op">=</span><span class="st">"inferno"</span>)</span>
+<span id="cb83-13"><a href="#cb83-13" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Inpainting"</span>)</span>
+<span id="cb83-14"><a href="#cb83-14" aria-hidden="true" tabindex="-1"></a>plt.axis(<span class="st">"off"</span>)</span>
+<span id="cb83-15"><a href="#cb83-15" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb83-16"><a href="#cb83-16" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="best_thumbnail_method_files/figure-html/cell-64-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The best picture is the one without post-processing. Personally I like the histogram equalization most. The inpainting has to strong artifacts in the non glare parts. There is too much contrast on the parts of the image which were not affected by the glare. With more work this could certainly be improved.</p>
+<p>Finally, my impression is that the LAION score is not good for our use case of food photography. The scores are too close together.</p>
+</section>
+</section>
+<section id="other-methods" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="other-methods"><span class="header-section-number">7</span> Other methods</h2>
+<section id="segmentation" class="level3" data-number="7.1">
+<h3 data-number="7.1" class="anchored" data-anchor-id="segmentation"><span class="header-section-number">7.1</span> Segmentation</h3>
+<p>When I brainstormed ideas, I considered using segmentation models. On of the most advanced segmentation models is (Segment Anything)[https://segment-anything.com/demo].</p>
+<p>For a problematic image, the segmentation model gives the following result: <img src="segmentation.jpg" class="img-fluid" alt="segmentation.png"></p>
+<p>However, identifying the best crop would require significant post- processing. Assuming we always look for dishes, which is not necessarily the case, we could look for smooth large shapes.</p>
+</section>
+<section id="object-detection" class="level3" data-number="7.2">
+<h3 data-number="7.2" class="anchored" data-anchor-id="object-detection"><span class="header-section-number">7.2</span> Object detection</h3>
+<p>Bounding box object detection algorithms can, in theory, locate the plates quite well. The main drawback is that I would need to train such a detector myself, which requires a lot of labeled data.</p>
+<p>While there are backbones such as YOLO, we would still require several hundreds of labeled images.</p>
+<p>This could be a viable refinement once a significant number of images has been processed.</p>
+</section>
+<section id="direct-optimization" class="level3" data-number="7.3">
+<h3 data-number="7.3" class="anchored" data-anchor-id="direct-optimization"><span class="header-section-number">7.3</span> Direct optimization</h3>
+<p>Another possible approach is a brute-force optimization method. We would run an optimization algorithm that uses LAION to score the images. Based on the gradients we would vary the crop zone.</p>
+<p>However, from my experiments with saliency-based images, the aesthetic score is somewhat subjective and not always intuitive. To make this approach effective, the scoring function would likely need to be reworked. While there is certainly room for experimentation here, this method would require more research and fine-tuning.</p>
+</section>
+</section>
+<section id="summary" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="summary"><span class="header-section-number">8</span> Summary</h2>
+<p>What did we learn?</p>
+<p>We found that it is possible to generate better thumbnails using slightly more intelligent techniques. I used a multi-scale saliency algorithm to identify the dominant object in each image. This lead to a average score increase of 1.3%.</p>
+<p>Additionally, glare reduction makes the pictures subjectively nicer, but it actually leads to a lower mean score.</p>
+<p>This raises an interesting question: how should we score good-looking thumbnails? The LAION classifier can help slightly improve images, but in some cases, it actually prefers images with more glare.</p>
+<div id="5f6704bc-8384-43bc-85dc-5476dfc445fe" class="cell" data-execution_count="67">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb84"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">15</span>, <span class="dv">6</span>))</span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">1</span>)</span>
+<span id="cb84-4"><a href="#cb84-4" aria-hidden="true" tabindex="-1"></a>plt.imshow(to_pil(images_correct_orientation[<span class="dv">29</span>]))</span>
+<span id="cb84-5"><a href="#cb84-5" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Center Crop"</span>)</span>
+<span id="cb84-6"><a href="#cb84-6" aria-hidden="true" tabindex="-1"></a>plt.axis(<span class="st">"off"</span>)</span>
+<span id="cb84-7"><a href="#cb84-7" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">2</span>)</span>
+<span id="cb84-8"><a href="#cb84-8" aria-hidden="true" tabindex="-1"></a>plt.imshow(crop_glare_reduced[<span class="dv">29</span>] , cmap<span class="op">=</span><span class="st">"inferno"</span>)</span>
+<span id="cb84-9"><a href="#cb84-9" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Saliency Map Crop with Glare Removal"</span>)</span>
+<span id="cb84-10"><a href="#cb84-10" aria-hidden="true" tabindex="-1"></a>plt.axis(<span class="st">"off"</span>)</span>
+<span id="cb84-11"><a href="#cb84-11" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb84-12"><a href="#cb84-12" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">"best_thumbnail_method.jpg"</span>, dpi<span class="op">=</span><span class="dv">300</span>, bbox_inches<span class="op">=</span><span class="st">"tight"</span>)</span>
+<span id="cb84-13"><a href="#cb84-13" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="best_thumbnail_method_files/figure-html/cell-65-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="bonus-section-case-2-recipes-without-images" class="level2" data-number="9">
+<h2 data-number="9" class="anchored" data-anchor-id="bonus-section-case-2-recipes-without-images"><span class="header-section-number">9</span> Bonus Section: case 2 recipes without images</h2>
+<p>What if we have no images at all. Then the only option is image generation.</p>
+<p>However, this is computationally far more costly as the previous processing. And it does not seem to work that well.</p>
+<p><img src="photo.jpg" width="600"></p>
+<p><em>Real photo</em></p>
+<p>With this prompt : <em>A bright, photorealistic cookbook-style photo of a freshly cooked Thai-style chicken stir-fry with cashews, beautifully plated on a white ceramic dish. The dish features tender, thinly sliced chicken thighs coated in a glossy, rich sauce made from oyster sauce, soy sauce, and fish sauce. Golden-brown roasted cashews scattered evenly, thin wedges of onion, vibrant green onion pieces, and delicate slices of red cayenne pepper for a pop of color. Served alongside a small bowl of perfectly steamed jasmine rice. The composition is clean and minimal, shot on a light wooden kitchen table with natural daylight. Soft, even lighting with gentle shadows, crisp textures, and realistic color tones. High-end food photography, cookbook aesthetic, ultra-HD.</em></p>
+<p>Leads to this quite unrealistic picture from Chatgpt and FluxSchnell</p>
+<p><img src="chatgpt.jpg" width="600"></p>
+<p><em>ChatGPT</em></p>
+<p><img src="fluxschnell.jpg" width="600"></p>
+<p><em>Fluxschnell</em></p>
+<p>Personally i find those less appealing than real photos, even though Flux Schnell comes at a much lower price tag.</p>
+<p>Slighly better is Stable diffusion</p>
+<p><img src="stablediffusion.jpg" width="600"></p>
+<p><em>Stable Diffusion</em></p>
+<p>Until one has cooked the recipe this is the only option to have a picture.</p>
+<p>It would be interesting to see how the saliency map methods works on real pictures of the cooked food.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<div class="container">
+
+<div class="ml-subscribe-box">
+  <p><strong>Like this post?</strong> Get espresso-shot tips and slow-pour insights straight to your inbox.</p>
+<!-- MailerLite Universal -->
+<script>
+    (function(w,d,e,u,f,l,n){w[f]=w[f]||function(){(w[f].q=w[f].q||[])
+    .push(arguments);},l=d.createElement(e),l.async=1,l.src=u,
+    n=d.getElementsByTagName(e)[0],n.parentNode.insertBefore(l,n);})
+    (window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');
+    ml('account', '1642227');
+</script>
+<!-- End MailerLite Universal -->
+
+<div class="ml-embedded" data-form="kY9B7p"></div>
+</div>
+
+<h2>Comments</h2>
+<p>Join the discussion below.</p>
+</div>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/www\.storymelange\.com");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<script src="https://utteranc.es/client.js" repo="dolind/dolind.github.io" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p><br> © 2025 by Dr.&nbsp;Dominik Lindner<br> This website was created with <a href="https://quarto.org"><img src="../../../quarto.jpg" class="img-fluid" alt="Quarto" width="65"></a></p>
+</div>   
+    <div class="nav-footer-center">
+<p><br> <strong><a href="../../../impressum.html">Impressum</a></strong><br></p>
+<div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
+    <div class="nav-footer-right">
+<p><br> <span class="tagline-footer"> Code · Data · Curiosity <br> Espresso-strength insights on AI, systems, and learning. </span></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

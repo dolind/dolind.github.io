@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Dominik Lindner">
+<meta name="dcterms.date" content="2025-10-25">
+<meta name="description" content="There is a lot of debate if LLMs actually help software developers. Here’s what i learned rebuilding a simple image pipeline with regard to thinking, focus and failure in the age of large language models.">
+
+<title>How LLMs help and don’t help developing software – Story Melange</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="../../../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-b524e5e10053bf5bea4dd5b3071a8bf3.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap-40a45da1a7017d7a4022ef73fce677a9.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+<script type="text/javascript" charset="UTF-8">
+document.addEventListener('DOMContentLoaded', function () {
+cookieconsent.run({
+  "notice_banner_type":"simple",
+  "consent_type":"implied",
+  "palette":"light",
+  "language":"en",
+  "page_load_consent_levels":["strictly-necessary","functionality","tracking","targeting"],
+  "notice_banner_reject_button_hide":false,
+  "preferences_center_close_button_hide":false,
+  "website_name":""
+  ,
+"language":"en"
+  });
+});
+</script> 
+  
+
+
+<link rel="stylesheet" href="../../../styles.css">
+<meta property="og:title" content="How LLMs help and don’t help developing software – Story Melange">
+<meta property="og:description" content="There is a lot of debate if LLMs actually help software developers. Here’s what i learned rebuilding a simple image pipeline with regard to thinking, focus and failure in the age of large language models.">
+<meta property="og:image" content="https://www.storymelange.com/posts/projects/a-year-in-pictures/gimp.jpg">
+<meta property="og:site_name" content="Story Melange">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">Story Melange</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../index.html"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../projects.html"> 
+<span class="menu-text">Projects</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../archive.html"> 
+<span class="menu-text">Archive</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../subscribe.html"> 
+<span class="menu-text">Subscribe</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/dolind"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/dominiklindner/"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="mailto:info@storymelange.com"> <i class="bi bi-envelope" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../../index.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#the-promised-land-of-vibe-coding" id="toc-the-promised-land-of-vibe-coding" class="nav-link active" data-scroll-target="#the-promised-land-of-vibe-coding"><span class="header-section-number">1</span> The promised land of vibe coding</a>
+  <ul class="collapse">
+  <li><a href="#enter-the-test-subject-my-4-year-old-epaper-picture-frame" id="toc-enter-the-test-subject-my-4-year-old-epaper-picture-frame" class="nav-link" data-scroll-target="#enter-the-test-subject-my-4-year-old-epaper-picture-frame"><span class="header-section-number">1.1</span> Enter the test subject: my 4-year-old Epaper picture frame</a></li>
+  </ul></li>
+  <li><a href="#lesson-1-llms-make-hard-problems-look-easy" id="toc-lesson-1-llms-make-hard-problems-look-easy" class="nav-link" data-scroll-target="#lesson-1-llms-make-hard-problems-look-easy"><span class="header-section-number">2</span> Lesson #1: LLMs make hard problems look easy</a></li>
+  <li><a href="#lesson-2-focus-on-the-value-add" id="toc-lesson-2-focus-on-the-value-add" class="nav-link" data-scroll-target="#lesson-2-focus-on-the-value-add"><span class="header-section-number">3</span> Lesson #2: Focus on the value add</a></li>
+  <li><a href="#lesson-3-correct-initial-framing-beats-repeated-prompting" id="toc-lesson-3-correct-initial-framing-beats-repeated-prompting" class="nav-link" data-scroll-target="#lesson-3-correct-initial-framing-beats-repeated-prompting"><span class="header-section-number">4</span> Lesson #3: Correct initial framing beats repeated prompting</a></li>
+  <li><a href="#lesson-4-do-not-succumb-to-the-illusion-of-progress" id="toc-lesson-4-do-not-succumb-to-the-illusion-of-progress" class="nav-link" data-scroll-target="#lesson-4-do-not-succumb-to-the-illusion-of-progress"><span class="header-section-number">5</span> Lesson #4: Do not succumb to the illusion of progress</a></li>
+  <li><a href="#lesson-5-allow-failures.-do-not-suffer-from-the-sunken-cost-fallacy." id="toc-lesson-5-allow-failures.-do-not-suffer-from-the-sunken-cost-fallacy." class="nav-link" data-scroll-target="#lesson-5-allow-failures.-do-not-suffer-from-the-sunken-cost-fallacy."><span class="header-section-number">6</span> Lesson #5: Allow failures. Do not suffer from the sunken cost fallacy.</a></li>
+  <li><a href="#lesson-6-technology-fixation-hides-the-real-problem" id="toc-lesson-6-technology-fixation-hides-the-real-problem" class="nav-link" data-scroll-target="#lesson-6-technology-fixation-hides-the-real-problem"><span class="header-section-number">7</span> Lesson #6: Technology fixation hides the real problem</a></li>
+  <li><a href="#lesson-7-ai-mirrors-your-thinking-including-your-flaws" id="toc-lesson-7-ai-mirrors-your-thinking-including-your-flaws" class="nav-link" data-scroll-target="#lesson-7-ai-mirrors-your-thinking-including-your-flaws"><span class="header-section-number">8</span> Lesson #7: AI mirrors your thinking, including your flaws</a></li>
+  <li><a href="#conclusion-the-real-work-is-thinking" id="toc-conclusion-the-real-work-is-thinking" class="nav-link" data-scroll-target="#conclusion-the-real-work-is-thinking"><span class="header-section-number">9</span> Conclusion: The real work is thinking</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content column-page-left" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">How LLMs help and don’t help developing software</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">Software Engineering</div>
+    <div class="quarto-category">Management</div>
+    <div class="quarto-category">Generative AI</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    There is a lot of debate if LLMs actually help software developers. Here’s what i learned rebuilding a simple image pipeline with regard to thinking, focus and failure in the age of large language models.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta column-page-left">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Dominik Lindner </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">October 25, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="the-promised-land-of-vibe-coding" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="the-promised-land-of-vibe-coding"><span class="header-section-number">1</span> The promised land of vibe coding</h2>
+<p>Everyone says large language models make developers faster.</p>
+<p>I used to believe that too until I spent a week rebuilding a simple image pipeline with ChatGPT.</p>
+<p>What I found wasn’t just slower progress. I found a new kind of slowness. The kind that exposes how shallow your understanding really is.</p>
+<p>This is a story about how LLMs help and don’t help us develop software; where they speed up flow, and where they quietly erode focus, judgment, and attention.</p>
+<section id="enter-the-test-subject-my-4-year-old-epaper-picture-frame" class="level3" data-number="1.1">
+<h3 data-number="1.1" class="anchored" data-anchor-id="enter-the-test-subject-my-4-year-old-epaper-picture-frame"><span class="header-section-number">1.1</span> Enter the test subject: my 4-year-old Epaper picture frame</h3>
+<section id="a-long-time-ago" class="level4" data-number="1.1.1">
+<h4 data-number="1.1.1" class="anchored" data-anchor-id="a-long-time-ago"><span class="header-section-number">1.1.1</span> A long time ago</h4>
+<p>Some years ago I developed an <a href="https://github.com/dolind/a-year-in-pictures">Epaper-based picture frame</a>.</p>
+<p>The limited bit depth (3-bit) makes gray-scale images look flat. I used a dithering approach to get sharper images.</p>
+<p>The core of that project was hardware embedded engineering, so I kept the software side light and relied on a GIMP batch processing pipeline.</p>
+<p>GIMP has an implementation of the <a href="https://en.wikipedia.org/wiki/Floyd%E2%80%93Steinberg_dithering">Floyd-Steinberg dithering</a>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="gimp.jpg" class="img-fluid figure-img"></p>
+<figcaption>Gimp Version of Dithering with Floyd-Steinberg</figcaption>
+</figure>
+</div>
+<p>I tried before to automate the process and do a simple script for image conversion. In my previous attempts, I could not get the exact same result as GIMP.</p>
+</section>
+<section id="the-age-of-ai-copilot-co" class="level4" data-number="1.1.2">
+<h4 data-number="1.1.2" class="anchored" data-anchor-id="the-age-of-ai-copilot-co"><span class="header-section-number">1.1.2</span> The age of AI, Copilot &amp; Co</h4>
+<p>In 2025, every software developer will have used AI-assisted programming. Some think it is useful; others are not entirely convinced.</p>
+<p>I currently develop an AI-powered Meal Planner. I use ChatGPT a lot in the development as it allows me to outsource manual coding of trivial tasks, so I can focus on architecture tasks or more complex algorithms.</p>
+<p>Lately, the responses have become better. So much, that I thought I could just redo the entire pipeline in a browser window. - We are all vibe coding now, aren’t we?</p>
+<p>The Truth: in the end, I managed it.</p>
+<p>See the fully working <a href="https://www.storymelange.com/a-year-in-pictures/">Demo</a> to play with.</p>
+</section>
+<section id="llms-make-us-faster" class="level4" data-number="1.1.3">
+<h4 data-number="1.1.3" class="anchored" data-anchor-id="llms-make-us-faster"><span class="header-section-number">1.1.3</span> LLMs make us faster!</h4>
+<p>That was my unequivocal belief before I sat out on this journey. Boy, was I wrong.</p>
+<p>Using an LLM to do this side project led to many failed attempts and dead ends. With the change to GPT5, the LLM has become more confident in proposing false solutions.</p>
+<p>This leads me to the core question I want to explore in this post: “Where do LLMs actually help us develop softwrae, and where do they mislead us?”</p>
+<p>Read on, for the seven lessons I am going to share with you.</p>
+</section>
+</section>
+</section>
+<section id="lesson-1-llms-make-hard-problems-look-easy" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="lesson-1-llms-make-hard-problems-look-easy"><span class="header-section-number">2</span> Lesson #1: LLMs make hard problems look easy</h2>
+<p>When I started recreating GIMPs Floyd-Steinberg dithering, I thought I’d be done in a breeze. After all, the algo is well documented and fairly simple. What could go wrong?</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="v6.jpg" class="img-fluid figure-img"></p>
+<figcaption>Python implementation of Floyd-Steinberg, seems noisier than GIMP</figcaption>
+</figure>
+</div>
+<p>Yet, my results looked noisier and flatter. A quick Google Search revealed others had reported similar mismatch, <a href="https://discourse.gnome.org/t/how-to-implement-the-floyd-steinberg-algorithm-from-gimp-in-your-code/23111">discussion here</a>.</p>
+<p>Next comes what every curious engineer with the power of a mighty LLM at his fingertips would do: ask ChatGPT to reimplement <a href="https://gitlab.gnome.org/GNOME/gimp/-/blob/281548a022a0e7f3eaaa38e42ec29f919519c33a/app/core/gimpimage-convert-indexed.c#L3768">GIMP’s code</a>.</p>
+<p>At first glance, the code seemed straightforward: C code, only heavily relying on raw pointers.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>  src_buf  <span class="op">=</span> g_malloc <span class="op">(</span>width <span class="op">*</span> src_bpp<span class="op">);</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  dest_buf <span class="op">=</span> g_malloc <span class="op">(</span>width <span class="op">*</span> dest_bpp<span class="op">);</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  next_row <span class="op">=</span> g_new <span class="op">(</span>gint<span class="op">,</span> width <span class="op">+</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  prev_row <span class="op">=</span> g_new0 <span class="op">(</span>gint<span class="op">,</span> width <span class="op">+</span> <span class="dv">2</span><span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>ChatGPT immediately produced a fully working version,</p>
+<p>…only the results were wrong.</p>
+<p>Because the full code is too long for the context window, I tried to be clever: breaking it into smaller parts, adding missing functions.</p>
+<p>Digging deeper, I found the issue is that the code relies on far more functions for tone mapping, error diffusion limits, histogram caching. Which rely on even more function.</p>
+<p>None of which were in the initial prompt.</p>
+<p>While I was adding more and more context, I was never getting the same result. What should have been the work of an afternoon already stretched over two days.</p>
+<p>Then I realized the problem was not the LLM or GIMPS pointer code. The issue is, as always, the person in front of the machine; me.</p>
+<p>Of course, I knew LLMs are good at pretending to be fluent, even when they are not. But the issue is that I could not recognize the illiteracy of ChatGPT with the dithering algo.</p>
+<p><strong>Beginner Lesson</strong></p>
+<p>LLMs can make hard problems look easy. Fluent coding isn’t the same as real understanding. LLMs expand the search space, not the understanding space.</p>
+<p><strong>Intermediate Lesson</strong></p>
+<p>Expand your own understanding space</p>
+<ul>
+<li>Understand an unknown solution and own it conceptually</li>
+<li>Ask the model to explain its reasoning; don’t accept logic that feels incomplete</li>
+<li>Explore boundaries with contrastive examples to see where it breaks.</li>
+<li>Externalize your learning: keep a logbook, sketch diagrams, and track conversation branches.</li>
+</ul>
+<p><strong>Mastery Lesson</strong></p>
+<p>Cultivate your intuition of when an LLM can be trusted, even in unfamiliar domains. That will make you truly faster.</p>
+</section>
+<section id="lesson-2-focus-on-the-value-add" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="lesson-2-focus-on-the-value-add"><span class="header-section-number">3</span> Lesson #2: Focus on the value add</h2>
+<p>I probably should have been satisfied with my 1-bit Floyd Steinberg pipeline. Let’s recall, the real goal is to have my pictures on the wall in a dynamic picture frame.</p>
+<p>But here’s the catch: going through my pictures and sorting them is actually far more effort than the conversion for the picture frame. The optimization of code paths, dithering algo testing and chasing marginal speedups did not add value to the actual problem.</p>
+<p>That is the quiet but biggest danger of LLMs for mid-career developers: <em>you can solve so many problems, that you forget which ones are worth solving.</em></p>
+<p>ChatGPT &amp; Co lower the barrier to a 50% solution; quick, plausible, traditionally used to get further funding. Those half-baked solutions create new problems: bugs, improvements to make, experiments to run.</p>
+<p>From a meta perspective, it’s not so different from how low-impact tasks survive inside large organizations: easy to start, hard to stop.</p>
+<p><strong>Beginner Lesson</strong></p>
+<p>Learn to spot when ChatGPT suggests optimizations that don’t matter.</p>
+<p><strong>Intermediate Lesson</strong></p>
+<p>Adopt a product mindset. Clearly formulate the goal and what you want to achieve. Define what “done” means. Hold that line when the LLM tempts you with shiny detours.</p>
+<p><strong>Mastery Lesson</strong></p>
+<p>The tool amplifies habits. Develop good habits, drop bad ones.</p>
+<ul>
+<li>Calibrate to value: Write down <em>The value of this work is * because it improves * </em>. Revisit this statement after each hour.</li>
+<li>Curiosity within boundaries: use constraints, time boxes, iteration caps</li>
+<li>Mode awareness: define the mode: learning (speed, breadth, discovery) or production(depth, polish, delivery)</li>
+<li>Reflection logbook: what helped, what kind of question was misleading? Reread your chats or transcripts.</li>
+<li>Debug your thinking: ask yourself if you are framing the problem wrong.</li>
+<li>Cultivate Strategic Boredom: stop when it is enough</li>
+</ul>
+</section>
+<section id="lesson-3-correct-initial-framing-beats-repeated-prompting" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="lesson-3-correct-initial-framing-beats-repeated-prompting"><span class="header-section-number">4</span> Lesson #3: Correct initial framing beats repeated prompting</h2>
+<p>Frustrated, I was about to give up. Then I stumbled across a new approach: the <a href="https://www.cada.art/columns/untitled">Teddy-Beau Algorithm</a>.</p>
+<p>The algorithm creates multiple differently exposed versions of the image, then applies patterned dithering to each, and finally fuses the most contrasting regions. As a result, details stand out while maintaining the textured dither effect.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="v1.jpg" class="img-fluid figure-img"></p>
+<figcaption>Teddy Beau 2D algorithm, has more contrast; the Bayer pattern leads to antialiasing effects when displayed smaller than actual size though.</figcaption>
+</figure>
+</div>
+<p>The <a href="https://untitled.cada.art/gen.js">demo code</a> is written in JavaScript. As the author points out, it is not optimized and takes quite long.</p>
+<p>So naturally, I asked my LLM buddy for help: <em>“How to optimize this for performance?”</em></p>
+<p>ChatGPT responded like an eager intern:</p>
+<ul>
+<li>Flatten 2D arrays to 1D.</li>
+<li>Avoid expensive array methods like <code>push</code>.</li>
+<li>Use typed arrays for pre-allocation.</li>
+<li>Try <code>Uint8ClampedArray</code> for automatic clamping.</li>
+</ul>
+<p>One more thing. Lately, I have been exploring how to push ML workloads to the client to reduce compute cost and preserve data privacy. This is made possible using a technique called <strong>WebGPU</strong>.</p>
+<p>I doubled down and added the usage of <strong>WebGPU</strong> to my requirements. The dream of every product manager focusing on buzzwords alone: <strong>GPU acceleration</strong>, <strong>client-side compute</strong>, <strong>data privacy</strong>.</p>
+<p>I asked for a straightaway optimization with fingers crossed.</p>
+<p>The first result? A gray picture.</p>
+<p>Then came hours of debugging, chasing error messages like a true VibeCoder.</p>
+<p>Eventually, I gave up.</p>
+<p>The realization: I didn’t need faster code.<br>
+I needed a clearer architecture: what to optimize, in what order, and why.</p>
+<p><strong>Beginner Lesson</strong></p>
+<p>Don’t ask: “Make this faster”! Define what faster means; or explore this with the help of the LLM.</p>
+<p><strong>Intermediate lesson</strong></p>
+<p>Be an architect. Specify technical constraints. Define performance goals, and make the trade-offs explicit.</p>
+<p><strong>Mastery Lesson</strong></p>
+<p>Use the LLM to map the landscape, not to sprint through it. Explore what-ifs. Guard against LLM’s instinct to jump to code too quickly. Keep it in design mode.</p>
+</section>
+<section id="lesson-4-do-not-succumb-to-the-illusion-of-progress" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="lesson-4-do-not-succumb-to-the-illusion-of-progress"><span class="header-section-number">5</span> Lesson #4: Do not succumb to the illusion of progress</h2>
+<p>I started from scratch, with an architect’s mindset. First, I asked to include the existing code on a web page that allows modifying parameters with sliders. That worked nicely. Then I told ChatGPT that we are going step by step in the transformation towards a WebGPU version.</p>
+<p>The Plan:</p>
+<ul>
+<li>remove splice</li>
+<li>flatten to 1D with typed arrays<br>
+</li>
+<li>pre-allocate arrays<br>
+</li>
+<li>replace Laplacian of Gaussian with Difference of Gaussian<br>
+</li>
+<li>SIMD: no map, only for<br>
+</li>
+<li>worker thread<br>
+</li>
+<li>use WebGL<br>
+</li>
+<li>use WebGPU</li>
+</ul>
+<p>The incremental work went smoothly and then WebGPU delivered the final wow effect: from 500 ms down to 20 ms for a 1MP image. I was ecstatic. Maybe this algorithm could even handle video!</p>
+<p>But when I looked closer, the pictures weren’t pleasing.<br>
+The contrast was wrong; the textures felt flat. The <em>fast</em> version looked worse than the slow one.</p>
+<p>It turned out that Difference of Gaussian is not the same as Laplacian of Gaussian and that the whole histogram calculation had been changed.</p>
+<p>In chasing performance without reflection, I had altered the architecture.</p>
+<p>In hindsight, the obvious solution: go slow and use tests. But in that moment, momentum felt like mastery.</p>
+<p><strong>Beginner Lesson</strong></p>
+<p>“Working” code does not imply “correct” code. Pure vibe coding hides understanding behind motion.</p>
+<p><strong>Intermediate Lesson</strong></p>
+<p>Resist the illusion of speed. Go slow and write tests. Verify that the tests are correctly written by the LLM. Validate progress with objective, measurable evidence.</p>
+<p><strong>Mastery Lesson</strong></p>
+<p>Let the model amplify your rigor, not bypass it. Ask for test scaffolds, validation metrics. Let the LLM be your QA nightmare. True velocity comes from confidence in correctness.</p>
+</section>
+<section id="lesson-5-allow-failures.-do-not-suffer-from-the-sunken-cost-fallacy." class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="lesson-5-allow-failures.-do-not-suffer-from-the-sunken-cost-fallacy."><span class="header-section-number">6</span> Lesson #5: Allow failures. Do not suffer from the sunken cost fallacy.</h2>
+<p>I probably should have stopped.</p>
+<p>But after getting so close, it felt wrong to quit. “All I need are a few simple tests,” I told myself. I started working on 3x3 images and actually managed to progress quickly through the codebase.</p>
+<p>However, I underestimated the issues that arise in complex floating-point algorithms. The algorithm is doing several passes for the actual dithering and combines Bayer-based dithering with error diffusion (the original article explains this in more detail).</p>
+<p>That means any rounding errors can propagate through the image.</p>
+<p>On small samples, the errors make no change. On full-size images, the algorithm fell apart.</p>
+<p>In fact, I never got 100% equality on a 1MP image with the highest settings for iterative processing, even after days chasing tiny differences caused by inequality signs, truncation, and clamping.</p>
+<p>At some point, I realized I wasn’t debugging anymore — I was <em>defending my investment</em>.<br>
+The LLM kept offering “helpful” directions, and I kept following, the way I once followed overconfident colleagues early in my career.</p>
+<p>They sounded sure. So did the model.<br>
+But confidence isn’t correctness.</p>
+<p>Sometimes, the real progress is in allowing failure.</p>
+<p><strong>Beginner Lesson</strong></p>
+<p>When you keep solving the same issue, that is not progress, that is pure grind. Know when to stop.</p>
+<p><strong>Intermediate Lesson</strong></p>
+<p>LLMs remove friction in syntax and reference lookup. But they also remove the pauses that help us think. Deliberately reintroduce these pauses. Use time-boxing or amount of code change.</p>
+<p><strong>Mastery Lesson</strong></p>
+<p>Use the LLM to structure your reflection. Ask for summaries, dead ends, and hypotheses that were made.</p>
+</section>
+<section id="lesson-6-technology-fixation-hides-the-real-problem" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="lesson-6-technology-fixation-hides-the-real-problem"><span class="header-section-number">7</span> Lesson #6: Technology fixation hides the real problem</h2>
+<p>Eventually, I made the algorithm’s result identical.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="v2.jpg" class="img-fluid figure-img"></p>
+<figcaption>1D optimized version, same as 2D version</figcaption>
+</figure>
+</div>
+<p>But the speedups I’d worked so hard for had almost vanished. In single-pass runs, performance improved from 380 ms to 350ms. Only in the multi-pass runs did it look better: 4.7s down to 2s.</p>
+<p>Still, I wasn’t done. I wanted to use <strong>WebGPU</strong>.</p>
+<p>So, I turned to ChatGPT once again.<br>
+It happily produced WebGPU code. Due to the immature state of WebGPU and limited sources, the code was incomplete and buggy, but plausible. I fixed syntax errors, adjusted shader parameters, and eventually got something to run.</p>
+<p>The result: an educational detour into shaders, pipelines, and GPU execution (Yes, I am a GPU engineer now :-)).</p>
+<p>Performance improvements were good: using 2 passes, from 2s down to 1s. Using 6 passes: 25s down to 2.8s.</p>
+<p>Again, visual result was worse than the CPU version.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="v3.jpg" class="img-fluid figure-img"></p>
+<figcaption>GPU Version is darker and more uniform</figcaption>
+</figure>
+</div>
+<p>That’s when I finally stopped myself.</p>
+<p>Somewhere along the way, I had forgotten that looking better was the reason I had selected the algorithm.</p>
+<p><strong>Beginner Lesson</strong></p>
+<p>Speed gains are meaningless if they don’t serve the goal. Always ask: What does this achieve? What impact does it have on the outcome?</p>
+<p><strong>Intermediate Lesson</strong></p>
+<p>AI tools make every technical path feel accessible. And in part that is true. But every new route has hidden costs. For every new route you take, define what success means. If the gain doesn’t improve the purpose, skip it.</p>
+<p><strong>Mastery Lesson</strong></p>
+<p>Again, focus on the landscape. Let curiosity drive exploration, but set limits with an intent. AI’s biggest cost isn’t in tokens; it’s your attention.</p>
+</section>
+<section id="lesson-7-ai-mirrors-your-thinking-including-your-flaws" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="lesson-7-ai-mirrors-your-thinking-including-your-flaws"><span class="header-section-number">8</span> Lesson #7: AI mirrors your thinking, including your flaws</h2>
+<p>Lesson 6 was about chasing performance. This lesson is quite similar but focuses on features.</p>
+<p>Using an LLM chat, everything feels easy. You start with a clear goal, then you drift and start exploring aspects which feel productive but aren’t.</p>
+<p>It’s a lot like browsing the internet: you end up finding things you never searched.</p>
+<p>The issue with the LLM is that it reinforces you in the believe of wrong ideas. That’s why many say AI assistants only work well “in the hands of an expert.”</p>
+<p>I agree only partly. An expert would only need the AI for very mundane tasks, like code completion. It’s the non-expert, facing a new domain who gains the most. But only if he manages to stop the wandering mind and meandering that come with it.</p>
+<p>AI is an amplifier, not a guide. It doesn’t tell you when your reasoning is off; it makes your detour smoother. To quote I, Robot: you need to “ask the right questions”.</p>
+<p>In traditional software teams, that role falls to senior engineers and technical managers. They define the what and the why of the product.</p>
+<p>With LLMs, you need to play the roles yourself to be successful. You’re not just writing code; you’re managing a conversation that can spiral without direction.</p>
+<p>Back to our real problem: displaying images on Epaper. When I read through the Inkplate code and API, I noticed that it also supports a 3bit mode. Quick modification in my 1bit Python script: a simple 3-bit Floyd–Steinberg algorithm almost looks 8bit Grayscale.</p>
+<p>Then why not use the Teddy-Beau algorithm with 3bit?</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="v5.jpg" class="img-fluid figure-img"></p>
+<figcaption>3bit Floyd Steinberg, looks almost like an 8bit grayscale picture</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="v4.jpg" class="img-fluid figure-img"></p>
+<figcaption>3bit Teddy Beau, more contrast in the trees but too much in the sky in this picture.</figcaption>
+</figure>
+</div>
+<p>Comparing the two 3bit versions, I actually like the 3bit Floyd-Steinberg more than the 3bit Teddy-Beau. What was wrong this time, you might wonder? Everything looks good?</p>
+<p>Epaper has a non-linear color curve. What looked perfect on a monitor looked wrong on the device.</p>
+<p>Finally, I chose the Teddy Beau algorithm with 1Bit, which from 2 meters away looks a lot better than on a computer screen.</p>
+<p><strong>Beginner Lesson</strong></p>
+<p>LLM rarely correct wrong assumptions unless prompted to do so.</p>
+<p><strong>Intermediate Lesson</strong></p>
+<p>Don’t expect the LLM to know your true goal. Define context, constraints, and success criteria yourself. The system prompt is your friend.</p>
+<p><strong>Mastery Lesson</strong></p>
+<p>Treat the LLM as a mirror, not a mentor. Its responses reflect your framing, clarity, and discipline. You’re not its student. You’re its manager!</p>
+</section>
+<section id="conclusion-the-real-work-is-thinking" class="level2" data-number="9">
+<h2 data-number="9" class="anchored" data-anchor-id="conclusion-the-real-work-is-thinking"><span class="header-section-number">9</span> Conclusion: The real work is thinking</h2>
+<p>After a week of chasing algorithmic performance gains, I realized the project’s real contribution wasn’t in the image pipeline. Instead, it was in understanding how humans and machines can think together.</p>
+<p>Rather than exposing the limits of its reasoning the LLM revealed the limits of mine. In this article every lesson mapped to a deeper skill.</p>
+<ul>
+<li><strong>Conceptual clarity</strong> to increase your understanding space</li>
+<li><strong>Prioritization</strong> to focus on value, not optimization.</li>
+<li><strong>Problem definition</strong> to frame correctly before prompting.</li>
+<li><strong>Discipline</strong> to follow a stable process</li>
+<li><strong>Self-awareness</strong> to allow failures.</li>
+<li><strong>Purpose alignment</strong> to avoid focusing on technology alone.</li>
+<li><strong>Judgment</strong> to intentionally direct human-machine interaction</li>
+</ul>
+<p>In short, AI is not a shortcut to mastery. It’s a mirror, reflecting your strengths, weaknesses, and habits on steroids.</p>
+<p>The promise of LLMs isn’t speed; it’s awareness.</p>
+<p>They expose how we think, where we skip steps, and how easily we confuse momentum for mastery.</p>
+<p>Working with an LLM is no longer about writing code faster.<br>
+It’s about developing a clearer mind.</p>
+<p>In the end, building software, and yourself, means learning to manage not just a tool, but your own attention.</p>
+<p>That’s the real craft of this new era: knowing when to move fast, and when to slow down on purpose.</p>
+<hr>
+<p>A hammer is only as precise as the hand (and mind) that wields it.</p>
+<hr>
+<p>The algorithms can be compared <a href="https://www.storymelange.com/a-year-in-pictures/">here</a>. Source Code can be found <a href="https://github.com/dolind/a-year-in-pictures">here</a>.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<div class="container">
+
+<div class="ml-subscribe-box">
+  <p><strong>Like this post?</strong> Get espresso-shot tips and slow-pour insights straight to your inbox.</p>
+<!-- MailerLite Universal -->
+<script>
+    (function(w,d,e,u,f,l,n){w[f]=w[f]||function(){(w[f].q=w[f].q||[])
+    .push(arguments);},l=d.createElement(e),l.async=1,l.src=u,
+    n=d.getElementsByTagName(e)[0],n.parentNode.insertBefore(l,n);})
+    (window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');
+    ml('account', '1642227');
+</script>
+<!-- End MailerLite Universal -->
+
+<div class="ml-embedded" data-form="kY9B7p"></div>
+</div>
+
+<h2>Comments</h2>
+<p>Join the discussion below.</p>
+</div>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/www\.storymelange\.com");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<script src="https://utteranc.es/client.js" repo="dolind/dolind.github.io" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p><br> © 2025 by Dr.&nbsp;Dominik Lindner<br> This website was created with <a href="https://quarto.org"><img src="../../../quarto.jpg" class="img-fluid" alt="Quarto" width="65"></a></p>
+</div>   
+    <div class="nav-footer-center">
+<p><br> <strong><a href="../../../impressum.html">Impressum</a></strong><br></p>
+<div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
+    <div class="nav-footer-right">
+<p><br> <span class="tagline-footer"> Code · Data · Curiosity <br> Espresso-strength insights on AI, systems, and learning. </span></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

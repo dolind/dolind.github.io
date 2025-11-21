@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Dominik Lindner">
+<meta name="dcterms.date" content="2025-05-14">
+<meta name="description" content="Most software is complex. Especially with AI-assisted coding, complexity can quickly run out of hands and turn into a nightmare. To never get lost again, let’s create the zoom button for software that turns your code into a zommable map.">
+
+<title>Do you know the hidden paths of your code? – Story Melange</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="../../../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-b524e5e10053bf5bea4dd5b3071a8bf3.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap-40a45da1a7017d7a4022ef73fce677a9.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+<script type="text/javascript" charset="UTF-8">
+document.addEventListener('DOMContentLoaded', function () {
+cookieconsent.run({
+  "notice_banner_type":"simple",
+  "consent_type":"implied",
+  "palette":"light",
+  "language":"en",
+  "page_load_consent_levels":["strictly-necessary","functionality","tracking","targeting"],
+  "notice_banner_reject_button_hide":false,
+  "preferences_center_close_button_hide":false,
+  "website_name":""
+  ,
+"language":"en"
+  });
+});
+</script> 
+  
+
+
+<link rel="stylesheet" href="../../../styles.css">
+<meta property="og:title" content="Do you know the hidden paths of your code? – Story Melange">
+<meta property="og:description" content="Most software is complex. Especially with AI-assisted coding, complexity can quickly run out of hands and turn into a nightmare. To never get lost again, let’s create the zoom button for software that turns your code into a zommable map.">
+<meta property="og:image" content="https://www.storymelange.com/posts/projects/uml-analyser/package_graphbased.svg">
+<meta property="og:site_name" content="Story Melange">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">Story Melange</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../index.html"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../projects.html"> 
+<span class="menu-text">Projects</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../archive.html"> 
+<span class="menu-text">Archive</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../subscribe.html"> 
+<span class="menu-text">Subscribe</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/dolind"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/dominiklindner/"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="mailto:info@storymelange.com"> <i class="bi bi-envelope" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../../index.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#what-if-we-had-a-zoom-button-for-our-code" id="toc-what-if-we-had-a-zoom-button-for-our-code" class="nav-link active" data-scroll-target="#what-if-we-had-a-zoom-button-for-our-code"><span class="header-section-number">1</span> What if we had a zoom button for our code?</a></li>
+  <li><a href="#part-i-a-picture-says-more-than-a-thousand-words" id="toc-part-i-a-picture-says-more-than-a-thousand-words" class="nav-link" data-scroll-target="#part-i-a-picture-says-more-than-a-thousand-words"><span class="header-section-number">2</span> Part I: A picture says more than a thousand words</a>
+  <ul class="collapse">
+  <li><a href="#software-engineering-is-about-reading-code" id="toc-software-engineering-is-about-reading-code" class="nav-link" data-scroll-target="#software-engineering-is-about-reading-code"><span class="header-section-number">2.1</span> Software engineering is about reading code</a></li>
+  <li><a href="#how-we-approach-unknown-code" id="toc-how-we-approach-unknown-code" class="nav-link" data-scroll-target="#how-we-approach-unknown-code"><span class="header-section-number">2.2</span> How we approach unknown code</a></li>
+  <li><a href="#solid-principles-and-model-based-system-engineering" id="toc-solid-principles-and-model-based-system-engineering" class="nav-link" data-scroll-target="#solid-principles-and-model-based-system-engineering"><span class="header-section-number">2.3</span> SOLID principles and model-based system engineering</a></li>
+  <li><a href="#the-two-way-problem-of-model-based-engineering" id="toc-the-two-way-problem-of-model-based-engineering" class="nav-link" data-scroll-target="#the-two-way-problem-of-model-based-engineering"><span class="header-section-number">2.4</span> The two-way problem of model-based engineering</a></li>
+  </ul></li>
+  <li><a href="#part-ii-capturing-all-dependencies-in-one-diagram" id="toc-part-ii-capturing-all-dependencies-in-one-diagram" class="nav-link" data-scroll-target="#part-ii-capturing-all-dependencies-in-one-diagram"><span class="header-section-number">3</span> Part II: capturing all dependencies in one diagram</a>
+  <ul class="collapse">
+  <li><a href="#meet-our-guinea-pig-package-productworld" id="toc-meet-our-guinea-pig-package-productworld" class="nav-link" data-scroll-target="#meet-our-guinea-pig-package-productworld"><span class="header-section-number">3.1</span> Meet our guinea-pig package: Productworld</a></li>
+  <li><a href="#existing-tools" id="toc-existing-tools" class="nav-link" data-scroll-target="#existing-tools"><span class="header-section-number">3.2</span> Existing tools</a></li>
+  <li><a href="#my-contribution" id="toc-my-contribution" class="nav-link" data-scroll-target="#my-contribution"><span class="header-section-number">3.3</span> My Contribution</a></li>
+  </ul></li>
+  <li><a href="#part-iii-whats-next---productization" id="toc-part-iii-whats-next---productization" class="nav-link" data-scroll-target="#part-iii-whats-next---productization"><span class="header-section-number">4</span> Part III: what’s next - Productization</a>
+  <ul class="collapse">
+  <li><a href="#live-preview" id="toc-live-preview" class="nav-link" data-scroll-target="#live-preview"><span class="header-section-number">4.1</span> Live preview</a></li>
+  <li><a href="#the-complete-zoom-button" id="toc-the-complete-zoom-button" class="nav-link" data-scroll-target="#the-complete-zoom-button"><span class="header-section-number">4.2</span> The complete zoom button</a></li>
+  <li><a href="#going-beyond-the-zoom-button" id="toc-going-beyond-the-zoom-button" class="nav-link" data-scroll-target="#going-beyond-the-zoom-button"><span class="header-section-number">4.3</span> Going beyond the zoom button</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content column-page-left" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Do you know the hidden paths of your code?</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">Software Engineering</div>
+    <div class="quarto-category">Python</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Most software is complex. Especially with AI-assisted coding, complexity can quickly run out of hands and turn into a nightmare. To never get lost again, let’s create the zoom button for software that turns your code into a zommable map.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta column-page-left">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Dominik Lindner </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">May 14, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="package_graphbased.svg" class="img-fluid figure-img"></p>
+<figcaption>Try seeing the forest for the trees.</figcaption>
+</figure>
+</div>
+<section id="what-if-we-had-a-zoom-button-for-our-code" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="what-if-we-had-a-zoom-button-for-our-code"><span class="header-section-number">1</span> What if we had a zoom button for our code?</h2>
+<p>Think about code as a Digital Map. From far away, you can see the continents. When you zoom in, rivers and mountains appear. Then cities. Highways and train lines become visible. Then smaller streets. At the second to lowest level, you can see the street layout of a neighborhood. Until finally you can see one house or a tree.</p>
+<p>Even better when you search for a route from A to B. You can usually see it on all zoom levels. Quickly grasping the entire journey, as well as local challenges.</p>
+<p>What if we had something equivalent for code? First the module architecture and finally the code lines? And then what if we could see data flow in this full picture on several levels?</p>
+<p>I have to express my thanks to a former colleague of mine, who coined the term <code>zoom button</code> for this. In the following, I describe my approach to get closer to this <code>zoom button</code>.</p>
+</section>
+<section id="part-i-a-picture-says-more-than-a-thousand-words" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="part-i-a-picture-says-more-than-a-thousand-words"><span class="header-section-number">2</span> Part I: A picture says more than a thousand words</h2>
+<p>And so does a diagram. This part is about my motivation for doing this work. If you are only interested in results, skip it and go to part II.</p>
+<section id="software-engineering-is-about-reading-code" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="software-engineering-is-about-reading-code"><span class="header-section-number">2.1</span> Software engineering is about reading code</h3>
+<blockquote class="blockquote">
+<p>There are 10 types of people in this world, those who understand binary and those who don’t.</p>
+</blockquote>
+<section id="what-beginners-and-non-software-developers-do-not-get" class="level4" data-number="2.1.1">
+<h4 data-number="2.1.1" class="anchored" data-anchor-id="what-beginners-and-non-software-developers-do-not-get"><span class="header-section-number">2.1.1</span> What Beginners and Non software Developers do not get</h4>
+<p>A novice expects that developing software is all about writing code. And I have to admit that just hacking away can initially feel good. Directly coding and doing everything from scratch feels so powerful. The raw power is just at your fingertips. You are the wizard of the computer - in then end you will pay dearly. You get stuck in the mud of your code. This is blind activism.</p>
+<p>Large companies are not immune to this. In fact, sometimes the management structure incentivizes quick hacks and fast coding over constant architecture development.</p>
+</section>
+<section id="the-role-of-non-software-people" class="level4" data-number="2.1.2">
+<h4 data-number="2.1.2" class="anchored" data-anchor-id="the-role-of-non-software-people"><span class="header-section-number">2.1.2</span> The role of non-software people</h4>
+<p>The rise of non-code application and then the onset of the hype of LLM in 2022 have led to the fear that programming and software developers have no future. In the future, anybody can code. Personally, I disagree with this. My argument is not purely based on self-preservation. Instead, I believe AI can replace that simple apps that were done before by a single developer. However, the software engineers concerned will move to bigger projects. Similar as we do not know every single assembler instruction or binary instruction, we might no longer know every single code line in our precious masterpiece.</p>
+<p>Teams will focus on higher value tasks or just be quicker in developing new features. Engineers will focus more on higher-level tasks: system engineering, architecture and customer interaction. There could be a conversion of specialized engineering roles. The same team might do requirements, design, Code, and testing. Concentrating multiple roles on fewer staff. The cost of friction in human interactions will do the rest. The excessive cost of inter-team communication outweighs specialized teams’ remaining advantages. But until we get there, it will be a few more years with a lot of unforeseen changes.</p>
+</section>
+<section id="we-always-face-new-code" class="level4" data-number="2.1.3">
+<h4 data-number="2.1.3" class="anchored" data-anchor-id="we-always-face-new-code"><span class="header-section-number">2.1.3</span> We always face new code</h4>
+<p>As we learn more and more during our journey as software developers, we discover reading code is far more important than writing. Usually we read someone else’s code and try to understand it.</p>
+<p>For consulting-work or a short-term project, this is obvious.</p>
+<p>If you always work on the same enormous project, you need to switch assignments and will work on different components. In fact, a dynamic and growing software business will always need to pivot the existing engineering staff to other tasks. Just hiring new engineers is not cost efficient.</p>
+<p>Even when you work all by yourself. Remembering the details of your code becomes difficult after about six months.</p>
+<p>So regardless of your works nature. If you are productive, you will frequently encounter new code which needs to put into your works context. We need to understand if the code is doing what it should do. Figuring out what it should is about as hard as ensuring that it is doing this.</p>
+<p>That is why I believe software engineers can not be replaced. Problem discovery and formulation is currently engrained in the process of writing code. Removing or simplifying the process of writing, will not remove problem discovery and formulation.</p>
+</section>
+</section>
+<section id="how-we-approach-unknown-code" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="how-we-approach-unknown-code"><span class="header-section-number">2.2</span> How we approach unknown code</h3>
+<section id="missing-documentation-makes-it-harder" class="level4" data-number="2.2.1">
+<h4 data-number="2.2.1" class="anchored" data-anchor-id="missing-documentation-makes-it-harder"><span class="header-section-number">2.2.1</span> Missing documentation makes it harder</h4>
+<p>Sadly, not all codebases have perfect documentation. The more innovative the business is, the more it will rely on exploration. Often, the original creator quickly produced and then abandoned his software. Take open source source software. While there are many gems with an outstanding code standard, there are as many counterexamples. Even more, even a perfectly documented code, becomes difficult to use if relies on a framework and there are major shifts in the framework.</p>
+<p>One such shift is the change from Python 2 to Python 3. Projects can go stale as it becomes more difficult to update them.</p>
+<p>The lack of documentation and especially lack of documented software architecture profoundly hinders grasping the code from a top-down perspective. The only solution, dig through the code.</p>
+</section>
+<section id="poorly-designed-software-takes-a-long-time-to-understand" class="level4" data-number="2.2.2">
+<h4 data-number="2.2.2" class="anchored" data-anchor-id="poorly-designed-software-takes-a-long-time-to-understand"><span class="header-section-number">2.2.2</span> Poorly designed software takes a long time to understand</h4>
+<p>Poorly written software may have suboptimal abstraction and encapsulation.</p>
+<p>An example: Because of performance issues, it can be necessary to use a data structure as an input/output parameter. However, while this is comfortable, it increases code complexity dramatically. This mechanism invites us to just pass on a massive data structure and change a bit about it. Take enough of these functions and complexity will blow up in your face. A similar code smell is the <code>god object</code>. In such a class, side effects are none-obvious.</p>
+<p>The only way to uncover the hidden connections is to read the complete code and keep track of the connections and dependencies which are important to you. Even with a modern IDE (search, find usage), this remains a very time-consuming task.</p>
+</section>
+</section>
+<section id="solid-principles-and-model-based-system-engineering" class="level3" data-number="2.3">
+<h3 data-number="2.3" class="anchored" data-anchor-id="solid-principles-and-model-based-system-engineering"><span class="header-section-number">2.3</span> SOLID principles and model-based system engineering</h3>
+<section id="towards-a-clean-architecture" class="level4" data-number="2.3.1">
+<h4 data-number="2.3.1" class="anchored" data-anchor-id="towards-a-clean-architecture"><span class="header-section-number">2.3.1</span> Towards a clean architecture</h4>
+<p>While I read about the importance of SOLID principles and good architecture in <code>Clean Architecture</code>, I thought about the code I produced myself. Where did I not apply these principles?</p>
+<p>My biggest programming sin is definitively the code that I wrote during my PhD. A non-linear finite element solver, with different material models and integration schemes.</p>
+<p>It lacked so many things. While it had classes, it did not obey all SOLID principles. In particular, it violated dependency inversion. The most abstract classes depended usually on the most concrete classes. For example, instead of using a high level builder, an intermediate level featured flags to select the proper material model. This whole architecture made it quite difficult to test the code. Of course, it did not matter to me, as the thoughts of code coverage and TDD had never crossed my mind.</p>
+<p>Now, having done a in-depth study of ‘Clean Architecture’ and the details about dependency inversion, I wanted to make a clean architecture for my FEM solver.</p>
+<p>I did not even know where to start. Of course my code had an architecture. The architecture had, however, mostly grown organically.</p>
+</section>
+<section id="model-based-engineering" class="level4" data-number="2.3.2">
+<h4 data-number="2.3.2" class="anchored" data-anchor-id="model-based-engineering"><span class="header-section-number">2.3.2</span> Model based engineering</h4>
+<p>As a software developer, I’ve grown fond of using simple Mermaid or PlantUML diagrams. These small diagrams are more formal than paper-based drawings, while still allowing enough freedom to detail the abstractions. UML is the go to tool to formalize your architecture.</p>
+<p>Choosing a pure paper based approach or digital paper in form of text files, one faces the issue to keep source and documentation always in sync.</p>
+<p>It was when working on a large-scale project with a dedicated modelling team; I learned about model-based system engineering. Tools like <code>Enterprise Architecture</code> can generate code from UML diagrams. Some of those tools can even analyse your code and create UML diagrams.</p>
+<p>As a result, you get two views on the same software. One abstract (UML/SysML) and one very concrete (Code). The computer takes care to keep both in sync.</p>
+<p>The abstract system models are usually consistent over several abstraction levels. However, the connection to code only happens at the lowest level. If the connection were to happen on any level, these models could act as the zoom button for the software.</p>
+<p>The major drawback? Usability. Nowadays, software engineers use an IDE. And once being accustomed to their favourite IDE, they do not want to leave it.</p>
+<p>Tools like Enterprise Architect have a steep learning curve, while not having any of the features a modern IDE has. In practice this seems not important. Many safety-aware businesses using model-based system engineering create special roles dedicated to these tools. This introduces the drawback of splitting the model and the code over two people instead of bringing everything closer together.</p>
+<p>In addition, these tools can be pricey. A no-go for small to medium-sized projects.</p>
+<p>Another alternative I discovered is the C4 diagram <code>https://c4model.com</code>. There are some projects that aim to automate the creation <code>https://structurizr.com/</code>.</p>
+</section>
+</section>
+<section id="the-two-way-problem-of-model-based-engineering" class="level3" data-number="2.4">
+<h3 data-number="2.4" class="anchored" data-anchor-id="the-two-way-problem-of-model-based-engineering"><span class="header-section-number">2.4</span> The two-way problem of model-based engineering</h3>
+<section id="forward-code-to-diagrams" class="level4" data-number="2.4.1">
+<h4 data-number="2.4.1" class="anchored" data-anchor-id="forward-code-to-diagrams"><span class="header-section-number">2.4.1</span> Forward: Code to diagrams</h4>
+<p>Generating diagrams from code is state-of-the art. In the following I will only dive into the tools for this usage. Most of the time, tools focus on the class at hand or automatic generation of class diagrams over several classes.</p>
+</section>
+<section id="backward-diagrams-to-code" class="level4" data-number="2.4.2">
+<h4 data-number="2.4.2" class="anchored" data-anchor-id="backward-diagrams-to-code"><span class="header-section-number">2.4.2</span> Backward: Diagrams to code</h4>
+<p>The other way round generating code from diagrams can be much more difficult. Existing system engineering tools can do this. Correct application of MBSE, in fact, results in very detailed diagrams; the model has already gathered all the information. Therefore it is easy to afterwards generate template based modules. This was actually not my idea when I thought about abstraction and a zoom button. As a side node, doing so usually leads to a schism between software engineers and system engineers. In addition, the lack of connection between the two tools usually results in duplicated information.</p>
+<p>A better approach could be the use of multimodal large language models. In an ideal world, we would draw a diagram and describe what we want. The computer would adjust the diagram to the correct constraints and then implement the code. Currently, in 2025, that is not how code generation works, even though the field is moving fast. The part of the constraints is lacking.</p>
+<p>There are disadvantages to this approach. First, such diagrams would need to be flexible enough to facilitate discussion with all stakeholders. Discussions often leave out important details. Potentially, by writing done these assumptions, a LLM could take care of adding the abstracted information in the diagram.</p>
+<p>Second, Model-based engineering enforces formalism, leading to better performance through standardized solutions. However, for the highest performance, we usually need to cut corners. This requires the direct modification of the code by us. That again would be the other direction again. Depending on the domain, it could be faster to directly write the code yourself.</p>
+</section>
+</section>
+</section>
+<section id="part-ii-capturing-all-dependencies-in-one-diagram" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="part-ii-capturing-all-dependencies-in-one-diagram"><span class="header-section-number">3</span> Part II: capturing all dependencies in one diagram</h2>
+<p>When I looked into the subtopic of code to diagrams, I focused on Python. Static-typed languages like C++ are even better for code analysis because of the explicit typing in the code. Many C++ programmers use <code>doxygen</code> extensively. For Python, the code needs to have type hints, for everything beyond base types.</p>
+<p>I found a few open source tools: <code>Pyreverse</code>, <code>Pynsource</code> and <code>Py2Puml</code>. As I explain below, <code>Py2Puml</code> is the best one. However, it falls short in the documentation of class methods. Not really satisfied with the output, I wrote some modifications. Finally, I considered how to better caputure dependencies using graphs. That is why I wrote <code>Py2Graph</code>.</p>
+<section id="meet-our-guinea-pig-package-productworld" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="meet-our-guinea-pig-package-productworld"><span class="header-section-number">3.1</span> Meet our guinea-pig package: Productworld</h3>
+<p>To evaluate the different programs, I came up with a simple package: <code>Productworld</code>.</p>
+<p>Below, you find the package structure and the full code.</p>
+<p>Important to me was the use of an abstract class and the occurrence of the other classes in signature, member list, and function bodies. I also wanted free functions to be documented. Regardless how important, free functions do not exist in a standard UML class diagram. So I expected the tools to fall short here.</p>
+<section id="packages-and-components" class="level4" data-number="3.1.1">
+<h4 data-number="3.1.1" class="anchored" data-anchor-id="packages-and-components"><span class="header-section-number">3.1.1</span> Packages and Components</h4>
+<pre><code>
+productworld/
+├── base/
+│   ├── base.py
+│   └── customer.py
+└── products/
+    └── products.py
+</code></pre>
+</section>
+<section id="the-full-code" class="level4" data-number="3.1.2">
+<h4 data-number="3.1.2" class="anchored" data-anchor-id="the-full-code"><span class="header-section-number">3.1.2</span> The full code</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># base.py</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> abc <span class="im">import</span> ABC, abstractmethod  </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Product(ABC):  </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, product_id, name):  </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.product_id <span class="op">=</span> product_id  </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.name <span class="op">=</span> name  </span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">@abstractmethod</span>  </span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get_price(<span class="va">self</span>):  </span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">pass</span>  </span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> NewOrder:  </span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, order_id, product: Product, quantity):  </span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.order_id <span class="op">=</span> order_id  </span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.product:Product <span class="op">=</span> product  </span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.quantity <span class="op">=</span> quantity  </span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> calculate_total(<span class="va">self</span>, product:Product)<span class="op">-&gt;</span><span class="bu">int</span>:  </span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.product.price <span class="op">*</span> <span class="va">self</span>.quantity  </span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Order:  </span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, order_id, product:Product, quantity):  </span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.order_id <span class="op">=</span> order_id  </span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.product <span class="op">=</span> Product()  </span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.quantity <span class="op">=</span> quantity  </span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> calculate_total(<span class="va">self</span>)<span class="op">-&gt;</span><span class="bu">int</span>:  </span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.product.price <span class="op">*</span> <span class="va">self</span>.quantity  </span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>          </span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fancyFunc(order: Order):  </span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="dv">42</span>  </span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> funkyFunc():  </span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a> <span class="cf">return</span> <span class="dv">42</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a><span class="co"># customer.py</span></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List  </span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> productworld.base.base <span class="im">import</span> Order,fancyFunc, NewOrder  </span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Customer:  </span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, customer_id, name):  </span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.customer_id <span class="op">=</span> customer_id  </span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.name <span class="op">=</span> name  </span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.orders <span class="op">=</span> []  </span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.newestOrder :NewOrder <span class="op">=</span> NewOrder()  </span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> add_order(<span class="va">self</span>, order: Order):  </span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.orders.append(order)  </span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.orders.append(NewOrder())  </span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>        fancyFunc(order)  </span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get_total_spent(<span class="va">self</span>)<span class="op">-&gt;</span> <span class="bu">int</span>:  </span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">sum</span>(order.calculate_total() <span class="cf">for</span> order <span class="kw">in</span> <span class="va">self</span>.orders)</span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a><span class="co"># products.py</span></span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> productworld.base.base <span class="im">import</span> Product  </span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> productworld.base.base <span class="im">import</span> funkyFunc  </span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>       </span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> PhysicalProduct(Product):  </span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, product_id, name, price):  </span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>(product_id, name)  </span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.price <span class="op">=</span> price  </span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get_price(<span class="va">self</span>):  </span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.price  </span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> DigitalProduct(Product):  </span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, product_id, name, price, discount):  </span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>(product_id, name)  </span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.price <span class="op">=</span> price  </span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.discount <span class="op">=</span> discount  </span>
+<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a>        funkyFunc()  </span>
+<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get_price(<span class="va">self</span>)<span class="op">-&gt;</span><span class="bu">int</span>:  </span>
+<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.price <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> <span class="va">self</span>.discount)   </span>
+<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a>          </span>
+<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Productfactory():  </span>
+<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a> <span class="kw">def</span> create_product(<span class="va">self</span>,pid:<span class="bu">str</span>)<span class="op">-&gt;</span>PhysicalProduct<span class="op">|</span>DigitalProduct:  </span>
+<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a>   <span class="cf">return</span> PhysicalProduct()  </span>
+<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a>     </span>
+<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_product(<span class="va">self</span>,pid:<span class="bu">str</span>)<span class="op">-&gt;</span>PhysicalProduct<span class="op">|</span>DigitalProduct:  </span>
+<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> PhysicalProduct()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</section>
+<section id="existing-tools" class="level3" data-number="3.2">
+<h3 data-number="3.2" class="anchored" data-anchor-id="existing-tools"><span class="header-section-number">3.2</span> Existing tools</h3>
+<section id="pyreverse" class="level4" data-number="3.2.1">
+<h4 data-number="3.2.1" class="anchored" data-anchor-id="pyreverse"><span class="header-section-number">3.2.1</span> Pyreverse</h4>
+<p><code>Pyreverse</code> is part of <code>Pylint</code> and allows you to create an UML diagram for your code.</p>
+<p>If you have Pylint installed, you can easily run it with the following command:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pyreverse</span>  <span class="at">-ALSmy</span>  <span class="at">-o</span> puml     <span class="at">--verbose</span> . </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>What works well:</p>
+<ul>
+<li><p>Inheritance is correctly captured</p></li>
+<li><p>Aggregation is correctly captured</p></li>
+<li><p>Argument and return types are identified</p></li>
+</ul>
+<p>What does not work:</p>
+<ul>
+<li><p>Packages and components are not shown</p></li>
+<li><p>Argument and return type dependencies are not resolved</p></li>
+<li><p>It is a pure UML Class diagram, therefore free functions are not covered</p></li>
+<li><p>Usage of classes in function body is not covered</p></li>
+</ul>
+<p>This is the picture I got:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="classes_pyreverse.svg" class="img-fluid figure-img"></p>
+<figcaption>Pyreverse is a good start, but lacks critical connections</figcaption>
+</figure>
+</div>
+</section>
+<section id="pynsource" class="level4" data-number="3.2.2">
+<h4 data-number="3.2.2" class="anchored" data-anchor-id="pynsource"><span class="header-section-number">3.2.2</span> Pynsource</h4>
+<p>Next I tried <code>Pynsource</code>, which offers a GUI. Adding new files is cumbersome. It’s impossible to update a complete model. Overall, I do not recommend this. The result is worse than <code>Pyreverse</code>.</p>
+<p>What works:</p>
+<ul>
+<li><p>Inheritance is correctly captured</p></li>
+<li><p>Aggregation is captured as a normal dependency</p></li>
+<li><p>Usage of classes in function body is covered as dependency</p></li>
+</ul>
+<p>What does not work:</p>
+<ul>
+<li><p>Packages and components are not shown</p></li>
+<li><p>Argument and return type dependencies are not resolved</p></li>
+<li><p>It is a pure UML Class diagram, therefore free functions are not covered</p></li>
+<li><p>Member types are not identified</p></li>
+</ul>
+<p>In the free version, no saving of the <code>UML</code> file is possible, only a screenshot.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="pynsource.jpg" class="img-fluid figure-img"></p>
+<figcaption>Pynsource has even less information</figcaption>
+</figure>
+</div>
+</section>
+<section id="py2puml" class="level4" data-number="3.2.3">
+<h4 data-number="3.2.3" class="anchored" data-anchor-id="py2puml"><span class="header-section-number">3.2.3</span> Py2puml</h4>
+<p>Finally, I tested <code>Py2puml</code>.</p>
+<p>What works:</p>
+<ul>
+<li><p>Inheritance is correctly captured</p></li>
+<li><p>Aggregation is captured as a composition</p></li>
+<li><p>Member types are identified</p></li>
+<li><p>Packages and components are not shown</p></li>
+<li><p>Abstract class is correctly shown</p></li>
+</ul>
+<p>As I am focused on a clean architecture with dependency inversion, the correct capture of the abstract class is strong plus.</p>
+<p>What does not work:</p>
+<ul>
+<li><p>Class methods are not shown and as such, no argument and return type dependencies are resolved</p></li>
+<li><p>It is a pure UML Class diagram, therefore free functions are not covered</p></li>
+<li><p>Usage of classes in function body is not covered</p></li>
+</ul>
+<p>Overall, I like this the most. The packages reflect the driectories and the components the files. The notion of different levels can be found in this picture.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="classes_py2puml_main.svg" class="img-fluid figure-img"></p>
+<figcaption>Py2puml provides us with information on the module structure, but missing class methods.</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="my-contribution" class="level3" data-number="3.3">
+<h3 data-number="3.3" class="anchored" data-anchor-id="my-contribution"><span class="header-section-number">3.3</span> My Contribution</h3>
+<p>As highlighted above, none of the programs clearly delivered what I wanted to do.</p>
+<p>My favourite was <code>Py2Puml</code>. First, I addressed its major drawback: missing functions.</p>
+<section id="py2puml-with-methods" class="level4" data-number="3.3.1">
+<h4 data-number="3.3.1" class="anchored" data-anchor-id="py2puml-with-methods"><span class="header-section-number">3.3.1</span> Py2puml with methods</h4>
+<p>Luckily for me, there is a py2puml fork that tries to deal with the class method. Details can be found in the pull requests for the py2puml, <a href="https://github.com/lucsorel/py2puml/pull/43">here</a>.</p>
+<p>Unfortunately, the structure of py2puml has changed since the fork date, and the merge is not that straightforward. The PR remains in limbo for 2 years.</p>
+<p>I performed a rudimentary merge of this fork, but this clearly ruined my secondary goal of finding something suitable for production, not just a hobby. I now have loaded myself with a vast pile of technical debt.</p>
+<p>My code is often a mixture of classes and free functions. Therefore, I collect all free functions in Annotation called <code>Methods</code>. Such an annotation exists in every component, every file. Some other minor changes were done as well.</p>
+<p>These changes addressed almost all the critical points of <code>Py2Puml</code></p>
+<p>What does still not work:</p>
+<ul>
+<li>Usage of classes in function body is not covered</li>
+</ul>
+<p>The picture is now much more detailed. There are several connections that did not exist before. The richness of this picture would allow us to add different zoom levels and options. We could clearly hide, for example, the usage of free functions within the same component. However, we should highlight usage across components.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="classes_py2puml_mod.svg" class="img-fluid figure-img"></p>
+<figcaption>Class methods are back thanks to an old fork.</figcaption>
+</figure>
+</div>
+</section>
+<section id="the-next-level-py2graph" class="level4" data-number="3.3.2">
+<h4 data-number="3.3.2" class="anchored" data-anchor-id="the-next-level-py2graph"><span class="header-section-number">3.3.2</span> The next level: Py2Graph</h4>
+<section id="problem-description" class="level6" data-number="3.3.2.0.1">
+<h6 data-number="3.3.2.0.1" class="anchored" data-anchor-id="problem-description"><span class="header-section-number">3.3.2.0.1</span> Problem description</h6>
+<p>There remains the missing linkage of functions that are used within the body of another function. For an inspection, that is quite bad. By changing a class A that is used within the body of another class’ B function, we influence behavior of class B. This is exactly the sort of connection we are interested in and which should be visible. The question is <code>Which classes does class A influence</code>.</p>
+<p>The second drawback is performance. Even on this tiny example, the <code>Py2Puml</code> requires almost 20 milliseconds. For something which should work in not much more than a few milliseconds, that is too long.</p>
+</section>
+<section id="digging-deeper" class="level6" data-number="3.3.2.0.2">
+<h6 data-number="3.3.2.0.2" class="anchored" data-anchor-id="digging-deeper"><span class="header-section-number">3.3.2.0.2</span> Digging deeper</h6>
+<p>The reason is in the architecture of <code>Py2puml</code>. It basically collects lists and then merges them together. To correctly cover all dependencies, we need two passes on the entire codebase. First, we identify existing functions, and then we identify their usage within other classes.</p>
+<p>The same issue applies for the function body. In theory that could also be made to work for the original approach using list.</p>
+</section>
+<section id="my-approach-graphs" class="level6" data-number="3.3.2.0.3">
+<h6 data-number="3.3.2.0.3" class="anchored" data-anchor-id="my-approach-graphs"><span class="header-section-number">3.3.2.0.3</span> My Approach: Graphs</h6>
+<p>I avoided these issues by using another data structure. Instead of using lists, I moved to a graph-based analysis.</p>
+<p>My analysis first analysis all entities (files, modules, classes, functions, members) in hierarchical order. I create a graph node for every parsed entity.</p>
+<p>Edges link contained entities or types with their parent. So a module contains classes, which contain functions and members. This approach ensures coverage of connections within functions. Naturally, this analysis might not include the class used, thus preventing a link. This problem is the two pass issue, again.</p>
+<p>We resolved the two-pass issue by using a placeholder node for expressions the parser had not yet visited. Once the parser analyzes the true entity, it replaces the placeholder node, but keeps its connections.</p>
+<p>If placeholder nodes remain, that is usually a sign that the expression is not from the package in analysis. The system suppresses placeholders in the output.</p>
+</section>
+<section id="analysis-of-solution" class="level5" data-number="3.3.2.1">
+<h5 data-number="3.3.2.1" class="anchored" data-anchor-id="analysis-of-solution"><span class="header-section-number">3.3.2.1</span> Analysis of solution</h5>
+<p>My approach only took 3ms. The speedup actually surprised me. I attribute it to the more efficient implementation of <code>networkx digraph</code>, compared to manual parsing of list and dicts.</p>
+<p>There can now be multiple relationships between two elements, as we distinguish usage in the class and usage in the class methods. The diagram is becoming more complex. This is exactly what I had in mind when I started my tjourney. It is far easier to reduce the full picture to something less than making sense of an incomplete picture.</p>
+<p>The new connection is visible in the connection to <code>base.base.fancyFunc</code> and <code>base.base.funkyFunc</code>. <code>Order</code> is used by<code>fancyFunc</code>. But in the previous version both functions were not used by anybody. In the new version you can see that <code>funkyFunc</code> is used by <code>DigitalProduct</code>. Whereas <code>fancyFunc</code> is used by <code>Customer</code>.</p>
+<p>In the final version of the code I changed to straight lines.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="classes_py2graph.svg" class="zoomable img-fluid figure-img"></p>
+<figcaption>Usage of a graph structure helps us to get the all connections.</figcaption>
+</figure>
+</div>
+</section>
+<section id="a-bigger-example" class="level5" data-number="3.3.2.2">
+<h5 data-number="3.3.2.2" class="anchored" data-anchor-id="a-bigger-example"><span class="header-section-number">3.3.2.2</span> A bigger example</h5>
+<p>As initially mentioned, my interest in reverse diagram generation stemmed from my FEM solver. I rewrote parts of it in Python to test how to implement dependency inversion. And how this would look like in the project class diagram. Just for the record, I provide the full view here.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="package_graphbased.svg" class="zoomable img-fluid figure-img"></p>
+<figcaption>Full view of a python port of my FEM solver classes</figcaption>
+</figure>
+</div>
+</section>
+</section>
+</section>
+</section>
+<section id="part-iii-whats-next---productization" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="part-iii-whats-next---productization"><span class="header-section-number">4</span> Part III: what’s next - Productization</h2>
+<p>So far, this has been a nice study to learn more about UML class relations and the usage of graphs.</p>
+<p>But how could this actually add value in a real project? Remember my colleague who came up with the name <code>zoom button</code>? Clearly we need to run this in a more integrated fashion. It should be a zoom button on a current version of the software. That is why runtime is critical.</p>
+<section id="live-preview" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="live-preview"><span class="header-section-number">4.1</span> Live preview</h3>
+<p>In <code>Pycharm</code> the <code>PlantUML</code> plugin can provide a live view of the <code>UML</code> text file.</p>
+<p>I implemented something similar: A live view that analysis the entire project.</p>
+<p>Saving triggers a new generation of the diagram.</p>
+<p>Here we have two screenshots: in the second I introduced <code>self.newPrice = 100</code> to <code>PhysicalProduct</code>. Because of the slow render time, the change was instant. Type is correctly inferred as <code>int</code> from using <code>100</code>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="screen1.jpg" class="zoomable img-fluid figure-img"></p>
+<figcaption>Screenshot before the manipulation</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="screen2.jpg" class="zoomable img-fluid figure-img"></p>
+<figcaption>Screenshot after adding a member variable</figcaption>
+</figure>
+</div>
+<p>The implementation works by watching for file changes and running a docker image with PlantUML. Upon detecting a change, analyzis is triggered. The UML code from <code>Py2Graph</code> is sent to the PlantUML server. The Server returns the image to the frontend for Display.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="app.svg" class="img-fluid figure-img"></p>
+<figcaption>Deployment view of the live mode</figcaption>
+</figure>
+</div>
+</section>
+<section id="the-complete-zoom-button" class="level3" data-number="4.2">
+<h3 data-number="4.2" class="anchored" data-anchor-id="the-complete-zoom-button"><span class="header-section-number">4.2</span> The complete zoom button</h3>
+<p>I set out to develop the zoom button. Clearly, by showing a more complete picture with all modules, component, and dependencies, we have done the first step. What is missing now is too selectively show information.</p>
+<p>This would require to drop certain information from the graph and then send it to the render server. Highlighting a class’s influence zones would be acccomplished the same way. Thanks to the graph-based structure, we only need to carry out these steps on a graph, not on lists or text files.</p>
+</section>
+<section id="going-beyond-the-zoom-button" class="level3" data-number="4.3">
+<h3 data-number="4.3" class="anchored" data-anchor-id="going-beyond-the-zoom-button"><span class="header-section-number">4.3</span> Going beyond the zoom button</h3>
+<p>What else could be done.</p>
+<p>A call graph or a natural language model can auto-generate sequence diagrams, visualizing data flow as in LabVIEW/Simulink.</p>
+<p>If any of these applications are interesting to you, just drop me a message and let’s discuss.</p>
+<p><a href="https://github.com/dolind/py2puml">Sources for the <code>Py2Puml</code> mod</a></p>
+<p><a href="https://github.com/dolind/py2graph">Sources for <code>Py2Graph</code></a></p>
+<script>
+document.querySelectorAll(".zoomable").forEach(img => {
+  img.style.cursor = "zoom-in";
+  img.addEventListener("click", () => {
+    img.style.transform = img.style.transform === "scale(2)" ? "scale(1)" : "scale(2)";
+    img.style.transition = "transform 0.25s ease";
+  });
+});
+</script>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<div class="container">
+
+<div class="ml-subscribe-box">
+  <p><strong>Like this post?</strong> Get espresso-shot tips and slow-pour insights straight to your inbox.</p>
+<!-- MailerLite Universal -->
+<script>
+    (function(w,d,e,u,f,l,n){w[f]=w[f]||function(){(w[f].q=w[f].q||[])
+    .push(arguments);},l=d.createElement(e),l.async=1,l.src=u,
+    n=d.getElementsByTagName(e)[0],n.parentNode.insertBefore(l,n);})
+    (window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');
+    ml('account', '1642227');
+</script>
+<!-- End MailerLite Universal -->
+
+<div class="ml-embedded" data-form="kY9B7p"></div>
+</div>
+
+<h2>Comments</h2>
+<p>Join the discussion below.</p>
+</div>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/www\.storymelange\.com");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<script src="https://utteranc.es/client.js" repo="dolind/dolind.github.io" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p><br> © 2025 by Dr.&nbsp;Dominik Lindner<br> This website was created with <a href="https://quarto.org"><img src="../../../quarto.jpg" class="img-fluid" alt="Quarto" width="65"></a></p>
+</div>   
+    <div class="nav-footer-center">
+<p><br> <strong><a href="../../../impressum.html">Impressum</a></strong><br></p>
+<div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
+    <div class="nav-footer-right">
+<p><br> <span class="tagline-footer"> Code · Data · Curiosity <br> Espresso-strength insights on AI, systems, and learning. </span></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Dominik Lindner">
+<meta name="dcterms.date" content="2024-04-24">
+<meta name="description" content="A summary with link to the previous posts">
+
+<title>Here is what I learned from thinking fast and slow. – Story Melange</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="../../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-b524e5e10053bf5bea4dd5b3071a8bf3.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-40a45da1a7017d7a4022ef73fce677a9.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+<script type="text/javascript" charset="UTF-8">
+document.addEventListener('DOMContentLoaded', function () {
+cookieconsent.run({
+  "notice_banner_type":"simple",
+  "consent_type":"implied",
+  "palette":"light",
+  "language":"en",
+  "page_load_consent_levels":["strictly-necessary","functionality","tracking","targeting"],
+  "notice_banner_reject_button_hide":false,
+  "preferences_center_close_button_hide":false,
+  "website_name":""
+  ,
+"language":"en"
+  });
+});
+</script> 
+  
+
+
+<link rel="stylesheet" href="../../styles.css">
+<meta property="og:title" content="Here is what I learned from thinking fast and slow. – Story Melange">
+<meta property="og:description" content="A summary with link to the previous posts">
+<meta property="og:site_name" content="Story Melange">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Story Melange</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../projects.html"> 
+<span class="menu-text">Projects</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../archive.html"> 
+<span class="menu-text">Archive</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../subscribe.html"> 
+<span class="menu-text">Subscribe</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/dolind"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/dominiklindner/"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="mailto:info@storymelange.com"> <i class="bi bi-envelope" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../index.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#software-development" id="toc-software-development" class="nav-link active" data-scroll-target="#software-development">1 Software development</a>
+  <ul class="collapse">
+  <li><a href="#programming" id="toc-programming" class="nav-link" data-scroll-target="#programming">1.1 Programming</a></li>
+  <li><a href="#planning" id="toc-planning" class="nav-link" data-scroll-target="#planning">1.2 Planning</a></li>
+  <li><a href="#management" id="toc-management" class="nav-link" data-scroll-target="#management">1.3 Management</a></li>
+  </ul></li>
+  <li><a href="#storytelling" id="toc-storytelling" class="nav-link" data-scroll-target="#storytelling">2 Storytelling</a></li>
+  <li><a href="#self-improvement" id="toc-self-improvement" class="nav-link" data-scroll-target="#self-improvement">3 Self Improvement</a></li>
+  <li><a href="#money" id="toc-money" class="nav-link" data-scroll-target="#money">4 Money</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content column-page-left" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Here is what I learned from thinking fast and slow.</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">Knowledge Work</div>
+    <div class="quarto-category">Storytelling</div>
+    <div class="quarto-category">Growth</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    A summary with link to the previous posts
+  </div>
+</div>
+
+
+<div class="quarto-title-meta column-page-left">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Dominik Lindner </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">April 24, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Almost everyone agrees that you should read good books. Few people do. And even less are able to recall important lessons of the book after some time.</p>
+<p>How to remember the content from good books? The usual approach is to summarize a book and extract its key lessons. Blinkist and many other summary websites splendidly do this.</p>
+<p>In my opinion, this approach hinders us from learning from a book. Learning from books is mainly enabled by the exercise of written ideas. We can directly transfer the prescribed methods to our reality, like recipes from a cookbook.</p>
+<p>This approach is limited when applied to more abstract topics such as management or thinking. Insights about thinking are difficult to understand and even more cumbersome to use.</p>
+<p>In my opinion, the book is only a teacher. It can show you the general rules. But to digest the book, you must apply the rules to your own life. And the quickest way to do that is to write about such occasions. Writing is much more condensed than waiting for the next experience when you can apply the rules. By writing, you tell your own stories and create your own simulator.</p>
+<p>The topics that interest me are software development, storytelling, self-improvement, and money.</p>
+<p>So let’s talk about Thinking, Fast and Slow. I read the book in 2021, and spend most of the year of 2022 to come up with article ideas. I think it is a fantastic book, which anybody ought to have read, as it deepens your understanding of the human mind. Kahneman, who died this year, got the Nobel prize for his work and this book contains much of his knowledge.</p>
+<section id="software-development" class="level2">
+<h2 class="anchored" data-anchor-id="software-development">1 Software development</h2>
+<section id="programming" class="level3">
+<h3 class="anchored" data-anchor-id="programming">1.1 Programming</h3>
+<p>As a programmer, it is easy to be dragged into your code. You spent hours in front of it, only to resurface and see that you were solving the wrong issue. Why that is so can be learned in: <a href="../../posts/think-fast-and-slow/experienced-engineers-stay-away-from-the-flow-zone.html">Experienced engineers stay away from the flow zone</a></p>
+<p>At some point in your career, you have to decide. Do you want to be an expert or remain a generalist? As a decision help, <a href="../../posts/think-fast-and-slow/look-at-your-industrys-state-and-then-decide-if-you-want-to-become-an-expert.html">Look at your industrys state and then decide if you want to become an expert</a>.</p>
+<p>Most engineers dislike PowerPoint and the management presentations that go along with it. There is a reason for it. As engineers, we are fond of small details. Later we wonder why our reporting is not well received. What you should do instead can be learned in <a href="../../posts/think-fast-and-slow/why-engineers-do-not-understand-stories.html">Why engineers do not understand stories</a>.</p>
+</section>
+<section id="planning" class="level3">
+<h3 class="anchored" data-anchor-id="planning">1.2 Planning</h3>
+<p>Planning is everybody’s favorite activity in software development. Plannings are always off.<br>
+Want to try something new? <a href="../../posts/think-fast-and-slow/try-to-establish-your-next-planning-predictions-on-welldefined-reference-points.html">Try to establish your next planning predictions on well-defined reference points</a>.</p>
+<p>Still, uncertainty is inherent to all software development. If too much complexity exists, tasks can not be well planned. <a href="../../posts/think-fast-and-slow/use-risk-policies-and-avoid-common-planning-fallacies-in-software-development.html">Use risk policies and avoid common planning fallacies in software development</a></p>
+<p>At one point in the planning cycle, we always refer to the experts to provide estimates. The issue is not whether you have good experts at hand, but if you should trust your real experts, <a href="../../posts/think-fast-and-slow/trust-me-i-am-an-expert.html">Trust me; I am an expert</a>.</p>
+<p>Once a plan is done, we vote on it. High uniform confidence reveals a lack of trust. <a href="../../posts/think-fast-and-slow/the-safe-confidence-vote-reveals-the-state-of-emotional-security-in-your-project.html">The SAFe confidence vote reveals the state of emotional security in your project</a>.</p>
+<p>Failures settle the history of software engineers like skeletons on the trail through a desert.<br>
+Thorough planning should come before the pitching. It is never done so but would avoid failures. <a href="../../posts/think-fast-and-slow/the-perfect-way-that-projects-will-never-be-planned.html">The perfect way that projects will never be planned</a>.</p>
+<p>One important aspect of planning is to control the success of the plan. Control with regard to efficiency of operation: are you doing all plan tasks. As well as control of effectivity: are the plan tasks doing the right thing. The last aspect is certainly the most challenging in planning and management. Many business books are successfully selling recipes how to deal with both challenges. Most of the time such recipes are biased by survivorship biased and overconfidence. <a href="../../posts/think-fast-and-slow/taylorism-in-complex-environments.html">Taylorism in complex environments</a>deals with the second aspect. Personal confidence does not replace a statistical analysis. Yet we often use KPIs to give our opinions a statistical backing.</p>
+</section>
+<section id="management" class="level3">
+<h3 class="anchored" data-anchor-id="management">1.3 Management</h3>
+<p>Many articles are trying to create a fissure between software developers and management. Some aspects might be accurate, but what also remains true? No software industry without leadership.<br>
+I have three articles, one for the managers:</p>
+<p><a href="../../posts/think-fast-and-slow/good-managers-are-immune-to-survivorship-bias.html">Good managers are immune to survivorship bias</a>. I wrote these articles in the post covid phase in 2022. At this time the back to office debate started.</p>
+<p><a href="../../posts/think-fast-and-slow/you-should-go-back-to-the-office-to-help-your-boss-understand-you.html">You should go back to the office, to help your boss understand you</a></p>
+<p>My last article is details why we will not all return to the office. <a href="../../posts/think-fast-and-slow/the-story-of-covid-and-platos-cave-allegory.html">The story of Covid and Platos cave allegory</a></p>
+</section>
+</section>
+<section id="storytelling" class="level2">
+<h2 class="anchored" data-anchor-id="storytelling">2 Storytelling</h2>
+<p>I started my journey to learn about storytelling and how understanding the mind helps us be better storytellers.<br>
+First, start your story from the listener’s memory <a href="../../posts/think-fast-and-slow/the-good-storyteller-is-a-travel-guide-through-the-listeners-memories.html">202208041700 The good storyteller is a travel guide through the listeners memories.</a></p>
+<p>If you need to give an engineering or science presentation and have bad news, learn <a href="../../posts/think-fast-and-slow/providing-fake-reliability-with-statistics.html">Providing fake reliability with statistics</a>.<br>
+In addition, do not focus on the 100 % correct picture: <a href="../../posts/think-fast-and-slow/why-engineers-do-not-understand-stories.html">Why engineers do not understand stories</a> This is certainly I, as an engineer struggle the most with.</p>
+<p>Last but not least, try to keep a happy face, because <a href="../../posts/think-fast-and-slow/any-fool-can-criticize-condemn-and-complain-and-most-fools-do.html">Any fool can criticize, condemn and complain - and most fools do</a>.</p>
+</section>
+<section id="self-improvement" class="level2">
+<h2 class="anchored" data-anchor-id="self-improvement">3 Self Improvement</h2>
+<p>The topic of rhetoric and storytelling is a reoccurring theme in the big cluster of self-improvement.<br>
+I read my fair share of articles.</p>
+<p>To keep yourself energized<a href="../../posts/think-fast-and-slow/avoid-spending-mental-energy-as-if-would-be-limitless.html">Avoid spending mental energy as if would be limitless</a>. If you find yourself in a tricky situation, try to <a href="../../posts/think-fast-and-slow/use-mental-anchors-to-determine-the-start-position-of-highstakes-discussions.html">Use mental anchors to determine the start position of high-stakes discussions</a>.</p>
+<p>Do you sometimes wonder why we remember certain things and others do not? That is because <a href="../../posts/think-fast-and-slow/regression-to-the-mean-reshapes-our-memories.html">Regression to the mean reshapes our memories</a>.</p>
+<p>And why is your holiday always more memorable than your breakfast. If there are no extremes, bad/good, we can not make lasting memories: <a href="../../posts/think-fast-and-slow/sticking-in-a-shitty-job-deprives-you-of-rich-experiences.html">Sticking in a shitty job, deprives you of rich experiences</a>.</p>
+</section>
+<section id="money" class="level2">
+<h2 class="anchored" data-anchor-id="money">4 Money</h2>
+<p>Money is undoubtedly the hottest topic out there in the blogosphere, web. 2.0, and web 3.0. We all want to be millionaires, but <a href="../../posts/think-fast-and-slow/investors-are-living-from-the-greatest-of-all-treasures-which-is-hope.html">Investors are living from the greatest of all treasures, which is Hope</a>. Inspired by an opening of Terry Pratchetts books.</p>
+<p>If you are not raffling millions on the stock market, you might try to get into your own business and learn, <a href="../../posts/think-fast-and-slow/there-are-no-losses-just-costs-for-profits.html">There are no losses; just costs for profits</a>.</p>
+<p>On the other hand, it is always good to be frugal. And one aspect of being frugal is not buying everything special deal, including insurance.<br>
+Not all insurance costs are transparent; if you are too careful, you forgo good opportunities, <a href="../../posts/think-fast-and-slow/you-are-most-likely-overinsured.html">You are most likely overinsured</a>.</p>
+<p>Inflation was the topic of 2022, therefore last but not least, you maybe wonder why, ;<a href="../../posts/think-fast-and-slow/everybody-wants-more-money-and-thinks-inflation-is-unfair.html">Everybody wants more money and thinks inflation is unfair</a>.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<div class="container">
+
+<div class="ml-subscribe-box">
+  <p><strong>Like this post?</strong> Get espresso-shot tips and slow-pour insights straight to your inbox.</p>
+<!-- MailerLite Universal -->
+<script>
+    (function(w,d,e,u,f,l,n){w[f]=w[f]||function(){(w[f].q=w[f].q||[])
+    .push(arguments);},l=d.createElement(e),l.async=1,l.src=u,
+    n=d.getElementsByTagName(e)[0],n.parentNode.insertBefore(l,n);})
+    (window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');
+    ml('account', '1642227');
+</script>
+<!-- End MailerLite Universal -->
+
+<div class="ml-embedded" data-form="kY9B7p"></div>
+</div>
+
+<h2>Comments</h2>
+<p>Join the discussion below.</p>
+</div>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/www\.storymelange\.com");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<script src="https://utteranc.es/client.js" repo="dolind/dolind.github.io" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p><br> © 2025 by Dr.&nbsp;Dominik Lindner<br> This website was created with <a href="https://quarto.org"><img src="../../quarto.jpg" class="img-fluid" alt="Quarto" width="65"></a></p>
+</div>   
+    <div class="nav-footer-center">
+<p><br> <strong><a href="../../impressum.html">Impressum</a></strong><br></p>
+<div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
+    <div class="nav-footer-right">
+<p><br> <span class="tagline-footer"> Code · Data · Curiosity <br> Espresso-strength insights on AI, systems, and learning. </span></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

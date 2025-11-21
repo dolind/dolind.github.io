@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="dr-d.">
+<meta name="dcterms.date" content="2025-11-21">
+<meta name="description" content="A hands-on demo exploring how Kubernetes Horizontal Pod Autoscaling behaves under real, chaotic load, and why this matters even for ML and embedded engineers.">
+
+<title>Kubernetes for the seasoned non-cloud software developer – Story Melange</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="../../../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-b524e5e10053bf5bea4dd5b3071a8bf3.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap-40a45da1a7017d7a4022ef73fce677a9.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+<script type="text/javascript" charset="UTF-8">
+document.addEventListener('DOMContentLoaded', function () {
+cookieconsent.run({
+  "notice_banner_type":"simple",
+  "consent_type":"implied",
+  "palette":"light",
+  "language":"en",
+  "page_load_consent_levels":["strictly-necessary","functionality","tracking","targeting"],
+  "notice_banner_reject_button_hide":false,
+  "preferences_center_close_button_hide":false,
+  "website_name":""
+  ,
+"language":"en"
+  });
+});
+</script> 
+  
+<script src="../../../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../../../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="../../../styles.css">
+<meta property="og:title" content="Kubernetes for the seasoned non-cloud software developer – Story Melange">
+<meta property="og:description" content="A hands-on demo exploring how Kubernetes Horizontal Pod Autoscaling behaves under real, chaotic load, and why this matters even for ML and embedded engineers.">
+<meta property="og:image" content="https://www.storymelange.com/posts/projects/kubernetes/overview_gui.jpg">
+<meta property="og:site_name" content="Story Melange">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">Story Melange</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../index.html"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../projects.html"> 
+<span class="menu-text">Projects</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../archive.html"> 
+<span class="menu-text">Archive</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../subscribe.html"> 
+<span class="menu-text">Subscribe</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/dolind"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/dominiklindner/"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="mailto:info@storymelange.com"> <i class="bi bi-envelope" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../../index.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#kubernetes-for-the-seasoned-non-cloud-software-developer" id="toc-kubernetes-for-the-seasoned-non-cloud-software-developer" class="nav-link active" data-scroll-target="#kubernetes-for-the-seasoned-non-cloud-software-developer"><span class="header-section-number">1</span> Kubernetes for the seasoned non-cloud software developer</a>
+  <ul class="collapse">
+  <li><a href="#scaling-and-load-balancing" id="toc-scaling-and-load-balancing" class="nav-link" data-scroll-target="#scaling-and-load-balancing"><span class="header-section-number">1.1</span> Scaling and load balancing</a></li>
+  <li><a href="#kubernetes-theory" id="toc-kubernetes-theory" class="nav-link" data-scroll-target="#kubernetes-theory"><span class="header-section-number">1.2</span> Kubernetes Theory</a></li>
+  </ul></li>
+  <li><a href="#the-demo-project-architecture" id="toc-the-demo-project-architecture" class="nav-link" data-scroll-target="#the-demo-project-architecture"><span class="header-section-number">2</span> The demo project architecture</a>
+  <ul class="collapse">
+  <li><a href="#a-simple-core-process" id="toc-a-simple-core-process" class="nav-link" data-scroll-target="#a-simple-core-process"><span class="header-section-number">2.1</span> A simple core process</a></li>
+  <li><a href="#the-users" id="toc-the-users" class="nav-link" data-scroll-target="#the-users"><span class="header-section-number">2.2</span> The users</a></li>
+  <li><a href="#distributed-architecture" id="toc-distributed-architecture" class="nav-link" data-scroll-target="#distributed-architecture"><span class="header-section-number">2.3</span> Distributed architecture</a></li>
+  <li><a href="#single-node-kubernetes-setup" id="toc-single-node-kubernetes-setup" class="nav-link" data-scroll-target="#single-node-kubernetes-setup"><span class="header-section-number">2.4</span> Single Node Kubernetes setup</a></li>
+  </ul></li>
+  <li><a href="#starting-the-demo" id="toc-starting-the-demo" class="nav-link" data-scroll-target="#starting-the-demo"><span class="header-section-number">3</span> Starting the demo</a>
+  <ul class="collapse">
+  <li><a href="#useful-commands" id="toc-useful-commands" class="nav-link" data-scroll-target="#useful-commands"><span class="header-section-number">3.1</span> Useful commands</a></li>
+  </ul></li>
+  <li><a href="#the-demo" id="toc-the-demo" class="nav-link" data-scroll-target="#the-demo"><span class="header-section-number">4</span> The demo</a>
+  <ul class="collapse">
+  <li><a href="#try-it-yourself" id="toc-try-it-yourself" class="nav-link" data-scroll-target="#try-it-yourself"><span class="header-section-number">4.1</span> Try it yourself</a></li>
+  <li><a href="#commented-recording" id="toc-commented-recording" class="nav-link" data-scroll-target="#commented-recording"><span class="header-section-number">4.2</span> Commented recording</a></li>
+  </ul></li>
+  <li><a href="#deep-dive-explanations" id="toc-deep-dive-explanations" class="nav-link" data-scroll-target="#deep-dive-explanations"><span class="header-section-number">5</span> Deep dive explanations</a>
+  <ul class="collapse">
+  <li><a href="#why-scaling-is-lagging-behind" id="toc-why-scaling-is-lagging-behind" class="nav-link" data-scroll-target="#why-scaling-is-lagging-behind"><span class="header-section-number">5.1</span> Why Scaling is lagging behind</a></li>
+  <li><a href="#demo-scaling-vs-production-use" id="toc-demo-scaling-vs-production-use" class="nav-link" data-scroll-target="#demo-scaling-vs-production-use"><span class="header-section-number">5.2</span> Demo Scaling vs Production use</a></li>
+  <li><a href="#the-k8s.yaml-explained" id="toc-the-k8s.yaml-explained" class="nav-link" data-scroll-target="#the-k8s.yaml-explained"><span class="header-section-number">5.3</span> The k8s.yaml explained</a></li>
+  <li><a href="#namespaces" id="toc-namespaces" class="nav-link" data-scroll-target="#namespaces"><span class="header-section-number">5.4</span> Namespaces</a></li>
+  </ul></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">6</span> Summary</a>
+  <ul class="collapse">
+  <li><a href="#why-does-this-matter-for-non-cloud-software-engineers." id="toc-why-does-this-matter-for-non-cloud-software-engineers." class="nav-link" data-scroll-target="#why-does-this-matter-for-non-cloud-software-engineers."><span class="header-section-number">6.1</span> Why does this matter for non-cloud software engineers.</a></li>
+  </ul></li>
+  <li><a href="#add-on-the-full-video" id="toc-add-on-the-full-video" class="nav-link" data-scroll-target="#add-on-the-full-video"><span class="header-section-number">7</span> Add-on: The full video</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content column-page-left" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Kubernetes for the seasoned non-cloud software developer</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">Software Engineering</div>
+    <div class="quarto-category">Applied Engineering</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    A hands-on demo exploring how Kubernetes Horizontal Pod Autoscaling behaves under real, chaotic load, and why this matters even for ML and embedded engineers.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta column-page-left">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>dr-d. </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">November 21, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="kubernetes-for-the-seasoned-non-cloud-software-developer" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="kubernetes-for-the-seasoned-non-cloud-software-developer"><span class="header-section-number">1</span> Kubernetes for the seasoned non-cloud software developer</h2>
+<p>For software developers who have been around for some time, the ever-evolving landscape of tools sometimes becomes frustrating.</p>
+<p>Today I want to write about one aspect of the development cycle: deployment.</p>
+<p>Until a few years ago, deployment was not so much in the development team’s focus. We had separate teams for operations, then slowly DevOps came into our world. From packages, the more advanced teams moved to Docker. Then came the orchestration with carefully crafted scripts or docker compose and docker swarm for the lazy. And then there is Kubernetes.</p>
+<p>In 2017, if you were not deeply working on cloud solutions back then , you had little connection to it. Nowadays, that is different.</p>
+<p>The software world gets more and more connected. Even the epitome of non cloud software, embedded software, gets connected. Great, if your team can have a separate cloud engineer. But what if not? What if responsibility for your cloud backend needs to be shared? This requires not only theoretical knowledge of cloud containerization but some hard-working skills.</p>
+<p>Same for many AI startups search for engineers that know this kind of orchestration. In part because it is essential for the business to operate, in part because the existing engineers are not able to deliver this. The engineers skills are heavily focused on AI, so that a extra engineer is required to take care of the cloud orchestration.</p>
+<p>You can easily understand the standard mechanics of Kubernetes: a container goes in a pod, which has restricted hardware resources. When the pod reaches repeatedly its limits, a new pod is created.</p>
+<p>That is the theory, I create a small demo to visualize how this works in practice.</p>
+<p>So if you work on any solution that uses a cloud backend and the number of users is dynamic, have a look at this article.</p>
+<section id="scaling-and-load-balancing" class="level3" data-number="1.1">
+<h3 data-number="1.1" class="anchored" data-anchor-id="scaling-and-load-balancing"><span class="header-section-number">1.1</span> Scaling and load balancing</h3>
+<p>When the number of users grows, the servers of your backend have an increased load. At some point one CPU is not enough; you need more. But how much more? And when to scale up?</p>
+<p>That is the topic of vertical and horizontal scaling. With Kubernetes resources are constrained.</p>
+<p>Vertical scaling just increases the resources assigned to your application</p>
+<p>Horizontal scaling adds clones of your application and uses a load balancer.</p>
+<p>Some examples may help.</p>
+<p>Vertical scaling is best if the user number stays constant, but the process requires more and more resources: ML training, or complex simulation with unforeseen resource demand are such examples.</p>
+<p>Horizontal scaling works best if the requests can be treated in parallel. This is the standard for web apps, where more and more users send requests. In this demo, we look into horizontal scaling.</p>
+</section>
+<section id="kubernetes-theory" class="level3" data-number="1.2">
+<h3 data-number="1.2" class="anchored" data-anchor-id="kubernetes-theory"><span class="header-section-number">1.2</span> Kubernetes Theory</h3>
+<p>Before we explain the application, let’s look into some Kubernetes Theory. If you have already read this somewhere else skip to the next section.</p>
+<p>The following diagram shows the architecture of the Kubernetes cluster.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TD
+
+  
+
+%% External client
+
+Client[Client]
+
+  
+
+%% Service block
+
+SVC[Service ]
+
+  
+
+%% Node-proxy block
+
+Node[Kube-Proxy ]
+
+  
+
+%% Pod group block
+
+subgraph PodsGroup [Pod replicas ]
+
+PodA[Pod A]
+
+PodB[Pod B]
+
+PodC[Pod C]
+
+end
+
+  
+
+%% Control plane
+
+subgraph ControlPlane [Kubernetes Control Plane]
+
+HPA[Horizontal Pod Autoscaler]
+
+Metrics[Metrics Server]
+
+API[Kubernetes API Server]
+
+end
+
+  
+
+class ControlPlane ctrlPlane;
+
+class PodsGroup, dataPlane;
+
+  
+
+%% Connections
+
+Client --&gt;|request| SVC
+
+SVC --&gt;|forward| Node
+
+Node --&gt; PodA
+
+Node --&gt; PodB
+
+Node --&gt; PodC
+
+  
+
+PodA -.-&gt;|metrics| Metrics
+
+PodB -.-&gt;|metrics| Metrics
+
+PodC -.-&gt;|metrics| Metrics
+
+  
+
+Metrics --&gt; HPA
+
+HPA --&gt;|scale up/down| API
+
+API --&gt;|create/delete pods| PodsGroup
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>We start with the user, that is our <code>Client</code>.</p>
+<p>The <code>Client</code> sends his ‘Request’ to a <code>Service</code>. This services acts as load balancer and calls <code>Kube-Proxy</code> on each node to distribute requests. On the node, there are uses several clones of the same Container. The application container in Kubernetes is wrapped inside a resource constrained <code>Pod</code> Therefore there a multiple replicas of the same <code>Pod</code> (A,B, C).</p>
+<p>The <code>Kubernetes Control Plane</code> contains the orchestration to handle the scaling. We have the <code>Metrics Server</code> which collects CPU and memory usage from each <code>Pod</code>. The <code>Horizontal Pod Autoscaler</code> (HPA) acts on these metrics and scales the pod number up and down. These actions are executed using <code>Kubernetes API Server</code>.</p>
+<p>Key to scaling is the logic inside the HPA, see the deep-dive at the end of the post.</p>
+</section>
+</section>
+<section id="the-demo-project-architecture" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="the-demo-project-architecture"><span class="header-section-number">2</span> The demo project architecture</h2>
+<section id="a-simple-core-process" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="a-simple-core-process"><span class="header-section-number">2.1</span> A simple core process</h3>
+<p>Many real applications are too complicated to play around with the Kubernetes settings. Instead, we just want something stable. It is not our interest to see when the system brakes.</p>
+<p>However, for a demo that is exactly what we want.</p>
+<p>To achieve this, we use a simple CPU burn process. This comes with some flaws, as we will later see, but it allows us to focus more on Kubernetes mechanics.</p>
+<p>This burn process is inside a small backend. The method is put in a small C++ backend using <code>httplib</code> for the webserver.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode cpp code-with-copy"><code class="sourceCode cpp"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> burn_cpu<span class="op">(</span><span class="dt">int</span> ms<span class="op">)</span> <span class="op">{</span>  </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">auto</span> end <span class="op">=</span> high_resolution_clock<span class="op">::</span>now<span class="op">()</span> <span class="op">+</span> milliseconds<span class="op">(</span>ms<span class="op">);</span>  </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">volatile</span> <span class="dt">double</span> x <span class="op">=</span> <span class="fl">0.0001</span><span class="op">;</span>  </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span>high_resolution_clock<span class="op">::</span>now<span class="op">()</span> <span class="op">&lt;</span> end<span class="op">)</span> <span class="op">{</span>  </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> <span class="bu">std::</span>sin<span class="op">(</span>x<span class="op">)</span> <span class="op">*</span> <span class="bu">std::</span>cos<span class="op">(</span>x<span class="op">)</span> <span class="op">*</span> <span class="bu">std::</span>tan<span class="op">(</span>x <span class="op">+</span> <span class="fl">1e-6</span><span class="op">);</span>  </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span>  </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="the-users" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="the-users"><span class="header-section-number">2.2</span> The users</h3>
+<p>Of course the most important part in the drama of autoscaling is played by the user.</p>
+<p>Our users are the hyperactive. They can not wait long for the news to appear on the screen. They constantly press <code>F5</code> and hope for new content.</p>
+<p>When I first implemented the behavior I did naive implementation. However, without network lag, that leads to many many requests per second already for the first two users. That is one of reasons many servers have rate limits. It is not only the cost by request, but also the scaling cost.</p>
+<p>That is actually not what we want. The users should show a defined behavior, and not act too quickly. If we spawn a new pod, that pod is automatically consumed by the users as they can get even quicker results.</p>
+<p>One thing we could do is to prescribe the refresh rate in the frontend:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="pp">setInterval</span>(() <span class="kw">=&gt;</span> {  </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> (inflight <span class="op">&lt;</span> targetUsers) {  </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        inflight<span class="op">++;</span>  </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">fireUser</span>()<span class="op">;</span>  </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    }  </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    inflightEl<span class="op">.</span><span class="at">textContent</span> <span class="op">=</span> <span class="bu">String</span>(inflight)<span class="op">;</span>  </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>}<span class="op">,</span> REFRESH_RATE)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Using <code>REFRESH_RATE</code> changes what we are actually simulating, we switch from a CPU based simulation to a request per second based simulation. The CPU becomes the side effect. Using the CPU load as metric for the HPA does not work in this case. Any improvement of the backend processing time does not lead to quicker cycles as these are bounded.</p>
+<p>Instead, we simulate real user behavior. We add a variable think time at the end of fireUser and let FireUser call itself. The same way a user would need to absorb the new content on the screen before pressing <code>F5</code> again.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fetch</span>(<span class="vs">`/compute?ms=</span><span class="sc">${</span>workMs<span class="sc">}</span><span class="vs">`</span>)  </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="op">...</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">finally</span>(() <span class="kw">=&gt;</span> {  </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>      <span class="op">...</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Realistic user: wait before next action  </span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> thinkTime <span class="op">=</span> <span class="dv">200</span> <span class="op">+</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">random</span>() <span class="op">*</span> <span class="dv">300</span><span class="op">;</span>  <span class="co">// 200–500ms  </span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>        <span class="fu">fireUser</span>()<span class="op">;</span>  </span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        }<span class="op">,</span> thinkTime)<span class="op">;</span>  </span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="distributed-architecture" class="level3" data-number="2.3">
+<h3 data-number="2.3" class="anchored" data-anchor-id="distributed-architecture"><span class="header-section-number">2.3</span> Distributed architecture</h3>
+<p>A Typescript frontend allows us to control the app.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="overview_gui.jpg" class="img-fluid figure-img"></p>
+<figcaption>Frontend to drive scaling of the pods</figcaption>
+</figure>
+</div>
+<p>As in a normal backend, the number of users drives the numbers of requests. We use a 1:1 mapping for simplicity. Different webservices have different tasks. We assume that the tasks are identically sized for each user. Therefore, we only allow the size of the task to change, that is how long the CPU is busy. The first plot shows the response time for each request.</p>
+<p>In addition, we read metrics from the backend. We will explore the details further below. From this metrics we get the CPU usage per pod, and the average load relative to the resource constraint.</p>
+<p>The frontend and the backend are both wrapped inside Docker containers. This is the architecture:</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TD
+
+
+User[User Browser]
+  
+
+subgraph FRONTEND_CONTAINER[Container Frontend]
+
+FE_APP[Typescript Frontend]
+
+end
+
+  
+
+subgraph BACKEND_CONTAINER[Container Backend]
+
+BE_APP[C++ Webserver]
+
+end
+
+  
+
+User --&gt;|HTTP request| FE_APP
+
+FE_APP --&gt;|Compute| BE_APP
+
+  
+
+FE_APP --&gt;|Metrics| BE_APP
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="single-node-kubernetes-setup" class="level3" data-number="2.4">
+<h3 data-number="2.4" class="anchored" data-anchor-id="single-node-kubernetes-setup"><span class="header-section-number">2.4</span> Single Node Kubernetes setup</h3>
+<p>Kubernetes is designed for large scale cloud architectures with many machines. In the cluster world these computers are called nodes. For simplicity I will stick to one node, my pc. If you want to trial multi-node usage you can use <a href="https://killercoda.com/">KillerCoda</a>. However, each node only has only 1 CPU in the free version. You will need to deal with node synchronization and fetching metrics from several nodes. At scale this is solved using tools like <a href="https://prometheus.io/">Prometheus</a>. Complex orchestration becomes easier using a package manager for Kubernetes like <a href="https://helm.sh/">Helm</a>.</p>
+<p>You can run Kubernetes on your own PC with <a href="https://minikube.sigs.k8s.io/docs/">Minikube</a>.</p>
+<section id="setting-up-the-demo-kubernetes-server" class="level4" data-number="2.4.1">
+<h4 data-number="2.4.1" class="anchored" data-anchor-id="setting-up-the-demo-kubernetes-server"><span class="header-section-number">2.4.1</span> Setting up the demo Kubernetes server</h4>
+<p>Some important commands before you start building your Docker images.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Start Minikube</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">minikube</span> start</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># We need metrics, therefore we use the metrics server</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="ex">minikube</span> addons enable metrics-server</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># We need to use the minikube docker daemon</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="bu">eval</span> <span class="st">"</span><span class="va">$(</span><span class="ex">minikube</span> docker-env<span class="va">)</span><span class="st">"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Default Kubernetes settings are conservative to avoid oscillations. Metric intervals are long to avoid acting on spikes. In contrast, for our demo that is exactly what we want. The metrics interval is usually <code>60s</code>. We can lower it to <code>15s</code>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Optional: change metrics server delay:</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">kubectl</span> <span class="at">-n</span> kube-system patch deployment metrics-server <span class="dt">\</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--type</span><span class="op">=</span><span class="st">'json'</span> <span class="dt">\</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">-p</span><span class="op">=</span><span class="st">'[</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="st">    {</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="st">      "op": "replace",</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="st">      "path": "/spec/template/spec/containers/0/args",</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="st">      "value": ["--metric-resolution=15s"]</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="st">    }</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="st">  ]'</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="ex">kubectl</span> rollout restart deployment metrics-server <span class="at">-n</span> kube-system</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</section>
+</section>
+<section id="starting-the-demo" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="starting-the-demo"><span class="header-section-number">3</span> Starting the demo</h2>
+<p>First, you need to clone the repo</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/dolind/color_contrast_k8s</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>and run it</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">run_demo.sh</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>If you prefer more direct control you can invoke <code>kubectl</code>, to control Kubernetes. Once Docker images are build and pushed to the k8s registry, a single command is enough to start the cluster.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">kubectl</span> apply <span class="at">-f</span> k8s.yaml</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="useful-commands" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="useful-commands"><span class="header-section-number">3.1</span> Useful commands</h3>
+<p>Verify the running pods with:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">kubectl</span> top pods <span class="at">-n</span> demo-autoscale</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Access the frontend:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">minikube</span> service frontend <span class="at">-n</span> demo-autoscale</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>See the HPA status:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">kubectl</span> get hpa <span class="at">-n</span> demo-autoscale</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Stop everything:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">kubectl</span> delete all <span class="at">--all</span> <span class="at">-n</span> demo-autoscale</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</section>
+<section id="the-demo" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="the-demo"><span class="header-section-number">4</span> The demo</h2>
+<section id="try-it-yourself" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="try-it-yourself"><span class="header-section-number">4.1</span> Try it yourself</h3>
+<p>The best experience is to try it yourself. I could not find any good free hosting to do this. However the installation instructions for minikube are quite straightforward. Give it a try.</p>
+<section id="what-you-can-do" class="level4" data-number="4.1.1">
+<h4 data-number="4.1.1" class="anchored" data-anchor-id="what-you-can-do"><span class="header-section-number">4.1.1</span> What you can do</h4>
+<p>Adjust the user slider: As more users request the workload, the request time starts to increase. Increase of users is showed with a yellow line and numbers.</p>
+<p>Adjust the work time slider: this hits even harder.</p>
+<p>Kubernetes is configured in such a way, that it will increase the number of pods if CPU usage repeatedly exceeds 80%. For scaling up, a green line is plotted in the requests plot. A red line for downscaling.</p>
+</section>
+</section>
+<section id="commented-recording" class="level3" data-number="4.2">
+<h3 data-number="4.2" class="anchored" data-anchor-id="commented-recording"><span class="header-section-number">4.2</span> Commented recording</h3>
+<p>Sometimes a good demo is a powerpoint or a video. If you can not use the demo yourself, watch the video at the end of the post. In the following I comment what you can see. If you tried the demo yourself and are more interested in technical details, skip to the deep dive.</p>
+<section id="warming-up" class="level4" data-number="4.2.1">
+<h4 data-number="4.2.1" class="anchored" data-anchor-id="warming-up"><span class="header-section-number">4.2.1</span> Warming up</h4>
+<p>We start by slowly adding users up to 11 (each increase is marked by yellow lines, with small numbers).</p>
+<p><img src="warmup.jpeg" class="img-fluid"></p>
+<p>The response time stays almost constant. The initial spikes can be attributed to background process on my machine. After 5 users, the load is increasing. Even after it passed the threshold of 80% with 8 users, it remains quite long at elevated value of 120% for 11 users. Only then does the HPA spawn a new pod (green line).</p>
+<p>After a short startup period, the new pod becomes effective and average load drops below the threshold. This traffic would be identical to a new server in the very early morning.</p>
+</section>
+<section id="user-growth" class="level4" data-number="4.2.2">
+<h4 data-number="4.2.2" class="anchored" data-anchor-id="user-growth"><span class="header-section-number">4.2.2</span> User Growth</h4>
+<p>Let’s see how the system reacts when we add more and more users, up to the maximum of 100.</p>
+<p>This is equivalent to the morning rush at 9 am, when a lot of people might use our service. <img src="growth1.jpeg" class="img-fluid"></p>
+<p>The first wave only goes up to 28 users. After the usual delay, the HPA adds a new pod and manages to bring the load close to 100%.</p>
+<p>As you will later see in the settings, scaling is always conservative as we allow load spikes. In addition, only one pod can be created at a time.</p>
+<p>Next stage, we quickly go up to 57 users. This is equivalent to a faster rush to the servers. <img src="growth2.jpeg" class="img-fluid"></p>
+<p>We can again see the delay, but then the HPA quickly spawns three pods, bringing the load down to 102%.</p>
+</section>
+<section id="maximum-load" class="level4" data-number="4.2.3">
+<h4 data-number="4.2.3" class="anchored" data-anchor-id="maximum-load"><span class="header-section-number">4.2.3</span> Maximum load</h4>
+<p>In a final increase, we very quickly up the user number to 100 users (almost doubling it). The delay is a little smaller now, and three pods are created. However, the load is not going fully down and the HPA waits for stabilization until craeting three more pods. This brings the load back to 86%. <img src="maximumload.jpeg" class="img-fluid"></p>
+</section>
+<section id="load-reduction" class="level4" data-number="4.2.4">
+<h4 data-number="4.2.4" class="anchored" data-anchor-id="load-reduction"><span class="header-section-number">4.2.4</span> Load reduction</h4>
+<p>Our website features flash sales at 9 am. At 9h30, the promotion rate drops. As a result our user numbers reduce by 50%.</p>
+<p>Our pods are underutilized, the load is far below the target line.</p>
+<p>The HPA reacts to this with quick downscaling (red lines). I allowed scaling down several pods at once. As a result, we overscale. Ultimately the HPA needs to bring back up two pods, but lands at 85%.</p>
+<p><img src="overscaling.jpeg" class="img-fluid"></p>
+</section>
+<section id="system-update" class="level4" data-number="4.2.5">
+<h4 data-number="4.2.5" class="anchored" data-anchor-id="system-update"><span class="header-section-number">4.2.5</span> System update</h4>
+<p>One of our engineers made the mistake and introduced a system update right before lunch. The update made the workload go up from 10ms to 90ms per user.</p>
+<p>As a result, the response time is now almost 10 times higher 207 ms vs 24 ms. And the average CPU load has gone up to 250%.</p>
+<p>The HPA reacts after his normal delay, but than scales only with the allowed 1 pod and stabilization periods. This results in a long recovery.</p>
+<p>The message: never do an update to all users at midday.</p>
+<p><img src="load_change.jpeg" class="img-fluid"></p>
+</section>
+</section>
+</section>
+<section id="deep-dive-explanations" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="deep-dive-explanations"><span class="header-section-number">5</span> Deep dive explanations</h2>
+<section id="why-scaling-is-lagging-behind" class="level3" data-number="5.1">
+<h3 data-number="5.1" class="anchored" data-anchor-id="why-scaling-is-lagging-behind"><span class="header-section-number">5.1</span> Why Scaling is lagging behind</h3>
+<p>The metrics on the dashboard use a process called <strong>kubelet</strong>. There is little delay in this metric and we often see a nice match between request increase and load. However, the Scaling relies on two other services: <strong>Horizontal Pod Autoscaler (HPA)</strong>, <strong>Metrics Server</strong>. The Metrics Server collects from <strong>kubelet</strong>, with the configured interval (standard 60s, we reduced to 15s), HPA controller runs every 15s. That means we could have a delay of up to 30s.</p>
+</section>
+<section id="demo-scaling-vs-production-use" class="level3" data-number="5.2">
+<h3 data-number="5.2" class="anchored" data-anchor-id="demo-scaling-vs-production-use"><span class="header-section-number">5.2</span> Demo Scaling vs Production use</h3>
+<p>As a workaround to this metrics delay, I restricted scaling frequency to 10s and only 1 Pod.</p>
+<p>I also tweaked the resource settings to make the whole scaling experience more reactive to the sliders.</p>
+<p>That is not what we want in production.</p>
+<p>Users numbers do not increase that rapidly. Increases are usually more related to time of the day and are predicable. It is very rare for many people hitting a server at the same time, but when it happens the system usually goes down.</p>
+</section>
+<section id="the-k8s.yaml-explained" class="level3" data-number="5.3">
+<h3 data-number="5.3" class="anchored" data-anchor-id="the-k8s.yaml-explained"><span class="header-section-number">5.3</span> The k8s.yaml explained</h3>
+<p>The whole Kubernetes cluster is configured in a yaml file. We will go through each section in this file.</p>
+</section>
+<section id="namespaces" class="level3" data-number="5.4">
+<h3 data-number="5.4" class="anchored" data-anchor-id="namespaces"><span class="header-section-number">5.4</span> Namespaces</h3>
+<p>First of all we can define namespaces. For microservices architecture with many containers, namespaces have the benefit that we can limit the inspection of running pods to a certain namespace.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apiVersion</span><span class="kw">:</span><span class="at"> v1</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">kind</span><span class="kw">:</span><span class="at"> Namespace</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">metadata</span><span class="kw">:</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">name</span><span class="kw">:</span><span class="at"> demo-autoscale</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="services" class="level4" data-number="5.4.1">
+<h4 data-number="5.4.1" class="anchored" data-anchor-id="services"><span class="header-section-number">5.4.1</span> Services</h4>
+<p>In this demo, we expose a single external endpoint via a Service.</p>
+<p>We can see that both backend and frontend are structured similarly:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Frontend</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">apiVersion</span><span class="kw">:</span><span class="at"> v1</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">kind</span><span class="kw">:</span><span class="at"> Service</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">metadata</span><span class="kw">:</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">name</span><span class="kw">:</span><span class="at"> frontend</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">namespace</span><span class="kw">:</span><span class="at"> demo-autoscale</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="fu">spec</span><span class="kw">:</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">type</span><span class="kw">:</span><span class="at"> NodePort</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">selector</span><span class="kw">:</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">app</span><span class="kw">:</span><span class="at"> frontend</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">ports</span><span class="kw">:</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">port</span><span class="kw">:</span><span class="at"> </span><span class="dv">80</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">targetPort</span><span class="kw">:</span><span class="at"> </span><span class="dv">80</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">nodePort</span><span class="kw">:</span><span class="at"> </span><span class="dv">30080</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Backend</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">apiVersion</span><span class="kw">:</span><span class="at"> v1</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">kind</span><span class="kw">:</span><span class="at"> Service</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">metadata</span><span class="kw">:</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">name</span><span class="kw">:</span><span class="at"> backend</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">namespace</span><span class="kw">:</span><span class="at"> demo-autoscale</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="fu">spec</span><span class="kw">:</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">selector</span><span class="kw">:</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">app</span><span class="kw">:</span><span class="at"> backend</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">ports</span><span class="kw">:</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">port</span><span class="kw">:</span><span class="at"> </span><span class="dv">8080</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">targetPort</span><span class="kw">:</span><span class="at"> </span><span class="dv">8080</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>One specific detail here for demo workflows: we use <code>nodePort</code>. This allows us to connect directly to the node port. Otherwise, we would need an ingress controller, something I do not treat in this demo.</p>
+</section>
+<section id="deployments" class="level4" data-number="5.4.2">
+<h4 data-number="5.4.2" class="anchored" data-anchor-id="deployments"><span class="header-section-number">5.4.2</span> Deployments</h4>
+<p>Deployments connect a container to pods and nodes and can detail resource constraints.</p>
+<p>The Frontend is defined to only exist once. As for our app we do not expect much load to the frontend server.</p>
+<p>we define</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apiVersion</span><span class="kw">:</span><span class="at"> apps/v1  </span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">kind</span><span class="kw">:</span><span class="at"> Deployment  </span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">metadata</span><span class="kw">:</span><span class="at">  </span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">name</span><span class="kw">:</span><span class="at"> frontend  </span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">namespace</span><span class="kw">:</span><span class="at"> demo-autoscale  </span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="fu">spec</span><span class="kw">:</span><span class="at">  </span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">replicas</span><span class="kw">:</span><span class="at"> </span><span class="dv">1</span><span class="at">  </span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">selector</span><span class="kw">:</span><span class="at">  </span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">matchLabels</span><span class="kw">:</span><span class="at">  </span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">app</span><span class="kw">:</span><span class="at"> frontend  </span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">template</span><span class="kw">:</span><span class="at">  </span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">metadata</span><span class="kw">:</span><span class="at">  </span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">labels</span><span class="kw">:</span><span class="at">  </span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">app</span><span class="kw">:</span><span class="at"> frontend  </span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">spec</span><span class="kw">:</span><span class="at">  </span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">nodeSelector</span><span class="kw">:</span><span class="at">  </span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">kubernetes.io/hostname</span><span class="kw">:</span><span class="at"> minikube  </span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">containers</span><span class="kw">:</span><span class="at">  </span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> frontend  </span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">image</span><span class="kw">:</span><span class="at"> frontend:latest  </span></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">imagePullPolicy</span><span class="kw">:</span><span class="at"> Never  </span></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">ports</span><span class="kw">:</span><span class="at">  </span></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">containerPort</span><span class="kw">:</span><span class="at"> </span><span class="dv">80</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The option <code>nodeSelector</code> means we pinpoint it to a specific node. This be becomes useful in multi-node environments. As we build our containers right before starting the cluster, we disable pulling. Policies to pull from a specific repository are also possible.</p>
+<p>The backend deployment is more interesting</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apiVersion</span><span class="kw">:</span><span class="at"> apps/v1  </span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">kind</span><span class="kw">:</span><span class="at"> Deployment  </span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">metadata</span><span class="kw">:</span><span class="at">  </span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">name</span><span class="kw">:</span><span class="at"> backend  </span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">namespace</span><span class="kw">:</span><span class="at"> demo-autoscale  </span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="fu">spec</span><span class="kw">:</span><span class="at">  </span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">replicas</span><span class="kw">:</span><span class="at"> </span><span class="dv">1</span><span class="at">  </span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">selector</span><span class="kw">:</span><span class="at">  </span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">matchLabels</span><span class="kw">:</span><span class="at">  </span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">app</span><span class="kw">:</span><span class="at"> backend  </span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">template</span><span class="kw">:</span><span class="at">  </span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">metadata</span><span class="kw">:</span><span class="at">  </span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">labels</span><span class="kw">:</span><span class="at">  </span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">app</span><span class="kw">:</span><span class="at"> backend  </span></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">spec</span><span class="kw">:</span><span class="at">  </span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">containers</span><span class="kw">:</span><span class="at">  </span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> backend  </span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">image</span><span class="kw">:</span><span class="at"> backend:latest  </span></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">imagePullPolicy</span><span class="kw">:</span><span class="at"> Never  </span></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">env</span><span class="kw">:</span><span class="at">  </span></span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> NODE_NAME</span><span class="co">   # needed for metrics</span></span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a><span class="at">            </span><span class="fu">valueFrom</span><span class="kw">:</span><span class="at">  </span></span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a><span class="at">              </span><span class="fu">fieldRef</span><span class="kw">:</span><span class="at">  </span></span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a><span class="at">                </span><span class="fu">fieldPath</span><span class="kw">:</span><span class="at"> spec.nodeName  </span></span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">ports</span><span class="kw">:</span><span class="at">  </span></span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">containerPort</span><span class="kw">:</span><span class="at"> </span><span class="dv">8080</span><span class="at">  </span></span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">resources</span><span class="kw">:</span><span class="at">  </span></span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="fu">requests</span><span class="kw">:</span><span class="at">  </span></span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a><span class="at">            </span><span class="fu">cpu</span><span class="kw">:</span><span class="at"> </span><span class="st">"250m"</span><span class="at">  </span></span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a><span class="at">            </span><span class="fu">memory</span><span class="kw">:</span><span class="at"> </span><span class="st">"64Mi"</span><span class="at">  </span></span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="fu">limits</span><span class="kw">:</span><span class="at">  </span></span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a><span class="at">            </span><span class="fu">cpu</span><span class="kw">:</span><span class="at"> </span><span class="st">"700m"</span><span class="at">  </span></span>
+<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a><span class="at">            </span><span class="fu">memory</span><span class="kw">:</span><span class="at"> </span><span class="st">"128Mi"</span><span class="at">  </span></span>
+<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">livenessProbe</span><span class="kw">:</span><span class="at">  </span></span>
+<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="fu">httpGet</span><span class="kw">:</span><span class="at">  </span></span>
+<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a><span class="at">            </span><span class="fu">path</span><span class="kw">:</span><span class="at"> /healthz  </span></span>
+<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a><span class="at">            </span><span class="fu">port</span><span class="kw">:</span><span class="at"> </span><span class="dv">8080</span><span class="at">  </span></span>
+<span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="fu">initialDelaySeconds</span><span class="kw">:</span><span class="at"> </span><span class="dv">3</span><span class="at">  </span></span>
+<span id="cb17-39"><a href="#cb17-39" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="fu">periodSeconds</span><span class="kw">:</span><span class="at"> </span><span class="dv">10</span><span class="at">  </span></span>
+<span id="cb17-40"><a href="#cb17-40" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">readinessProbe</span><span class="kw">:</span><span class="at">  </span></span>
+<span id="cb17-41"><a href="#cb17-41" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="fu">httpGet</span><span class="kw">:</span><span class="at">  </span></span>
+<span id="cb17-42"><a href="#cb17-42" aria-hidden="true" tabindex="-1"></a><span class="at">            </span><span class="fu">path</span><span class="kw">:</span><span class="at"> /healthz  </span></span>
+<span id="cb17-43"><a href="#cb17-43" aria-hidden="true" tabindex="-1"></a><span class="at">            </span><span class="fu">port</span><span class="kw">:</span><span class="at"> </span><span class="dv">8080</span><span class="at">  </span></span>
+<span id="cb17-44"><a href="#cb17-44" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="fu">initialDelaySeconds</span><span class="kw">:</span><span class="at"> </span><span class="dv">2</span><span class="at">  </span></span>
+<span id="cb17-45"><a href="#cb17-45" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="fu">periodSeconds</span><span class="kw">:</span><span class="at"> </span><span class="dv">5</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Note the <code>resources</code> block. We define <code>requests</code> to detail how much of a CPU one pod can request, defined in millicores. In our case, we use a quarter of a core, <code>250m</code>. In <code>limits</code> we allow spikes. The pod can not use more than 0.7 cores. Same concept for memory.</p>
+</section>
+<section id="horizontal-pod-autoscaling" class="level4" data-number="5.4.3">
+<h4 data-number="5.4.3" class="anchored" data-anchor-id="horizontal-pod-autoscaling"><span class="header-section-number">5.4.3</span> Horizontal Pod Autoscaling</h4>
+<p>Horizontal Pod Autoscaling (HPA) is the brain behind the scaling</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apiVersion</span><span class="kw">:</span><span class="at"> autoscaling/v2  </span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">kind</span><span class="kw">:</span><span class="at"> HorizontalPodAutoscaler  </span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">metadata</span><span class="kw">:</span><span class="at">  </span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">name</span><span class="kw">:</span><span class="at"> backend  </span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">namespace</span><span class="kw">:</span><span class="at"> demo-autoscale  </span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="fu">spec</span><span class="kw">:</span><span class="at">  </span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">scaleTargetRef</span><span class="kw">:</span><span class="at">  </span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">apiVersion</span><span class="kw">:</span><span class="at"> apps/v1  </span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">kind</span><span class="kw">:</span><span class="at"> Deployment  </span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">name</span><span class="kw">:</span><span class="at"> backend  </span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">minReplicas</span><span class="kw">:</span><span class="at"> </span><span class="dv">1</span><span class="at">  </span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">maxReplicas</span><span class="kw">:</span><span class="at"> </span><span class="dv">20</span><span class="at">  </span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">behavior</span><span class="kw">:</span><span class="at">  </span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">scaleDown</span><span class="kw">:</span><span class="at">  </span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">stabilizationWindowSeconds</span><span class="kw">:</span><span class="at"> </span><span class="dv">0</span><span class="at">  </span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">policies</span><span class="kw">:</span><span class="at">  </span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">type</span><span class="kw">:</span><span class="at"> Percent  </span></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="fu">value</span><span class="kw">:</span><span class="at"> </span><span class="dv">200</span><span class="at">  </span></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="fu">periodSeconds</span><span class="kw">:</span><span class="at"> </span><span class="dv">5</span><span class="at">  </span></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a><span class="at">  </span></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">scaleUp</span><span class="kw">:</span><span class="at">  </span></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">stabilizationWindowSeconds</span><span class="kw">:</span><span class="at"> </span><span class="dv">10</span><span class="at">  </span></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">policies</span><span class="kw">:</span><span class="at">  </span></span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">type</span><span class="kw">:</span><span class="at"> Pods  </span></span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="fu">value</span><span class="kw">:</span><span class="at"> </span><span class="dv">1</span><span class="at">  </span></span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="fu">periodSeconds</span><span class="kw">:</span><span class="at"> </span><span class="dv">10</span><span class="at">  </span></span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">metrics</span><span class="kw">:</span><span class="at">  </span></span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">type</span><span class="kw">:</span><span class="at"> Resource  </span></span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">resource</span><span class="kw">:</span><span class="at">  </span></span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">name</span><span class="kw">:</span><span class="at"> cpu  </span></span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">target</span><span class="kw">:</span><span class="at">  </span></span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="fu">type</span><span class="kw">:</span><span class="at"> Utilization  </span></span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a><span class="at">          </span><span class="fu">averageUtilization</span><span class="kw">:</span><span class="at"> </span><span class="dv">80</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>scaleTargetRef</code> defines for which deployment the scaling is valid. We start with one pod, or replica, but can use up to <code>maxReplicas=20</code>.</p>
+<p>The whole scaling logic is in <code>behavior</code> and <code>metrics</code>.</p>
+<p>In <code>metrics</code>, we define the 80% limit, which has been mentioned before. This limit is calcculated with respect to the <code>requests</code> constraint of the deployment.</p>
+<p>In <code>behavior</code>, we define to check every <code>10s</code>. Keep in mind, that the metrics server only updates only every 15s. Scaling up is limited to 1 pod.</p>
+<p>For downscaling i wanted, immediate downscaling. I removed the stabilization window, and allowed downscaling every 5s. 200% means we can remove up to the minimum of replicas. To my dissatisfaction that did not work in practice.</p>
+</section>
+<section id="access-rights" class="level4" data-number="5.4.4">
+<h4 data-number="5.4.4" class="anchored" data-anchor-id="access-rights"><span class="header-section-number">5.4.4</span> Access rights</h4>
+<p>There are some additional settings in this project’s <code>k8s.yaml</code>. These are related to security and Role-Based Access Control. Even for a small local demo they are necessary for the HPA and the kubelet metrics to work properly.</p>
+</section>
+</section>
+</section>
+<section id="summary" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="summary"><span class="header-section-number">6</span> Summary</h2>
+<p>Great, you made it to the end! I hope you this post helpful. While it is possible to define resource constraints in Docker, those values are final: a container cannot consume more resources than you assign. Kubernetes makes this more flexible by creating additional pod replicas, each with its own resource limits. In addition, the whole deployment can span multiple nodes.</p>
+<p>The dynamic nature of this scaling becomes visual when we add spikes to the requests. The conservative scaling laws that provide stability in normal operation mean that scaling takes longer in peak situations.</p>
+<section id="why-does-this-matter-for-non-cloud-software-engineers." class="level3" data-number="6.1">
+<h3 data-number="6.1" class="anchored" data-anchor-id="why-does-this-matter-for-non-cloud-software-engineers."><span class="header-section-number">6.1</span> Why does this matter for non-cloud software engineers.</h3>
+<p>In today’s rapidly changing technical landscape, you should keep up-to-date. Many companies now search a Full-Stack-Engineer. And Full-Stack increasingly means someone who can handle algorithms, architecture, CI-pipelines, deployments, and observability. The last two items are traditionally “ops, but in modern DevOps they have become part of everyday working. Kubernetes is a central tool here.</p>
+<p>But what about all us who happily work on our embedded devices, large and small? There, is Firmware-Over-The-Air and cloud supervision require connectivity. Once Kubernetes is set up, you may not need to touch it often. But under stress, having an idea of the mechanics pays way more than just knowing the concepts.</p>
+<p>There’s also the trend toward edge devices, AI workloads are a major driver here, and traffic often ends up hitting backend systems. In many cases, Kubernetes tooling provides benefits over simple Docker Compose setups:</p>
+<ul>
+<li>Self Healing: Pods restart automatically if they crash.</li>
+<li>Rolling updates: New version comes up before the old one goes down; automatic rollbacks are easy to implement.</li>
+<li>Service Discovery &amp; Networking: Built-in DNS and load balancing; scaling requires no manual wiring.</li>
+<li>Resource Scaling: Core concept completely missing in plain Docker and Docker Compose</li>
+</ul>
+</section>
+</section>
+<section id="add-on-the-full-video" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="add-on-the-full-video"><span class="header-section-number">7</span> Add-on: The full video</h2>
+<p>This is the full video of the scaling <video width="1024" controls=""> <source src="out.mp4" type="video/mp4"> </video></p>
+
+
+</section>
+
+</main> <!-- /main -->
+<div class="container">
+
+<div class="ml-subscribe-box">
+  <p><strong>Like this post?</strong> Get espresso-shot tips and slow-pour insights straight to your inbox.</p>
+<!-- MailerLite Universal -->
+<script>
+    (function(w,d,e,u,f,l,n){w[f]=w[f]||function(){(w[f].q=w[f].q||[])
+    .push(arguments);},l=d.createElement(e),l.async=1,l.src=u,
+    n=d.getElementsByTagName(e)[0],n.parentNode.insertBefore(l,n);})
+    (window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');
+    ml('account', '1642227');
+</script>
+<!-- End MailerLite Universal -->
+
+<div class="ml-embedded" data-form="kY9B7p"></div>
+</div>
+
+<h2>Comments</h2>
+<p>Join the discussion below.</p>
+</div>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/www\.storymelange\.com");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<script src="https://utteranc.es/client.js" repo="dolind/dolind.github.io" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p><br> © 2025 by Dr.&nbsp;Dominik Lindner<br> This website was created with <a href="https://quarto.org"><img src="../../../quarto.jpg" class="img-fluid" alt="Quarto" width="65"></a></p>
+</div>   
+    <div class="nav-footer-center">
+<p><br> <strong><a href="../../../impressum.html">Impressum</a></strong><br></p>
+<div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
+    <div class="nav-footer-right">
+<p><br> <span class="tagline-footer"> Code · Data · Curiosity <br> Espresso-strength insights on AI, systems, and learning. </span></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

@@ -1,0 +1,1243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss  xmlns:atom="http://www.w3.org/2005/Atom" 
+      xmlns:media="http://search.yahoo.com/mrss/" 
+      xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+      xmlns:dc="http://purl.org/dc/elements/1.1/" 
+      version="2.0">
+<channel>
+<title>Story Melange</title>
+<link>https://www.storymelange.com/technical-content.html</link>
+<atom:link href="https://www.storymelange.com/technical-content.xml" rel="self" type="application/rss+xml"/>
+<description>Real stories of building systems and leading teams, from quick espresso shots to slow pours.</description>
+<generator>quarto-1.8.26</generator>
+<lastBuildDate>Sun, 31 Aug 2025 00:00:00 GMT</lastBuildDate>
+<item>
+  <title>What I have been reading: What is a ml compiler</title>
+  <dc:creator>Dominik Lindner</dc:creator>
+  <link>https://www.storymelange.com/posts/technical/what-i-have-been-reading-what-is-a-ml-compiler.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="what-is-a-ml-compiler" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="what-is-a-ml-compiler"><span class="header-section-number">1</span> What is a ml compiler?</h2>
+<p>It all started with a big failure. I had bought a coral TPU with the intention to create a Webcam Software which modifies the users appereance. Something similar to <a href="https://avatarify.ai/.md">https://avatarify.ai/</a>.</p>
+<p>This is not possible, as the coral TPU only supports a subset of TensorflowLite instructions. Probably a project down the line, to make a clear writeup of the findings and learnings.</p>
+<p>I came across <a href="https://petewarden.com/2021/12/24/why-are-ml-compilers-so-hard/?utm_source=chatgpt.com">Pete Warden’s article</a>,and a few other resources, and I wanted to collect my thoughts and notes here.</p>
+<p>This is not a deep dive into implementation details but rather an attempt to connect the dots on what ML compilers are, why they’re challenging, and where the ecosystem is headed.</p>
+</section>
+<section id="ml-compilers-aim-at-optimizing-model-execution" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="ml-compilers-aim-at-optimizing-model-execution"><span class="header-section-number">2</span> ML Compilers aim at optimizing model execution</h2>
+<p>In frameworks like <strong>TensorFlow</strong> or <strong>PyTorch</strong>, ML models are represented as <strong>graphs</strong>—directed acyclic graphs (DAGs) of computations. These frameworks typically <strong>interpret</strong> the graph at runtime, similar to how Python interprets code line by line.</p>
+<p>An <strong>ML compiler</strong> takes this model graph and <strong>optimizes it for performance and/or portability</strong>. nstead of executing the model exactly as defined, the compiler transforms the graph into a more efficient form or into a representation that can run on a wider range of devices (CPUs, GPUs, TPUs, edge hardware, etc.).</p>
+<p>For example, <strong>XLA</strong> (Accelerated Linear Algebra) — TensorFlow’s compiler — takes the layers of a graph and converts them into <code>HLOs</code> (High-Level Operations). These HLOs form an <strong>intermediate representation (IR)</strong> that XLA can analyze and optimize before generating code for the target device.</p>
+<p>The “high” in <strong>High-Level Operation</strong> refers either to the level of abstraction or to the fact that it sits at the top of XLA’s compilation pipeline.</p>
+</section>
+<section id="not-the-same-as-your-standard-compiler" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="not-the-same-as-your-standard-compiler"><span class="header-section-number">3</span> Not the same as your standard compiler</h2>
+<p>For traditional software engineers, a <strong>compiler</strong> usually means something straightforward:</p>
+<ul>
+<li>Take a <strong>text file</strong> (e.g., C++ source code)</li>
+<li>Turn it into a <strong>binary executable</strong></li>
+<li>Run it directly on the target platform</li>
+</ul>
+<p>ML compilers, on the other hand, often <strong>don’t produce a final executable</strong>. Instead, they transform the model into <strong>another intermediate representation</strong>. In many cases, the “compiled” model is not ready to execute on its own. It requires further processing before running.</p>
+<p>This can make the term <strong>“compiler”</strong> a bit misleading. It’s less like GCC and more like a pipeline of transformations where performance tuning, graph simplification, and device-specific optimizations happen in stages.</p>
+</section>
+<section id="early-stage-of-standardization" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="early-stage-of-standardization"><span class="header-section-number">4</span> Early stage of standardization</h2>
+<p>Machine learning is experiencing the age of the the wild west. Everybody is defining their <strong>own functions, operators, and layers</strong>.Reuse does not exist.</p>
+<p>Unlike C++—which has around <a href="https://www.fluentcpp.com/getthemap/?utm_source=chatgpt.com">60 keywords and ~105 STL algorithms</a>—there’s no common “vocabulary” for ML models.</p>
+<p>Some Symptoms:</p>
+<ul>
+<li>Even small <strong>1% performance gains</strong> can lead teams to define <strong>new custom operators</strong>.</li>
+<li>These operators may improve benchmark scores but <strong>hurt portability</strong>.</li>
+<li>When it comes time to <strong>deploy models</strong> across devices, you quickly discover that <strong>many operations aren’t supported</strong> on certain hardware.</li>
+</ul>
+<p>What’s missing is a <strong>meta-language for layers</strong>—a standard abstraction layer that frameworks, compilers, and hardware vendors could agree on. Without this, interoperability remains painful.</p>
+</section>
+<section id="digging-deeper-high-level-irs-a-key-abstraction" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="digging-deeper-high-level-irs-a-key-abstraction"><span class="header-section-number">5</span> Digging Deeper High-Level IRs: A Key Abstraction</h2>
+<p>A great explanation of this comes from <a href="https://uditagarwal.in/ml-compilers-part-1-high-level-intermediate-representation/">Udit Agarwal’s article</a>.</p>
+<p>Unlike traditional compilers, where intermediate representations (IRs) are close to the hardware,“high-level IRs are hardware-agnostic and provides a much-needed abstraction”</p>
+<p>These IRs provide:</p>
+<ul>
+<li>A <strong>unified representation</strong> of the model</li>
+<li>A way to perform <strong>graph-level optimizations</strong></li>
+<li>An abstraction layer that allows targeting multiple backends</li>
+</ul>
+<p>Because ML models are represented as <strong>DAGs</strong>, the IR captures both the operations (nodes) and the data dependencies (edges). These DAGs can be <strong>symbolic</strong> (fully defined before execution, like in TensorFlow 1.x) or <strong>imperative</strong> (built on the fly, like in PyTorch).</p>
+</section>
+<section id="graph-optimization-making-models-faster" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="graph-optimization-making-models-faster"><span class="header-section-number">6</span> Graph Optimization: Making Models Faster</h2>
+<p>Once a model is converted into a graph, ML compilers apply a range of <strong>optimization techniques</strong>:</p>
+<ul>
+<li><strong>Operator fusion</strong> – Combine multiple layers into a single kernel</li>
+<li><strong>Constant folding</strong> – Precompute values where possible</li>
+<li><strong>Memory optimizations</strong> – Reuse buffers and reduce allocations</li>
+<li><strong>Quantization</strong> – Use lower-precision arithmetic where safe</li>
+<li>the side lists different optimization techniques</li>
+</ul>
+<p>These transformations can significantly improve performance on specialized hardware. If you want a deeper dive, check out another of Agarwal’s articles <a href="https://uditagarwal.in/ml-compilers-part-2-graph-optimizations/?utm_source=chatgpt.com">another of Agarwal’s articles</a></p>
+
+
+</section>
+
+ ]]></description>
+  <category>C++</category>
+  <category>Machine Learning</category>
+  <category>Applied Engineering</category>
+  <guid>https://www.storymelange.com/posts/technical/what-i-have-been-reading-what-is-a-ml-compiler.html</guid>
+  <pubDate>Sun, 31 Aug 2025 00:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Choosing the Right Metric for Classification Models</title>
+  <dc:creator>Dominik Lindner</dc:creator>
+  <link>https://www.storymelange.com/posts/technical/choosing-the-right-metric-for-classification-models.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>When evaluating machine learning models, accuracy is often the first metric that comes to mind. However, <strong>accuracy alone can be misleading</strong>, especially in cases where the dataset is imbalanced or when different types of misclassifications have different consequences. Choosing the right evaluation metric is crucial for ensuring that the model performs well in real-world applications.</p>
+<section id="accuracy-is-best-for-balanced-datasets" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="accuracy-is-best-for-balanced-datasets"><span class="header-section-number">1</span> Accuracy is best for balanced datasets</h2>
+<p>Accuracy measures the percentage of correctly classified instances in a dataset. It is calculated as:</p>
+<p><img src="https://latex.codecogs.com/png.latex?Accuracy%20=%20%5Cfrac%7BTP%20+%20TN%7D%7BTP%20+%20TN%20+%20FP%20+%20FN%7D"></p>
+<p>Where:</p>
+<ul>
+<li><strong>TP (True Positives)</strong> = Correctly predicted positives</li>
+<li><strong>TN (True Negatives)</strong> = Correctly predicted negatives</li>
+<li><strong>FP (False Positives)</strong> = Incorrectly predicted positives</li>
+<li><strong>FN (False Negatives)</strong> = Incorrectly predicted negatives</li>
+</ul>
+<p>For a more detailed definition see, <a href="../../posts/technical/precisionrecall-vs-fntnfptp.html">Precision, Recall, and the Confusion Matrix</a>.</p>
+<p>Accuracy works well when the dataset is <strong>balanced</strong> and the cost of false positives and false negatives is roughly the same.</p>
+<p><strong>Example:</strong></p>
+<p>In <strong>image classification</strong>, where we classify objects like “dog vs.&nbsp;cat” with roughly equal numbers of each class, accuracy is a reliable metric.</p>
+<p><strong>Counter-Example:</strong></p>
+<p>Imagine a fraud detection system where only <strong>1% of transactions</strong> are fraudulent. A naive model that predicts “non-fraud” for every transaction would be <strong>99% accurate</strong> but completely useless in identifying fraud.</p>
+</section>
+<section id="precision-when-false-positives-are-costly" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="precision-when-false-positives-are-costly"><span class="header-section-number">2</span> Precision, when false positives are costly</h2>
+<p>Precision measures how many of the positive predictions are actually correct:</p>
+<p><img src="https://latex.codecogs.com/png.latex?Precision%20=%20%5Cfrac%7BTP%7D%7BTP%20+%20FP%7D"></p>
+<p>A high precision means <strong>fewer false positives</strong>, which is important when a false positive carries significant consequences.</p>
+<p><strong>Example:</strong></p>
+<ul>
+<li><strong>Spam email filtering</strong> → Marking an important email as spam (false positive) can cause users to miss critical messages.</li>
+<li><strong>Hiring decisions</strong> → Selecting the wrong candidate (false positive) could be costly for a company.</li>
+</ul>
+<p><strong>Counter-Example:</strong></p>
+<p>If false negatives (missed positive cases) are more harmful, <strong>recall</strong> is the better metric.</p>
+<hr>
+</section>
+<section id="recall-when-false-negatives-are-costly" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="recall-when-false-negatives-are-costly"><span class="header-section-number">3</span> Recall, when false negatives are costly</h2>
+<p>Recall (also called <strong>sensitivity</strong> or <strong>true positive rate</strong>) measures how many actual positives are correctly identified:</p>
+<p><img src="https://latex.codecogs.com/png.latex?Recall%20=%20%5Cfrac%7BTP%7D%7BTP%20+%20FN%7D"></p>
+<p>A high recall means the model <strong>captures most actual positive cases</strong>, even if it produces some false positives.</p>
+<p><strong>Example:</strong></p>
+<ul>
+<li><strong>Cancer detection</strong> → A false negative (failing to detect cancer) is much worse than a false positive (a healthy person being sent for more tests).</li>
+<li><strong>Fraud detection</strong> → Missing a fraudulent transaction is riskier than investigating a few false alarms.</li>
+</ul>
+<p><strong>Counter-Example:</strong></p>
+<p>If false positives are expensive or disruptive, <strong>precision</strong> is the better metric.</p>
+<hr>
+</section>
+<section id="f1-score-when-you-need-a-balance" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="f1-score-when-you-need-a-balance"><span class="header-section-number">4</span> F1-Score, when you need a balance</h2>
+<p>F1-score is the <strong>harmonic mean</strong> of precision and recall:</p>
+<p><img src="https://latex.codecogs.com/png.latex?F1%20=%202%20%5Ctimes%20%5Cfrac%7B%5Ctext%7BPrecision%7D%20%5Ctimes%20%5Ctext%7BRecall%7D%7D%7B%5Ctext%7BPrecision%7D%20+%20%5Ctext%7BRecall%7D%7D"></p>
+<p>F1-score is particularly useful in cases where the dataset is <strong>imbalanced</strong>, and both false positives and false negatives matter.</p>
+<p><strong>Example:</strong></p>
+<ul>
+<li><strong>Fake news detection</strong> → You need to both <strong>catch fake news (recall)</strong> and <strong>avoid falsely labeling real news as fake (precision)</strong>.</li>
+<li><strong>Medical diagnostics</strong> → It’s important to minimize both <strong>missed diagnoses (FN)</strong> and <strong>false alarms (FP)</strong>.</li>
+</ul>
+<p><strong>Counter-Example:</strong></p>
+<p>If the dataset is balanced and errors are equally costly, <strong>accuracy</strong> is often sufficient.</p>
+</section>
+<section id="auc-roc-when-you-need-to-rank-predictions" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="auc-roc-when-you-need-to-rank-predictions"><span class="header-section-number">5</span> AUC-ROC, when you need to rank predictions</h2>
+<p>AUC-ROC (Area Under the Receiver Operating Characteristic Curve) measures a model’s ability to <strong>distinguish between classes</strong> at different thresholds.</p>
+<p>The ROC curve plots:</p>
+<ul>
+<li><strong>True Positive Rate (Recall)</strong> vs.&nbsp;<strong>False Positive Rate</strong></li>
+<li>AUC (Area Under Curve) <strong>closer to 1</strong> means better classification performance.</li>
+</ul>
+<p><strong>Example:</strong></p>
+<ul>
+<li><strong>Credit risk assessment</strong> → Banks rank loan applicants from “low risk” to “high risk” rather than making a strict yes/no decision.</li>
+<li><strong>Medical triage systems</strong> → Doctors prioritize high-risk patients based on a ranking rather than a strict diagnosis.</li>
+</ul>
+<p><strong>Counter-Example:</strong></p>
+<p>AUC-ROC is great for ranking, but for specific misclassification penalties, <strong>precision, recall, or F1-score</strong> might be better.</p>
+</section>
+<section id="decision-graph" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="decision-graph"><span class="header-section-number">6</span> Decision Graph</h2>
+<p>I came up with a simple decision graph</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TD
+
+A[Start] --&gt; B{Dataset balanced?}
+
+B -- Yes --&gt; C[Use Accuracy]
+
+B -- No --&gt; D{What matters more?}
+
+D -- Balance FP &amp; FN --&gt; E[F1-score]
+
+D -- Avoid False Positives --&gt; F[Precision]
+
+D -- Avoid False Negatives --&gt; G[Recall]
+
+C --&gt; H{Need ranking?}
+
+E --&gt; H
+
+F --&gt; H
+
+G --&gt; H
+
+H -- Yes --&gt; I[AUC-ROC]
+
+H -- No --&gt; J[Done]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 36%">
+<col style="width: 15%">
+<col style="width: 47%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Scenario</strong></th>
+<th><strong>Best Metric</strong></th>
+<th><strong>Why?</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Balanced dataset</strong></td>
+<td><strong>Accuracy</strong></td>
+<td>Errors are equally important.</td>
+</tr>
+<tr class="even">
+<td><strong>Imbalanced dataset</strong></td>
+<td><strong>F1-score</strong></td>
+<td>Balances false positives &amp; false negatives.</td>
+</tr>
+<tr class="odd">
+<td><strong>False positives are costly</strong></td>
+<td><strong>Precision</strong></td>
+<td>Avoids unnecessary alarms.</td>
+</tr>
+<tr class="even">
+<td><strong>False negatives are costly</strong></td>
+<td><strong>Recall</strong></td>
+<td>Ensures we catch as many positives as possible.</td>
+</tr>
+<tr class="odd">
+<td><strong>Need ranking, not classification</strong></td>
+<td><strong>AUC-ROC</strong></td>
+<td>Measures how well the model separates classes.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="final-thoughts" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="final-thoughts"><span class="header-section-number">7</span> <strong>Final Thoughts</strong></h2>
+<p>Choosing the right metric is <strong>critical</strong> to building a model that truly performs well in its intended application. Instead of blindly relying on accuracy, always consider:</p>
+<ul>
+<li><strong>Is the dataset balanced or imbalanced?</strong></li>
+<li><strong>Is it worse to have a false positive or a false negative?</strong></li>
+<li><strong>Are you making a hard classification or ranking predictions?</strong></li>
+</ul>
+<p>By aligning the evaluation metric with your real-world goals, you’ll ensure that your model delivers meaningful and impactful results.</p>
+
+
+</section>
+
+ ]]></description>
+  <category>Machine Learning</category>
+  <category>Data Science</category>
+  <guid>https://www.storymelange.com/posts/technical/choosing-the-right-metric-for-classification-models.html</guid>
+  <pubDate>Fri, 29 Aug 2025 00:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Avoiding Python version chaos in ML</title>
+  <dc:creator>Dominik Lindner</dc:creator>
+  <link>https://www.storymelange.com/posts/technical/avoiding-python-version-chaos-in-ml.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="frequently-changing-projects" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="frequently-changing-projects"><span class="header-section-number">1</span> Frequently changing projects</h2>
+<p>When I started with my first machine learning (ML) project in 2020 it naively tried to install <code>cuda</code> on my pc. It took me a day. There were multiple incompatible libraries and difficult to install packages.</p>
+<p>Even recently, another issue arose, when switching between projects quickly. A bare-metal installation is not practical in this setup. It gets messy fast — especially when one project needs Python 3.10 with TensorFlow 2.15 + GPU, and another wants 3.12 with different dependencies.</p>
+<p>Thankfully, Docker solves all of that.</p>
+<section id="how-is-docker-particularly-useful-for-ml-dev" class="level3" data-number="1.1">
+<h3 data-number="1.1" class="anchored" data-anchor-id="how-is-docker-particularly-useful-for-ml-dev"><span class="header-section-number">1.1</span> How is Docker particularly useful for ML Dev?</h3>
+<p>Docker lets you isolate your dev environment per project, without affecting your system Python. This also can be done via a virtual environment. However, once you need another base python version, you still need to change your system.</p>
+<p>That means you can use <strong>any Python version</strong> inside the container, e.g., Python 3.10 even if your host has 3.12.</p>
+<p>You can install <code>TensorFlow</code>, <code>PyTorch</code> as well as <code>CUDA</code> with NVIDIA containers without polluting your system.</p>
+</section>
+</section>
+<section id="quick-setup-for-ml-dev" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="quick-setup-for-ml-dev"><span class="header-section-number">2</span> Quick Setup for ML Dev</h2>
+<p><strong>Dockerfile (GPU + TensorFlow + Keras):</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode dockerfile code-with-copy"><code class="sourceCode dockerfile"><span id="cb1-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">FROM</span> tensorflow/tensorflow:2.15.0-gpu</span>
+<span id="cb1-2"></span>
+<span id="cb1-3"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">WORKDIR</span> /app</span>
+<span id="cb1-4"></span>
+<span id="cb1-5"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">COPY</span> requirements.txt .</span>
+<span id="cb1-6"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">RUN</span> <span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">pip</span> install <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--no-cache-dir</span> <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-r</span> requirements.txt</span>
+<span id="cb1-7"></span>
+<span id="cb1-8"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">CMD</span> [<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"bash"</span>]</span></code></pre></div></div>
+<p><strong>docker-compose.yml (GPU enabled):</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb2-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">version</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> </span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"3.8"</span></span>
+<span id="cb2-2"></span>
+<span id="cb2-3"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">services</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span></span>
+<span id="cb2-4"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">  </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">keras-dev</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span></span>
+<span id="cb2-5"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">build</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> .</span></span>
+<span id="cb2-6"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">image</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> keras-dev</span></span>
+<span id="cb2-7"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">volumes</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span></span>
+<span id="cb2-8"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">-</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> .:/app</span></span>
+<span id="cb2-9"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">-</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> /your/local/data:/mnt/storage</span></span>
+<span id="cb2-10"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">runtime</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> nvidia</span></span>
+<span id="cb2-11"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">environment</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span></span>
+<span id="cb2-12"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">      </span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">-</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> NVIDIA_VISIBLE_DEVICES=all</span></span>
+<span id="cb2-13"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">tty</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> </span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">true</span></span></code></pre></div></div>
+<p>Build and run:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">docker-compose</span> up <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--build</span></span></code></pre></div></div>
+</section>
+<section id="ide-integration-using-in-pycharm-pro" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="ide-integration-using-in-pycharm-pro"><span class="header-section-number">3</span> IDE Integration, Using in PyCharm (Pro)</h2>
+<ol type="1">
+<li>Add Docker-Compose interpreter</li>
+<li>Point to your <code>docker-compose.yml</code></li>
+<li>Select the <code>keras-dev</code> service</li>
+<li>Use <code>/usr/local/bin/python</code> as the interpreter path</li>
+<li>Enable GPU with NVIDIA Container Toolkit</li>
+</ol>
+<p>Full dev environment with terminal, debugging, and Python completion — inside the container.</p>
+<hr>
+<section id="bonus-one-time-setup-for-gpu-access" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="bonus-one-time-setup-for-gpu-access"><span class="header-section-number">3.1</span> Bonus: One-Time Setup for GPU Access</h3>
+<p><strong>Install NVIDIA Container Toolkit:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">sudo</span> apt install nvidia-container-toolkit</span>
+<span id="cb4-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">sudo</span> nvidia-ctk runtime configure <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--runtime</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>docker</span>
+<span id="cb4-3"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">sudo</span> systemctl restart docker</span></code></pre></div></div>
+<p><strong>Allow docker without sudo:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">sudo</span> usermod <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-aG</span> docker <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">$USER</span></span>
+<span id="cb5-2"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">newgrp</span> docker</span></code></pre></div></div>
+
+
+</section>
+</section>
+
+ ]]></description>
+  <category>Machine Learning</category>
+  <category>Software Engineering</category>
+  <category>Python</category>
+  <guid>https://www.storymelange.com/posts/technical/avoiding-python-version-chaos-in-ml.html</guid>
+  <pubDate>Thu, 28 Aug 2025 00:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>From damping factor to learning rate</title>
+  <dc:creator>Dominik Lindner</dc:creator>
+  <link>https://www.storymelange.com/posts/technical/from-damping-factor-to-learning-rate.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="my-journey-in-the-land-of-machine-learning" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="my-journey-in-the-land-of-machine-learning"><span class="header-section-number">1</span> My journey in the land of Machine Learning</h2>
+<p>When I first heard about machine learning in the middle of the 2010s, it occurred as a big black box for me. I have a PhD in computational material science, and as such, find the concepts quite easy to grasp. Yet, I am often stunned how similar yet how different the fields are.</p>
+<p>The core difference is that people in these fields receive different training and have developed aptitudes for different terms and jargon.</p>
+<p>I often find the ML jargon difficult to understand. However, once you get your head around it, it actually becomes easier to understand.</p>
+<p>Before getting deeper in the field, I found it hard to accept the pretentious term of <code>learning</code>.</p>
+<p>How were systems supposed to learn, as we humans learn? When you scratch the surface, you clearly recognize that the learning is an optimization algorithm.</p>
+<p>In this blog I want to focus on the particular technical term of the <code>learning rate</code>. From the outside, this is the rate of learning of our algorithm. But what does it mean for the mathematically learned fellow? Especially, what does it mean to all the computational scientists?</p>
+<p>In the following, I will contrast the concept in ML with the very similar approach in the finite element method, known too many physical computational scientists.</p>
+</section>
+<section id="fem" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="fem"><span class="header-section-number">2</span> FEM</h2>
+<section id="background" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="background"><span class="header-section-number">2.1</span> Background</h3>
+<p>The Finite Element Method (FEM) began in the 1940s for aerospace structural analysis and grew with computing advances in the 1950s–60s. It works by breaking down complex structures into smaller, manageable elements, solving equations over these elements, and assembling the results. Today, FEM is vital in simulating real-world physics across engineering and science.</p>
+</section>
+<section id="fem-and-the-step-size-in-line-search" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="fem-and-the-step-size-in-line-search"><span class="header-section-number">2.2</span> FEM and the step size in line search</h3>
+<p>In mechanical application of the finite element method, we are interest to solve the equation: <img src="https://latex.codecogs.com/png.latex?%5Cmathbf%7BK%7D%20%5Cmathbf%7Bu%7D%20=%20%5Cmathbf%7Bf%7D_%7B%5Ctext%7Bext%7D%7D"></p>
+<p>where:</p>
+<ul>
+<li><img src="https://latex.codecogs.com/png.latex?%5Cmathbf%7BK%7D"> is the global stiffness matrix.</li>
+<li><img src="https://latex.codecogs.com/png.latex?%5Cmathbf%7Bu%7D"> are the nodal displacements (unknowns).</li>
+<li><img src="https://latex.codecogs.com/png.latex?%5Cmathbf%7Bf%7D_%7B%5Ctext%7Bext%7D%7D"> are the nodal forces.</li>
+</ul>
+<p>The residual is <img src="https://latex.codecogs.com/png.latex?%5Cmathbf%7Br%7D=%5Cmathbf%7Bf%7D_%7B%5Ctext%7Bext%7D%7D-%5Cmathbf%7BK%7D%5Cmathbf%7Bu%7D">.</p>
+<p>A gradient-descent-based update rule takes the form:</p>
+<p><img src="https://latex.codecogs.com/png.latex?%0A%5Cmathbf%7Bu%7D_%7Bt+1%7D%20=%20%5Cmathbf%7Bu%7D_t%20-%20%5Calpha%20(%5Cmathbf%7BK%7D%20%5Cmathbf%7Bu%7D_t-%5Cmathbf%7Bf%7D_%7B%5Ctext%7Bext%7D%7D)%0A"></p>
+<p>where <img src="https://latex.codecogs.com/png.latex?%5Calpha"> is the step size or damping factor, which controls update magnitude.</p>
+<p>In a linear system we can use a potential to describe this</p>
+<p><img src="https://latex.codecogs.com/png.latex?%5Cnabla_%7B%5Cmathbf%7Bu%7D%7D%20%5CPi=%5Cmathbf%7BK%7D%20%5Cmathbf%7Bu%7D_t-%5Cmathbf%7Bf%7D_%7B%5Ctext%7Bext%7D%7D"></p>
+<p>so we get</p>
+<p><img src="https://latex.codecogs.com/png.latex?%0A%5Cmathbf%7Bu%7D_%7Bt+1%7D%20=%20%5Cmathbf%7Bu%7D_t%20-%20%5Calpha%20%5Cnabla_%7B%5Cmathbf%7Bu%7D%7D%20%5CPi%0A"></p>
+<p>An illustration is in the following picture.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://www.storymelange.com/posts/technical/Gradient_descent.svg" class="img-fluid figure-img"></p>
+<figcaption>The step size is the length of each arrow.</figcaption>
+</figure>
+</div>
+<p>If computational resources allow and the matrix <img src="https://latex.codecogs.com/png.latex?%5Cmathbf%7BK%7D"> is not too large, a <strong>direct solution</strong> can be obtained using:</p>
+<p><img src="https://latex.codecogs.com/png.latex?%5Cmathbf%7Bu%7D%20=%20%5Cmathbf%7BK%7D%5E%7B-1%7D%20%5Cmathbf%7Bf%7D_%7B%5Ctext%7Bext%7D%7D"></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Notation
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In this document I use <img src="https://latex.codecogs.com/png.latex?%5Cmathbf%7Bx%7D"> for a vector and <img src="https://latex.codecogs.com/png.latex?%5Cmathbf%7BX%7D"> for a matrix.</p>
+</div>
+</div>
+</section>
+<section id="influence-of-nonlinearity" class="level3" data-number="2.3">
+<h3 data-number="2.3" class="anchored" data-anchor-id="influence-of-nonlinearity"><span class="header-section-number">2.3</span> Influence of Nonlinearity</h3>
+<p>For linear mechanics, the solution is straightforward. The issue arises only when we introduce non-linearity.</p>
+<p>Nonlinearities arise from</p>
+<ul>
+<li>large displacement paths,</li>
+<li>large rotations</li>
+<li>energy dissipating process (plasticity)</li>
+<li>damping</li>
+</ul>
+<p>In the presence of large displacements, these non-linearities lead to ill-conditioning of the matrix <img src="https://latex.codecogs.com/png.latex?K">. A tiny step size would be necessary unless matrix K is adapted. Many solution algorithms exist.</p>
+<p><img src="https://latex.codecogs.com/png.latex?%5Cmathbf%7Bu%7D_%7Bt+1%7D%20=%20%5Cmathbf%7Bu%7D_t%20+%20%5Calpha_t%20%5Cmathbf%7BK%7D%5E%7B-1%7D%20%5Cmathbf%7Br%7D_t"></p>
+<p>We find the optimal <img src="https://latex.codecogs.com/png.latex?%5Calpha_t"> by minimizing the strain energy functional.</p>
+<p><img src="https://latex.codecogs.com/png.latex?%5Calpha_t%20=%20%5Carg%5Cmin_%7B%5Calpha%7D%20J(%5Cmathbf%7Bu%7D_t%20%20-%20%5Calpha%20%5Cmathbf%7BK%7D%5E%7B-1%7D%20%5Cmathbf%7Br%7D_t)"></p>
+<p>One major issue is that the stiffness matrix is variable, there is only a <code>tangent stiffness matrix</code>, <img src="https://latex.codecogs.com/png.latex?%5Cmathbf%7BK%7D_t">, which requires frequent recomputation. This tangent matrix is also called in more general terms the Hessian, which describes the second-order curvature. We will not get into the details here, but we will get back to it below.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Ill-conditioning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The following picture shows geometry as one of the ill-conditioning causes. One element is a lot bigger than the other.</p>
+<p><img src="https://www.storymelange.com/posts/technical/ill_conditioning_12.gif" class="img-fluid" alt="A unequal size of elements leads to a ill-conditioned matrix, https://www.lusas.com/user_area/theory/ill_conditioned_matrices.html">.</p>
+<p>Here’s an example of an ill-conditioned matrix:</p>
+<p><img src="https://latex.codecogs.com/png.latex?%5Cmathbf%7BK%7D%20=%20%5Cbegin%7Bbmatrix%7D%2010%20&amp;%2010%20%5C%5C%2010%20&amp;%2010.0001%20%5Cend%7Bbmatrix%7D"></p>
+<p>This matrix has a high condition number, making it sensitive to small changes in input, which can lead to large errors in numerical computations.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="machine-learning" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="machine-learning"><span class="header-section-number">3</span> Machine learning</h2>
+<section id="linear-models" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="linear-models"><span class="header-section-number">3.1</span> Linear models</h3>
+<p>Machine learning began with linear models like the equation:</p>
+<p><img src="https://latex.codecogs.com/png.latex?%5Cmathbf%7By%7D=%5Cmathbf%7BX%7D%5Cmathbf%7Bw%7D+%5Cmathbf%7Bb%7D">.</p>
+<p>It draws from statistics and early perceptron models of the 1950s.</p>
+<p>Here</p>
+<ul>
+<li><img src="https://latex.codecogs.com/png.latex?%5Cmathbf%7By%7D"> is the vector of output labels (dependent variable)</li>
+<li><img src="https://latex.codecogs.com/png.latex?%5Cmathbf%7BX%7D"> is the feature matrix, the input data, or independent variable</li>
+<li><img src="https://latex.codecogs.com/png.latex?%5Cmathbf%7Bw%7D"> are the weights(model parameters)</li>
+<li><img src="https://latex.codecogs.com/png.latex?%5Cmathbf%7Bb%7D"> are biases, which we can include in w</li>
+</ul>
+<p>You can write this as: <img src="https://latex.codecogs.com/png.latex?%5Cmathbf%7BX%7D%5Cmathbf%7Bw%7D=%5Cmathbf%7By%7D"></p>
+<p>A direct solution equivalent to the FEM equation</p>
+<p><img src="https://latex.codecogs.com/png.latex?%5Cmathbf%7Bu%7D%20=%20%5Cmathbf%7BK%7D%5E%7B-1%7D%20%5Cmathbf%7Br%7D"></p>
+<p>is the equivalent least squares solution is:</p>
+<p><img src="https://latex.codecogs.com/png.latex?%5Cmathbf%7Bw%7D%20=%20(%5Cmathbf%7BX%7D%5ET%20%5Cmathbf%7BX%7D)%5E%7B-1%7D%20%5Cmathbf%7BX%7D%5ET%20%5Cmathbf%7By%7D"></p>
+<p>where (<img src="https://latex.codecogs.com/png.latex?%5Cmathbf%7BX%7D%5ET%20%5Cmathbf%7BX%7D)%5E%7B-1%7D"> is like the inverse of the stiffness matrix, <img src="https://latex.codecogs.com/png.latex?%5Cmathbf%7BK%7D%5E%7B-1%7D"> .</p>
+</section>
+<section id="influence-of-size-and-non-linearity" class="level3" data-number="3.2">
+<h3 data-number="3.2" class="anchored" data-anchor-id="influence-of-size-and-non-linearity"><span class="header-section-number">3.2</span> Influence of size and non-linearity</h3>
+<p>However, ML problems usually have many more parameters than than FEM problems. This brings a few drawbacks for the direct solution.</p>
+<ul>
+<li>matrix inversion is costly and works at <img src="https://latex.codecogs.com/png.latex?O(n%5E3)"> in time.</li>
+<li>and requires <img src="https://latex.codecogs.com/png.latex?O(n%5E2)"> in space.</li>
+<li>correlated features, can lead to near-singular matrices making inversion impossible.</li>
+</ul>
+<p>In addition, it would only work for linear problems, whereas many issues are non-linear, expressed as:</p>
+<p><img src="https://latex.codecogs.com/png.latex?%5Cmathbf%7By%7D%20=%20f(%5Cmathbf%7BX%7D,%20%5Cmathbf%7Bw%7D)"></p>
+<p>where - <img src="https://latex.codecogs.com/png.latex?%5Cmathbf%7By%7D"> is the output vector - <img src="https://latex.codecogs.com/png.latex?f(%5Cmathbf%7BX%7D,%20%5Cmathbf%7Bw%7D)"> is a general function</p>
+<p>Development has focused on iterative methods. Here, the same solvers exist as for FEM: gradient descent, conjugate gradient, or L-BFGS. Mini-batches solve the space requirement issue by analyzing only a small subset. This is then called <code>stochastic gradient descent</code>.</p>
+</section>
+<section id="gradient-descent" class="level3" data-number="3.3">
+<h3 data-number="3.3" class="anchored" data-anchor-id="gradient-descent"><span class="header-section-number">3.3</span> Gradient descent</h3>
+<p>Instead of direct inversion, ML often uses <code>gradient descent``, similar to</code>iterative solvers in FEM` (like conjugate gradient method):</p>
+<p><img src="https://latex.codecogs.com/png.latex?%5Cmathbf%7Bw%7D_%7Bt+1%7D%20=%20%5Cmathbf%7Bw%7D_t%20-%20%5Calpha%20%5Cnabla%20J(%5Cmathbf%7Bw%7D_t)">,</p>
+<p>where <img src="https://latex.codecogs.com/png.latex?J(%5Cmathbf%7Bw%7D)"> is the loss function (analogous to potential energy in FEM). Now <img src="https://latex.codecogs.com/png.latex?%5Calpha"> is the learning rate, but you can see the equation is identical to the FEM equation.</p>
+<p>In our analogy, the stiffness matrix <img src="https://latex.codecogs.com/png.latex?%5Cmathbf%7BK%7D"> is replaced by the loss function. A common choice for regression problems is the <code>Mean Squared Error (MSE)</code>:</p>
+<p><img src="https://latex.codecogs.com/png.latex?J(%5Cmathbf%7Bw%7D)%20=%20%5Cfrac%7B1%7D%7BN%7D%20%5Csum_%7Bi=1%7D%5E%7BN%7D%20(y_i%20-%20%5Cmathbf%7BX%7D_i%20%5Cmathbf%7Bw%7D)%5E2"></p>
+<p>where:</p>
+<ul>
+<li><img src="https://latex.codecogs.com/png.latex?N"> is the number of samples.</li>
+<li><img src="https://latex.codecogs.com/png.latex?y_i"> is the true label.</li>
+<li><img src="https://latex.codecogs.com/png.latex?%5Cmathbf%7BX%7D_i"> is the feature vector (row) for sample i in the matrix.</li>
+</ul>
+<p>The gradient of the loss function is:</p>
+<p><img src="https://latex.codecogs.com/png.latex?%5Cnabla%20J(%5Cmathbf%7Bw%7D)%20=%20-%5Cfrac%7B2%7D%7BN%7D%20%5Csum_%7Bi=1%7D%5E%7BN%7D%20(y_i%20-%20%5Cmathbf%7BX%7D_i%20%5Cmathbf%7Bw%7D)%20%5Cmathbf%7BX%7D_i"></p>
+<p>For more complex problems, first order gradient descent is not enough, we need second order approaches. We examine the curvature and then it is called the Hessian. But again, as for FEM, this is too complex for this article.</p>
+</section>
+<section id="batch-size" class="level3" data-number="3.4">
+<h3 data-number="3.4" class="anchored" data-anchor-id="batch-size"><span class="header-section-number">3.4</span> Batch size</h3>
+<p>As already mentioned, ML problems use a lot of parameters and a lot of data. The size of the data, which is filled in the matrix is called the <code>batch</code>. Using a <code>batch size</code> smaller than the full data is called a <code>mini-batch</code>. We then use a <code>stochastic gradient descent</code>. It is called stochastic as we use a sample of the full data.</p>
+<p>In theory, the mini-batch can go down to 1. In practice this is rare.</p>
+<p><img src="https://latex.codecogs.com/png.latex?%5Cmathbf%7Bw%7D_%7Bt+1%7D%20=%20%5Cmathbf%7Bw%7D_t%20-%20%5Calpha%20%5Cfrac%7B1%7D%7B%7CB%7C%7D%20%5Csum_%7Bi%20%5Cin%20B%7D%20%5Cnabla%20J_i(%5Cmathbf%7Bw%7D_t)"></p>
+<p>where</p>
+<ul>
+<li><img src="https://latex.codecogs.com/png.latex?%7CB%7C"> is the batch size</li>
+<li><img src="https://latex.codecogs.com/png.latex?%5Cnabla%20J_i"> is the evaluation of the loss function for the batch sample</li>
+</ul>
+<p>This approach of divide and conquer is a classic in computer science. In the FEM similar approaches have been developed for large-scale problems, see for example the PGD and other reduced order modeling techniques.</p>
+</section>
+<section id="the-learning-rate-limits-progress" class="level3" data-number="3.5">
+<h3 data-number="3.5" class="anchored" data-anchor-id="the-learning-rate-limits-progress"><span class="header-section-number">3.5</span> The learning rate, limits progress</h3>
+<p>We have previously examined analogies between many optimization equations. One concept that remains to be discussed is the <strong>damping factor</strong>—a critical component in both numerical methods and machine learning.</p>
+<p>Returning to the idea of <strong>line search</strong>, we can observe that a similar approach to what is used in FEM can also be applied in machine learning. In this context, the <strong>learning rate becomes variable</strong>, adapting at each iteration to minimize the objective function along the descent direction:</p>
+<p><img src="https://latex.codecogs.com/png.latex?%5Calpha_t%20=%20%5Carg%5Cmin_%7B%5Calpha%7D%20J(%5Cmathbf%7Bw%7D_t%20-%20%5Calpha%20%5Cnabla%20J(%5Cmathbf%7Bw%7D_t))"></p>
+<p>For small to medium ml problems, this is an excellent solution. This approach ensures a stable convergence of the training process. The issue is that each extra forward/backward pass doubles cost. If your package offers “line search”, this is often backtracking or heuristic scaling.</p>
+<p>For deep learning tasks, inventive folks have come up with explicit prescriptive updates, like the ADAM optimizer. It handles the update rate for each parameter solely based on the gradients.</p>
+<p><img src="https://latex.codecogs.com/png.latex?m_t%20=%20%5Cbeta_1%20m_%7Bt-1%7D%20+%20(1%20-%20%5Cbeta_1)%20%5Cnabla%20J(%5Cmathbf%7Bw%7D_t)"></p>
+<p><img src="https://latex.codecogs.com/png.latex?v_t%20=%20%5Cbeta_2%20v_%7Bt-1%7D%20+%20(1%20-%20%5Cbeta_2)%20(%5Cnabla%20J(%5Cmathbf%7Bw%7D_t))%5E2"></p>
+<p><img src="https://latex.codecogs.com/png.latex?%5Cmathbf%7Bw%7D_%7Bt+1%7D%20=%20%5Cmathbf%7Bw%7D_t%20-%20%5Cfrac%7B%5Calpha%20m_t%7D%7B%5Csqrt%7Bv_t%7D%20+%20%5Cepsilon%7D"></p>
+<p>where:</p>
+<ul>
+<li><img src="https://latex.codecogs.com/png.latex?m_t"> is the <strong>moving average of gradients</strong> (momentum-like behavior).</li>
+<li><img src="https://latex.codecogs.com/png.latex?v_t"> tracks the <strong>moving average of squared gradients</strong> (scales learning rates).</li>
+<li><img src="https://latex.codecogs.com/png.latex?%5Cbeta_1"> and <img src="https://latex.codecogs.com/png.latex?%5Cbeta_2"> control exponential decay rates.</li>
+</ul>
+<p>For the FEM guys reading this: this approach resembles explicit dynamics mass scaling of the time step. There, we calculate the permissible step size for each element and then add any artificial mass to each element. This artificial mass brings the global step size to a desired target.</p>
+<p>Numerically, the approaches differ. Some ensure convergence directly or iteratively; others use update rules and heuristics.</p>
+<p>Iterative solvers, such as <strong>BFGS and L-BFGS</strong>, still have their place in more specialized fields that have higher demands on accuracy or suffer from greater instability.</p>
+<p>The major advantage is that L-BFGS can converge faster than SGD.</p>
+<p>People use it on classic ML problems, with datasets that fit in memory, that is no mini-batch and especially reinforcement learning to handle the instabilities better.</p>
+<p>Another field where a BFGS could be better is fine tuning, small networks, hyper parameter optimization, and word embeddings.</p>
+<p>The field of machine learning is much less mature than FEM, in terms of terminology and also in the development of new numerical methods.</p>
+</section>
+</section>
+<section id="final-comparison" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="final-comparison"><span class="header-section-number">4</span> Final comparison</h2>
+<p>We explored the basics of both fields and pointed out analogies. The analogies often stem from the fact that the underlying optimization math was used. If you are deeped interested in the basics, start <a href="https://en.wikipedia.org/wiki/Mathematical_optimization">here</a>.</p>
+<p>Here is a final comparison table</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 69%">
+<col style="width: 31%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>FEM</th>
+<th>ML</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Damping / time step <img src="https://latex.codecogs.com/png.latex?%5Calpha"></td>
+<td>Learning rate <img src="https://latex.codecogs.com/png.latex?%5Calpha"></td>
+</tr>
+<tr class="even">
+<td>Load vector <img src="https://latex.codecogs.com/png.latex?%5Cmathbf%7Bf%7D_%7B%5Ctext%7Bext%7D%7D"></td>
+<td>Labels <img src="https://latex.codecogs.com/png.latex?%5Cmathbf%7By%7D"></td>
+</tr>
+<tr class="odd">
+<td>Displacements <img src="https://latex.codecogs.com/png.latex?%5Cmathbf%7Bu%7D"></td>
+<td>Parameters <img src="https://latex.codecogs.com/png.latex?%5Cmathbf%7Bw%7D"></td>
+</tr>
+<tr class="even">
+<td>Residual <img src="https://latex.codecogs.com/png.latex?%5Cnabla_%7B%5Cmathbf%7Bu%7D%7D%20%5CPi=%5Cmathbf%7BK%7D%20%5Cmathbf%7Bu%7D_t-%5Cmathbf%7Bf%7D_%7B%5Ctext%7Bext%7D%7D"></td>
+<td>Gradient <img src="https://latex.codecogs.com/png.latex?%5Cnabla%20J(%5Cmathbf%7Bw%7D)"></td>
+</tr>
+<tr class="odd">
+<td>Tangent Stiffness matrix <img src="https://latex.codecogs.com/png.latex?%5Cmathbf%7BK%7D_t"></td>
+<td>Hessian / curvature of loss <img src="https://latex.codecogs.com/png.latex?%5Cmathbf%7BH%7D"></td>
+</tr>
+</tbody>
+</table>
+
+
+</section>
+
+ ]]></description>
+  <category>Machine Learning</category>
+  <category>Applied Engineering</category>
+  <guid>https://www.storymelange.com/posts/technical/from-damping-factor-to-learning-rate.html</guid>
+  <pubDate>Sat, 05 Jul 2025 00:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Be careful using python’s dataclass</title>
+  <dc:creator>Dominik Lindner</dc:creator>
+  <link>https://www.storymelange.com/posts/technical/be-careful-using-pythons-dataclass.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p><img src="https://www.storymelange.com/posts/technical/mutuable_defaults.jpg" class="img-fluid" alt="Mutuable defaults are like clay formed by multiple hands. Everybody can change everything."> ## 1 What’s the Problem with Mutable Defaults?</p>
+<p>When using <code>@dataclass</code>, attributes defined with default values can behave unexpectedly if the default value is a mutable object. In Python, mutable objects (e.g., lists, dictionaries, NumPy arrays) are <strong>shared across all instances</strong> if defined at the class level. This can lead to unintentional coupling between instances.</p>
+<section id="a-stress-strain-data-class" class="level3">
+<h3 class="anchored" data-anchor-id="a-stress-strain-data-class">1.1 A Stress-Strain Data Class</h3>
+<p>I encountered many of these issues when I tried to rewrite an old code of mine following clean architecture princicples. It is my FEM solver I did during my PhD. Let’s have a look at one of the dataclasses <code>CStressStrainData</code>. The goal is to store and manipulate stress-strain-related properties such as stress, strain, and energy which occur during processing in one integration point.</p>
+<p>Here’s a straightforward implementation using <code>@dataclass</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> dataclasses <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> dataclass</span>
+<span id="cb1-2"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> numpy <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> np</span>
+<span id="cb1-3"></span>
+<span id="cb1-4"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">@dataclass</span></span>
+<span id="cb1-5"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">class</span> CStressStrainData:</span>
+<span id="cb1-6">    stress: np.ndarray <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.zeros(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span>)</span>
+<span id="cb1-7">    eps_total: np.ndarray <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.zeros(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span>)</span>
+<span id="cb1-8">    energy: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">float</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span></span></code></pre></div></div>
+<p>Different integration algorithms requiring the a converged solution to start in each step. A class which integrates the current and the converged data is <code>MaterialModel</code> class. We do not need to bother with the actual intend of the class.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">class</span> MaterialModel:</span>
+<span id="cb2-2">    <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">__init__</span>(<span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>):</span>
+<span id="cb2-3">        <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.stress_strain_converged <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> CStressStrainData()</span>
+<span id="cb2-4">        <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.stress_strain <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> CStressStrainData()</span></code></pre></div></div>
+<p>At first glance, this seems fine. Each instance of <code>CStressStrainData</code> appears independent. However, this assumption is <strong>incorrect</strong>.</p>
+</section>
+<section id="the-issue-shared-references" class="level3">
+<h3 class="anchored" data-anchor-id="the-issue-shared-references">1.2 The Issue: Shared References</h3>
+<p>Consider this snippet:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1">model1 <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> MaterialModel()</span>
+<span id="cb3-2">model2 <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> MaterialModel()</span>
+<span id="cb3-3"></span>
+<span id="cb3-4"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Modify eps_total in model1</span></span>
+<span id="cb3-5">model1.stress_strain.eps_total <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+=</span> np.array([<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>])</span>
+<span id="cb3-6"></span>
+<span id="cb3-7"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Inspect eps_total in model2</span></span>
+<span id="cb3-8"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(model2.stress_strain.eps_total)  </span>
+<span id="cb3-9"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Output: [1. 0. 0. 0.]</span></span></code></pre></div></div>
+<p><strong>Wait, what?</strong> Why did modifying <code>model1.stress_strain.eps_total</code> also affect <code>model2</code>? The issue lies in how Python handles mutable objects. When we use <code>np.zeros(4)</code> as a default value, it is created <strong>once at the class level</strong> and shared across all instances.</p>
+</section>
+<section id="why-this-happens-the-core-of-mutable-defaults" class="level2">
+<h2 class="anchored" data-anchor-id="why-this-happens-the-core-of-mutable-defaults">2 Why This Happens: The Core of Mutable Defaults</h2>
+<p>In Python:</p>
+<ol type="1">
+<li><strong>Immutable types</strong> (e.g., integers, floats, strings) are passed by value.</li>
+<li><strong>Mutable types</strong> (e.g., lists, dictionaries, NumPy arrays) are passed by reference.</li>
+</ol>
+<p>When you define a default value like <code>np.zeros(4)</code>, it becomes a <strong>class attribute</strong>, shared among all instances of the class. Any modification affects every instance referencing the same object.</p>
+<p>In our example, both <code>model1.stress_strain.eps_total</code> and <code>model2.stress_strain.eps_total</code> point to the same NumPy array.</p>
+<section id="fixing-the-mutable-default-issue" class="level3">
+<h3 class="anchored" data-anchor-id="fixing-the-mutable-default-issue">2.1 Fixing the Mutable Default Issue</h3>
+<p>The solution is to ensure that each instance gets its <strong>own copy</strong> of the mutable object. In <code>@dataclass</code>, this can be achieved using <code>field(default_factory=...)</code> for mutable defaults.</p>
+<p>Here’s the corrected version:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> dataclasses <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> dataclass, field</span>
+<span id="cb4-2"></span>
+<span id="cb4-3"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">@dataclass</span></span>
+<span id="cb4-4"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">class</span> CStressStrainData:</span>
+<span id="cb4-5">    stress: np.ndarray <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> field(default_factory<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">lambda</span>: np.zeros(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span>))</span>
+<span id="cb4-6">    eps_total: np.ndarray <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> field(default_factory<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">lambda</span>: np.zeros(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span>))</span>
+<span id="cb4-7">    energy: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">float</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span></span></code></pre></div></div>
+</section>
+<section id="why-does-this-work" class="level3">
+<h3 class="anchored" data-anchor-id="why-does-this-work">2.2 Why Does This Work?</h3>
+<ul>
+<li>The expression <code>field(default_factory=...)</code> ensures that a <strong>new object</strong> is created for each instance during initialization.</li>
+<li>The lambda function (<code>lambda: np.zeros(4)</code>) ensures that the factory function is called each time, creating an independent NumPy array.</li>
+</ul>
+<p>Now, the behavior is as expected:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1">model1 <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> MaterialModel()</span>
+<span id="cb5-2">model2 <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> MaterialModel()</span>
+<span id="cb5-3"></span>
+<span id="cb5-4">model1.stress_strain.eps_total <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+=</span> np.array([<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>])</span>
+<span id="cb5-5"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(model2.stress_strain.eps_total)  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Output: [0. 0. 0. 0.]</span></span></code></pre></div></div>
+<p>Each instance of <code>CStressStrainData</code> now has its own independent <code>eps_total</code>.</p>
+</section>
+</section>
+<section id="when-to-use-dataclass-and-mutable-defaults" class="level2">
+<h2 class="anchored" data-anchor-id="when-to-use-dataclass-and-mutable-defaults">3 When to Use <code>@dataclass</code> and Mutable Defaults</h2>
+<section id="pros-of-dataclass" class="level3">
+<h3 class="anchored" data-anchor-id="pros-of-dataclass">3.1 Pros of <code>@dataclass</code>:</h3>
+<ul>
+<li>Reduces boilerplate code by generating <code>__init__</code>, <code>__repr__</code>, and other methods.</li>
+<li>Works well for simple data containers with default values.</li>
+</ul>
+</section>
+<section id="cons-of-dataclass-with-mutable-defaults" class="level3">
+<h3 class="anchored" data-anchor-id="cons-of-dataclass-with-mutable-defaults">3.2 Cons of <code>@dataclass</code> with Mutable Defaults:</h3>
+<ul>
+<li>Requires careful handling of mutable types to avoid shared state issues.</li>
+<li>Can become awkward for complex initialization logic.</li>
+</ul>
+</section>
+<section id="general-rules" class="level3">
+<h3 class="anchored" data-anchor-id="general-rules">3.3 General Rules:</h3>
+<ul>
+<li>Use <code>field(default_factory=...)</code> for mutable defaults.</li>
+<li>Avoid defining mutable objects directly as default values.</li>
+</ul>
+</section>
+<section id="for-complex-classes-switch-back-to-traditional-classses" class="level3">
+<h3 class="anchored" data-anchor-id="for-complex-classes-switch-back-to-traditional-classses">3.4 For complex classes switch back to traditional classses</h3>
+<p>If the class has complex initialization or significant behavior, a traditional class definition might be more appropriate:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">class</span> CStressStrainData:</span>
+<span id="cb6-2">    <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">__init__</span>(<span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>):</span>
+<span id="cb6-3">        <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.stress <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.zeros(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span>)</span>
+<span id="cb6-4">        <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.eps_total <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.zeros(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span>)</span>
+<span id="cb6-5">        <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.energy <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span></span></code></pre></div></div>
+<p>This approach avoids the pitfalls of shared mutable defaults and offers greater flexibility.</p>
+</section>
+</section>
+<section id="key-takeaways" class="level2">
+<h2 class="anchored" data-anchor-id="key-takeaways">4 Key Takeaways</h2>
+<ol type="1">
+<li><p><strong>Understand mutable defaults</strong>:</p>
+<ul>
+<li>Avoid using mutable objects like lists or NumPy arrays as direct default values.</li>
+</ul></li>
+<li><p><strong>Use <code>field(default_factory=...)</code></strong>:</p>
+<ul>
+<li>It’s the correct way to define mutable defaults in <code>@dataclass</code>.</li>
+</ul></li>
+<li><p><strong>Test for shared references</strong>:</p>
+<ul>
+<li>Use <code>id()</code> or inspect behavior to confirm objects are independent.</li>
+</ul></li>
+<li><p><strong>Know when to skip <code>@dataclass</code></strong>:</p>
+<ul>
+<li>If initialization or behavior is complex, a regular class might be a better choice.</li>
+</ul></li>
+</ol>
+<p>By following these best practices, you can leverage the power of <code>@dataclass</code> without falling into the mutable defaults trap.</p>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">5 Conclusion</h2>
+<p>Mutable defaults can be a subtle but impactful bug in Python. Using <code>@dataclass</code> is a great way to simplify your code, but you must handle mutable objects carefully. With <code>field(default_factory=...)</code> and proper design, you can avoid unexpected behavior and keep your code clean and robust.</p>
+
+
+</section>
+
+ ]]></description>
+  <category>Python</category>
+  <category>Software Engineering</category>
+  <guid>https://www.storymelange.com/posts/technical/be-careful-using-pythons-dataclass.html</guid>
+  <pubDate>Tue, 18 Feb 2025 00:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Precision/Recall vs FN/TN/FP/TP</title>
+  <dc:creator>Dominik Lindner</dc:creator>
+  <link>https://www.storymelange.com/posts/technical/precisionrecall-vs-fntnfptp.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="measuring-classification-results" class="level2">
+<h2 class="anchored" data-anchor-id="measuring-classification-results">1 Measuring classification results</h2>
+<div class="callout callout-style-simple callout-none no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>While writing this post, i noticed that there is far better article on <a href="https://www.geeksforgeeks.org/confusion-matrix-machine-learning/">GeeksforGeeks</a></p>
+</div>
+</div>
+</div>
+<p>Precision and recall are evaluation metrics used in machine learning to measure the performance of a binary classification model. The concepts of false negatives (FN), true negatives (TN), false positives (FP), and true positives (TP) are closely related to these metrics.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 4%">
+<col style="width: 77%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Classification</th>
+<th>Abr.</th>
+<th>Occur When a</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>True positives</td>
+<td>TP</td>
+<td><strong>positive</strong> instance is correctly classified as <strong>positive</strong>.</td>
+</tr>
+<tr class="even">
+<td>True negatives</td>
+<td>TN</td>
+<td><strong>negative</strong> instance is correctly classified as <strong>negative</strong></td>
+</tr>
+<tr class="odd">
+<td>False negatives</td>
+<td>FN</td>
+<td><strong>positive</strong> instance is incorrectly classified as <strong>negative</strong></td>
+</tr>
+<tr class="even">
+<td>False positives</td>
+<td>FP</td>
+<td><strong>negative</strong> instance is incorrectly classified as <strong>positive</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="precision-and-recall" class="level2">
+<h2 class="anchored" data-anchor-id="precision-and-recall">2 Precision and recall</h2>
+<p>These numbers are expressed in absolute terms. Sometimes it is more helpfull to focus on relative numbers. If we are interested in how many of the positive values should have been positive, we are interested in the <code>precision</code>. <code>Precision</code> is the ratio of true positives to the total number of instances that are classified as positive by the model. It is given by:</p>
+<p><strong>Precision = TP / (TP + FP)</strong></p>
+<p>If we are interested in model ability to identify all positive instances, we look for <code>recall</code>. <code>Recall</code> is the ratio of true positives to the total number of actual positive instances in the data.</p>
+<p><strong>Recall = TP / (TP + FN)</strong></p>
+<p>These metrics are important because in many cases, precision and recall have an inverse relationship. That is, improving one metric may come at the cost of the other. For example, a model that is overly conservative in making positive predictions may have high precision but low recall, as it is less likely to make false positive errors but may also miss many true positive instances. On the other hand, a model that is more aggressive in making positive predictions may have high recall but low precision, as it may capture more true positives but also generate more false positives.</p>
+<p>By considering the confusion matrix with FN/TN/FP/TP, precision and recall can be calculated to evaluate the performance of a classification model. The confusion matrix shows the number of true and false predictions for each class, and it can be used to calculate metrics such as accuracy, precision, and recall.</p>
+</section>
+<section id="confusion-matrix" class="level2">
+<h2 class="anchored" data-anchor-id="confusion-matrix">3 Confusion matrix</h2>
+<p>A confusion matrix is a table that is often used to describe the performance of a classification model on a set of data for which the correct classifcations are known. Here is an example of a confusion matrix:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th></th>
+<th>Predicted A</th>
+<th>Predicted B</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Actual A</td>
+<td>4</td>
+<td>34</td>
+</tr>
+<tr class="even">
+<td>Actual B</td>
+<td>23</td>
+<td>35</td>
+</tr>
+</tbody>
+</table>
+<p>The columns represent the predicted class labels and the rows represent the actual class labels. This can be generalized to <code>n</code> labels.</p>
+<p>In the binary classification the confusion matrix simplifies itself to</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th></th>
+<th>Predicted Negative</th>
+<th>Predicted Positive</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Actual Negative</td>
+<td>TN (true negative)</td>
+<td>FP (false positive)</td>
+</tr>
+<tr class="even">
+<td>Actual Positive</td>
+<td>FN (false negative)</td>
+<td>TP (true positive)</td>
+</tr>
+</tbody>
+</table>
+<p>As can be seen the, the confusion matrix shows the number of true positive (TP), true negative (TN), false positive (FP), and false negative (FN) predictions made by a classification model.</p>
+</section>
+<section id="what-is-better" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-better">4 What is better?</h2>
+<p>Precision measures accuracy of positive predictions while recall measures the ability to identify all positive instances. The confusion matrix provides a detailed breakdown of predictions including true positive, true negative, false positive, and false negative counts. The choice of metric depends on the context and purpose of the analysis. Precision/recall are useful when the cost of false positives and false negatives is different, while confusion matrix is useful when costs are similar and to identify specific areas of model performance, especially on imbalanced datasets.</p>
+
+
+</section>
+
+ ]]></description>
+  <category>Machine Learning</category>
+  <category>Data Science</category>
+  <guid>https://www.storymelange.com/posts/technical/precisionrecall-vs-fntnfptp.html</guid>
+  <pubDate>Mon, 10 Feb 2025 00:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>How technical is too technical</title>
+  <dc:creator>Dominik Lindner</dc:creator>
+  <link>https://www.storymelange.com/posts/technical/how-technical-is-too-technical.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="reading-books-on-software-engineering" class="level2">
+<h2 class="anchored" data-anchor-id="reading-books-on-software-engineering">Reading books on software engineering</h2>
+<p>Everyone agrees that reading books on software engineering is beneficial. But what should you read?</p>
+<p>Focusing solely on books about software management or architecture can lead to being trapped in an ivory tower, disconnected from the hands-on work of coding itself.</p>
+<p>What about taking the opposite approach?</p>
+<p>As a professional C++ programmer, there are two key ways to improve your coding skills:</p>
+<ol type="1">
+<li><p><strong>Experiment with APIs</strong>: Explore different APIs and test solutions to find the most elegant approach. Why aim for elegance? Because while there are often multiple ways to solve a problem, elegant solutions are typically more readable, maintainable, and intuitive.</p></li>
+<li><p><strong>Learn from others</strong>: Read books and articles that share the experiences of other developers. These resources often highlight various approaches, sparing you the time of discovering them all on your own.</p></li>
+</ol>
+</section>
+<section id="what-did-i-learn-from-modern-c" class="level2">
+<h2 class="anchored" data-anchor-id="what-did-i-learn-from-modern-c">What did i learn from modern c++?</h2>
+<p>I read Effective Modern C++ by Scott Meyers to learn the ins and outs of c++11 and 14.</p>
+<section id="template-and-auto-deduction" class="level3">
+<h3 class="anchored" data-anchor-id="template-and-auto-deduction">Template and auto deduction</h3>
+<p>Template type deduction can sometimes ignore reference types, especially when dealing with complex, chained types. This behavior can lead to unexpected results.</p>
+<p>With C++11, the most common instance of this is the <code>auto</code> keyword, which operates similarly to template type deduction. You might have encountered cases where you expected a specific type, but the compiler deduced a different type, causing compatibility issues later. One key difference is the use of braces <code>{}</code>, which indicate a <code>std::initializer_list</code>.</p>
+<p>The <code>auto</code> keyword also introduces an interesting debate between conservative and progressive tool usage. Advocates of vi-style text editors often prefer explicit types, as they can infer the type directly from the source code. With <code>auto</code>, this is no longer possible.</p>
+<p>However, in modern IDEs, explicit type inference is unnecessary because type deduction is readily available via features like hover-over tooltips. This implicit deduction shifts focus to the variable’s purpose rather than its type—provided the variables are well-named.</p>
+</section>
+<section id="brace-yourself" class="level3">
+<h3 class="anchored" data-anchor-id="brace-yourself">Brace yourself</h3>
+<p>Having picked up my c++ skills after 2011, I used braced or universal initialization as much as I can. It has many advantages and the confusion that arises from the dual use of braces and parantheses is limited to a few cases: <code>std::vector initialization</code> and templates.</p>
+</section>
+<section id="typedefs-are-for-nulls" class="level3">
+<h3 class="anchored" data-anchor-id="typedefs-are-for-nulls">Typedefs are for Nulls</h3>
+<p>Legacy C++ code, especially from older colleagues, often includes <code>NULL</code> and <code>typedefs</code>.</p>
+<ul>
+<li>Replace <code>NULL</code> with <code>nullptr</code>. <code>NULL</code> is essentially a compiler directive and less safe compared to <code>nullptr</code>.</li>
+<li>Strive for self-documenting code, which is easier to read and maintain. Avoid standard types when possible and define your own types for clarity.</li>
+</ul>
+<p>The <code>using</code> keyword offers a cleaner, more intuitive syntax compared to <code>typedef</code>: It reads like an assignment and conceptually replaces <code>typedef</code>, functioning to the <code>class</code> keyword.</p>
+<p>For constants, prefer <code>constexpr</code> over <code>#define</code> to ensure type safety and better integration with modern C++ features.</p>
+</section>
+<section id="keep-it-in-order" class="level3">
+<h3 class="anchored" data-anchor-id="keep-it-in-order">Keep it in order</h3>
+<p>Namespace pollution is a common issue in unstructured code. This applies to classic 2000-line functions, but also to modern tools which can lack proper scoping mechanisms, for example early versions of CMake.</p>
+<p>In C++, scoped enums (<code>enum class</code>) help address this problem by making enums behave more like classes. With <code>enum class</code>, you must explicitly specify the scope to access a value, like telling the compiler which “drawer” to look in for the <code>red_card</code>. For example:</p>
+<pre><code>enum class Color { Red, Green, Blue };
+Color myColor = Color::Red;</code></pre>
+<p>This prevents naming conflicts and keeps the codebase cleaner.</p>
+</section>
+<section id="const-correctness" class="level3">
+<h3 class="anchored" data-anchor-id="const-correctness">const correctness</h3>
+<p>If you worked with classes you surely have come accross const correctness. New to me was the fact that the iterators can be const in C++14.</p>
+</section>
+<section id="being-smart" class="level3">
+<h3 class="anchored" data-anchor-id="being-smart">Being smart</h3>
+<p>By now, everyone is familiar with smart pointers and their advantages. However, I often encounter code that exclusively uses <code>shared_ptr</code>. While this doesn’t usually impact performance, it significantly reduces readability.</p>
+<p>My take aways: Use a standard type. If you get problems think about who is using the variable. If there is only owner and user of the variable use a unique pointer and move it. If you are not sure use a shared pointer. Always use <code>make_shared/unique</code>. All other rules cover the 1 % of all use cases.</p>
+</section>
+<section id="we-are-many" class="level3">
+<h3 class="anchored" data-anchor-id="we-are-many">We are many</h3>
+<p>Concurrent programming is a big topic. My key take away is the prefered usage of <code>std::async</code> instead of threads. Only keep the default launch policy in mind. If you have simultanous access to a member variable use <code>std::atomic</code>.</p>
+</section>
+<section id="and-then-it-got-too-much" class="level3">
+<h3 class="anchored" data-anchor-id="and-then-it-got-too-much">And then it got too much</h3>
+<p>Much about the second half of the book is about the difference between lvalue and rvalue and when to move or forward something. I am rarely exposed with the more exotic cases in my work.</p>
+</section>
+</section>
+<section id="my-next-read" class="level2">
+<h2 class="anchored" data-anchor-id="my-next-read">My next read</h2>
+<p>I hope my next book in this area will be far more useful : C++17 STL Cookbook by Jacek Galowicz.</p>
+
+
+</section>
+
+ ]]></description>
+  <category>C++</category>
+  <category>Software Engineering</category>
+  <guid>https://www.storymelange.com/posts/technical/how-technical-is-too-technical.html</guid>
+  <pubDate>Thu, 28 Oct 2021 00:00:00 GMT</pubDate>
+</item>
+</channel>
+</rss>
